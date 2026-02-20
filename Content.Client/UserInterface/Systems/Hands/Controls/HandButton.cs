@@ -13,6 +13,7 @@ public sealed class HandButton : SlotControl
         Name = "hand_" + handName;
         SlotName = handName;
         SetBackground(handLocation);
+        FullButtonTexturePath = "/Textures/_Stalker/Interface/STDefault/HandSlotBackground.png";
     }
 
     private void SetBackground(HandLocation handLoc)
