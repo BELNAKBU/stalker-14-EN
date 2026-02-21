@@ -98,6 +98,10 @@ job-renegade = Ренегат
 job-renegade-desc = Просто какой-то дегенерат.
 job-renegade-supervisor = "ебаш."
 
+job-monolith-free = Монолит
+job-monolith-free-desc = Искореняйте неверных.
+job-monolith-free-supervisor = Вы подчиняетесь Монолиту.
+
 job-scientist = Учёный
 job-scientist-desc = Основная цель - изучение всех аспектов Зоны, использование научных методов для дальнейшего объяснения того, что это за Зона и её предназначения.
 job-sci = Учёный

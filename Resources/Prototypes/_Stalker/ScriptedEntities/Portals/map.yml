@@ -1039,8 +1039,8 @@
       allowAll: false
       cooldownEnabled: true
       cooldownTime: 5
-      #godmodeCooldown: 5 # Stalker-TODO: This field does not exist!
-
+    - type: AccessReader
+      access: [["MonolithFree"]]
 - type: entity
   parent: MapTeleportBase
   id: Bar-Barier
@@ -1051,6 +1051,8 @@
       allowAll: false
       cooldownEnabled: true
       cooldownTime: 5
+    - type: AccessReader
+      access: [["MonolithFree"]]
       #godmodeCooldown: 5 # Stalker-TODO: This field does not exist!
 
 ################################################### Тёмная лощина - Подземка Проекта

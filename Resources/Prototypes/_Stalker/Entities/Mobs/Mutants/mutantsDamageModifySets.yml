@@ -123,12 +123,12 @@
     Caustic: 0.2
     Compression: 5
     Psy: 0
-    Mutant: 0.4
+    Mutant: 0.65
   flatReductions:
     Blunt: 5
     Slash: 5
     Piercing: 8
-    Mutant: 10
+    Mutant: 3
     Heat: 9
     Cold: 9
     Poison: 9

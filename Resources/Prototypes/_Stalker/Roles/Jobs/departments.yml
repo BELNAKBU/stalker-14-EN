@@ -9,11 +9,10 @@
   - StalkerRookie
   - StalkerVeteran
   - StalkerGuide
-  - StalkerClearSkyHead
-  - StalkerClearSky
   - StalkerNoviceFreedom
   - StalkerNoviceDolg
-  
+  - StalkerMonolithFree
+
 # - type: department
 #   id: StalkerDisabled
 #   description: "department-StalkerAdvanced-description"
@@ -44,6 +43,8 @@
   - StalkerHeadDolg
   - StalkerFreedom
   - StalkerHeadFreedom
+  - StalkerClearSkyHead
+  - StalkerClearSky
   #- StalkerClearSky # Stalker-TODO: Jobs cannot have multiple primary departments!
   - StalkerNeutral
   - StalkerPoisk

@@ -20,7 +20,7 @@
         Toxin: -100
         Airloss: -100
         Psy: -100
-        Radiation: -100  
+        Radiation: -100
   - type: DamageStateVisuals
     states:
       Alive:
@@ -30,7 +30,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      3300: Dead
+      3000: Dead
   - type: Damageable
     damageModifierSet: STMutantT4DamageModifierSet
   - type: SlowOnDamage

@@ -1,7 +1,7 @@
 - type: gameMap
   id: STWorld
   mapName: 'StalkerMap'
-  mapPath: "/Maps/_ST/World/KordonV177.yml"
+  mapPath: "/Maps/_ST/World/KordonV178.yml"
   minPlayers: 0
   stations:
     Stalker:
@@ -17,6 +17,7 @@
             StalkerGuide: [ 0, -1 ]
             StalkerClearSky: [ 0, -1 ]
             StalkerClearSkyHead: [ 0, -1 ]
+            StalkerMonolithFree: [ 0, 20 ]
             StalkerRene: [ 0, -1 ]
             # Seraphim
             Seraphim: [ 0, -1 ]
