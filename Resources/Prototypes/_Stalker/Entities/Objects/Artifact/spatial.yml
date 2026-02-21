@@ -144,7 +144,7 @@
       armorClass: 2
       modifiers:
         coefficients:
-          Piercing: 0.7
+          Piercing: 0.85
 
 - type: entity
   name: Распятие

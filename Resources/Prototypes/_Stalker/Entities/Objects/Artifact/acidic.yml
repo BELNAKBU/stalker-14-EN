@@ -154,7 +154,7 @@
     armorClass: 2
     modifiers:
       coefficients:
-        Piercing: 0.9
+        Piercing: 0.93
 
 - type: entity
   parent: BaseArtifact
@@ -193,7 +193,7 @@
     modifiers:
       flatReductions:
        Blunt: 1
-       
+
 - type: entity
   parent: BaseArtifact
   name: Колобок

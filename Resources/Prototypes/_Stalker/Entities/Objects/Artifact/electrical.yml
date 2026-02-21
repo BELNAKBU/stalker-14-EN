@@ -54,9 +54,6 @@
       types:
         Shock: 0.3
     interval: 1
-  - type: ClothingSpeedModifier
-    walkModifier: 1.1
-    sprintModifier: 1.1
   - type: Armor
     hiddenExamine: true
     armorClass: 2
@@ -127,7 +124,7 @@
     armorClass: 2
     modifiers:
       coefficients:
-        Piercing: 0.8
+        Piercing: 0.9
         Radiation: 0.3
 
 - type: entity
@@ -156,8 +153,8 @@
         Cold: 2
     interval: 1
   - type: ClothingSpeedModifier
-    walkModifier: 1.35
-    sprintModifier: 1.35
+    walkModifier: 1.3
+    sprintModifier: 1.3
 
 - type: entity
   parent: BaseArtifact
