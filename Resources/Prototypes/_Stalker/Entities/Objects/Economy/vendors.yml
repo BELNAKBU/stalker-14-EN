@@ -346,8 +346,10 @@
       dispenseOnHitThreshold: 2
       offState: off
       brokenState: broken
-    - type: ApcPowerReceiver
-      needsPower: False
+    # stalker-en-changes
+    #- type: ApcPowerReceiver
+    #  needsPower: False
+    # stalker-en-changes-end
     - type: Sprite
       sprite: _Stalker/Objects/Decoration/military_lot_of_boxes.rsi
       layers:
@@ -421,8 +423,10 @@
       dispenseOnHitThreshold: 2
       offState: off
       brokenState: broken
-    - type: ApcPowerReceiver
-      needsPower: False
+    # stalker-en-changes
+    #- type: ApcPowerReceiver
+    #  needsPower: False
+    # stalker-en-changes-end
     - type: Sprite
       sprite: _Stalker/Objects/Decoration/military_green_box.rsi
       layers:
@@ -596,8 +600,10 @@
       dispenseOnHitThreshold: 2
       offState: off
       brokenState: broken
-    - type: ApcPowerReceiver
-      needsPower: False
+    # stalker-en-changes
+    #- type: ApcPowerReceiver
+    #  needsPower: False
+    # stalker-en-changes-end
     - type: Sprite
       sprite: _Stalker/Objects/Decoration/military_green_box.rsi
       layers:
@@ -646,8 +652,10 @@
       dispenseOnHitThreshold: 2
       offState: off
       brokenState: broken
-    - type: ApcPowerReceiver
-      needsPower: False
+    # stalker-en-changes
+    #- type: ApcPowerReceiver
+    #  needsPower: False
+    # stalker-en-changes-end
     - type: Sprite
       sprite: _Stalker/Objects/Decoration/military_green_box.rsi
       layers:
@@ -696,8 +704,10 @@
       dispenseOnHitThreshold: 2
       offState: off
       brokenState: broken
-    - type: ApcPowerReceiver
-      needsPower: False
+    # stalker-en-changes
+    #- type: ApcPowerReceiver
+    #  needsPower: False
+    # stalker-en-changes-end
     - type: Sprite
       sprite: _Stalker/Objects/Decoration/military_green_box.rsi
       layers:
@@ -746,8 +756,10 @@
       dispenseOnHitThreshold: 2
       offState: off
       brokenState: broken
-    - type: ApcPowerReceiver
-      needsPower: False
+    # stalker-en-changes
+    #- type: ApcPowerReceiver
+    #  needsPower: False
+    # stalker-en-changes-end
     - type: Sprite
       sprite: _Stalker/Objects/Decoration/military_green_box.rsi
       layers:
@@ -796,8 +808,10 @@
       dispenseOnHitThreshold: 2
       offState: off
       brokenState: broken
-    - type: ApcPowerReceiver
-      needsPower: False
+    # stalker-en-changes
+    #- type: ApcPowerReceiver
+    #  needsPower: False
+    # stalker-en-changes-end
     - type: Sprite
       sprite: _Stalker/Objects/Decoration/military_green_box.rsi
       layers:
@@ -846,8 +860,10 @@
       dispenseOnHitThreshold: 2
       offState: off
       brokenState: broken
-    - type: ApcPowerReceiver
-      needsPower: False
+    # stalker-en-changes
+    #- type: ApcPowerReceiver
+    #  needsPower: False
+    # stalker-en-changes-end
     - type: Sprite
       sprite: _Stalker/Objects/Decoration/military_green_box.rsi
       layers:
@@ -896,8 +912,10 @@
       dispenseOnHitThreshold: 2
       offState: off
       brokenState: broken
-    - type: ApcPowerReceiver
-      needsPower: False
+    # stalker-en-changes
+    #- type: ApcPowerReceiver
+    #  needsPower: False
+    # stalker-en-changes-end
     - type: Sprite
       sprite: _Stalker/Objects/Decoration/military_green_box.rsi
       layers:
@@ -944,8 +962,10 @@
       dispenseOnHitThreshold: 2
       offState: off
       brokenState: broken
-    - type: ApcPowerReceiver
-      needsPower: False
+    # stalker-en-changes
+    #- type: ApcPowerReceiver
+    #  needsPower: False
+    # stalker-en-changes-end
     - type: Sprite
       sprite: _Stalker/Objects/Decoration/military_green_box.rsi
       layers:

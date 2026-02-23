@@ -52,22 +52,6 @@
    - !type:DepartmentTimeRequirement
      department: Stalker
      time: 15h
-   - !type:DepartmentTimeRequirement
-     department: StalkerAdvanced
-     time: 1h
-     inverted: true
-   - !type:DepartmentTimeRequirement
-     department: StalkerBrigands
-     time: 1h
-     inverted: true
-   - !type:DepartmentTimeRequirement
-     department: StalkerOfficials
-     time: 1h
-     inverted: true
-   - !type:DepartmentTimeRequirement
-     department: StalkerReligius
-     time: 1h
-     inverted: true
    - !type:SpeciesRequirement
      species:
      - Human
