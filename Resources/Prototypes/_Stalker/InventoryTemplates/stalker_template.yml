@@ -26,6 +26,7 @@
       stripHidden: true
     - name: suitstorage
       slotTexture: suit_storage
+      fullTextureName: /Textures/_Stalker/Interface/STDefault/FlatSlotBackground.png
       slotFlags: SUITSTORAGE
       slotGroup: MainHotbar
       stripTime: 3
@@ -45,6 +46,7 @@
       stripHidden: true
     - name: belt
       slotTexture: belt
+      fullTextureName: /Textures/_Stalker/Interface/STDefault/FlatSlotBackground.png
       slotFlags: BELT
       slotGroup: SecondHotbar
       stripTime: 6
