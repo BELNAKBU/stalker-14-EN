@@ -133,3 +133,6 @@
         whitelist:
           tags:
           - STCartridge751
+  - type: Scope
+    zoom: 1.65
+    offset: 14
