@@ -39,3 +39,6 @@
             StalkerNoviceFreedom: [ 0, 10 ]
             StalkerFreedom: [ 0, -1 ]
             StalkerHeadFreedom: [ 0, -1 ]
+            #projet
+            StalkerProjectPawn: [ 0, -1 ]
+            StalkerProjectOrchestrator: [ 0, -1 ]
