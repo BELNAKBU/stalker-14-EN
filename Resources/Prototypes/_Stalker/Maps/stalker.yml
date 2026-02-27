@@ -18,7 +18,7 @@
             StalkerGuide: [ 0, -1 ]
             StalkerClearSky: [ 0, -1 ]
             StalkerClearSkyHead: [ 0, -1 ]
-            StalkerMonolithFree: [ 0, 15 ]
+            StalkerMonolithFree: [ 0, 6 ]
             StalkerRene: [ 0, -1 ]
             # Seraphim
             Seraphim: [ 0, -1 ]
