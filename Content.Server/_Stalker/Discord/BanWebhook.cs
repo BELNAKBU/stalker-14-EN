@@ -73,7 +73,7 @@ public sealed class BanWebhook
         {
             var expirationDate = DateTime.UtcNow.Add(TimeSpan.FromMinutes((double) minutes));
             banType = Loc.GetString("ban-embed-temp", ("time", minutes));
-            expires = $"**Истекает:** {expirationDate}\n";
+            expires = Loc.GetString("ban-embed-expires", ("time", expirationDate)) + "\n";
             color = 0xFF9900;
         }
 
@@ -92,13 +92,13 @@ public sealed class BanWebhook
                         IconUrl = string.IsNullOrWhiteSpace(_footerIconUrl) ? null : _footerIconUrl
                     },
                     Description =
-                        $"**Нарушитель**: {user.Split(" ")[0]}\n" +
-                        $"**Администратор:** {admin}\n" +
-                        $"\n" +
-                        $"**Выдан:** {timeNow}\n" +
+                        Loc.GetString("ban-embed-offender", ("user", user.Split(" ")[0])) + "\n" +
+                        Loc.GetString("ban-embed-admin", ("admin", admin)) + "\n" +
+                        "\n" +
+                        Loc.GetString("ban-embed-issued", ("time", timeNow)) + "\n" +
                         expires +
-                        $"\n" +
-                        $"**Причина:** {reason}"
+                        "\n" +
+                        Loc.GetString("ban-embed-reason", ("reason", reason))
                 }
             },
         };
