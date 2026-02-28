@@ -22,6 +22,7 @@ public static class STFactionPatchIcons
     private const string ClearSky = "ClearSky";
     private const string Renegades = "Renegades";
     private const string Rookies = "Rookies";
+    private const string Journalists = "Journalists";
 
     /// <summary>
     /// Maps faction relation names to their patch RSI paths and state names.
@@ -40,5 +41,6 @@ public static class STFactionPatchIcons
         [ClearSky] = (PatchRsiPath, "cn"),
         [Renegades] = (PatchRsiPath, "rene"),
         [Rookies] = (PatchRsiPathEN, "rookie"),
+        [Journalists] = (PatchRsiPath, "journalist"),
     };
 }
