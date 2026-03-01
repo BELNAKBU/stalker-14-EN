@@ -995,5 +995,12 @@
   id: 108
   time: '2026-03-01T16:15:24.722590+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/556
+- author: Roland410
+  changes:
+  - message: Adds lighting to the CS base where I forgot.
+    type: Fix
+  id: 109
+  time: '2026-03-01T16:17:04.023469+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/557
 Name: Stalker
 Order: -1
