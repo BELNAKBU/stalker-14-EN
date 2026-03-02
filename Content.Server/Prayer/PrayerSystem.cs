@@ -1,3 +1,4 @@
+using System.Text;
 using Content.Server.Administration;
 using Content.Server.Administration.Logs;
 using Content.Server.Bible.Components;
@@ -10,6 +11,7 @@ using Content.Shared.Prayer;
 using Content.Shared.Verbs;
 using Robust.Server.GameObjects;
 using Robust.Shared.Player;
+using Robust.Shared.Utility;
 
 namespace Content.Server.Prayer;
 /// <summary>
@@ -58,7 +60,7 @@ public sealed class PrayerSystem : EntitySystem
                 {
                     // Make sure the player's entity and the Prayable entity+component still exist
                     if (actor?.PlayerSession != null && HasComp<PrayableComponent>(uid))
-                        Pray(actor.PlayerSession, comp, message);
+                        Pray(actor.PlayerSession, comp, message, uid);
                 });
             },
             Impact = LogImpact.Low,
@@ -97,7 +99,7 @@ public sealed class PrayerSystem : EntitySystem
     /// You may be wondering, "Why the admin chat, specifically? Nobody even reads it!"
     /// Exactly.
     ///  </remarks>
-    public void Pray(ICommonSession sender, PrayableComponent comp, string message)
+    public void Pray(ICommonSession sender, PrayableComponent comp, string message, EntityUid altar)
     {
         if (sender.AttachedEntity == null)
             return;
@@ -106,5 +108,27 @@ public sealed class PrayerSystem : EntitySystem
 
         _chatManager.SendAdminAnnouncement($"{Loc.GetString(comp.NotificationPrefix)} <{sender.Name}>: {message}");
         _adminLogger.Add(LogType.AdminMessage, LogImpact.Low, $"{ToPrettyString(sender.AttachedEntity.Value):player} sent prayer ({Loc.GetString(comp.NotificationPrefix)}): {message}");
+
+        // Send clickable teleport links to admins
+        var links = new StringBuilder();
+
+        if (sender.AttachedEntity is { } playerEntity)
+        {
+            var playerNet = GetNetEntity(playerEntity);
+            var playerName = FormattedMessage.EscapeText(sender.Name).Replace("\"", "\\\"");
+            links.Append($"[cmdlink=\"TP: {playerName}\" command=\"tpto {playerNet}\"/]");
+        }
+
+        if (altar.Valid)
+        {
+            if (links.Length > 0)
+                links.Append(' ');
+            var altarNet = GetNetEntity(altar);
+            var altarName = FormattedMessage.EscapeText(Name(altar)).Replace("\"", "\\\"");
+            links.Append($"[cmdlink=\"TP: {altarName}\" command=\"tpto {altarNet}\"/]");
+        }
+
+        if (links.Length > 0)
+            _chatManager.SendAdminAlertNoFormatOrEscape(links.ToString());
     }
 }
