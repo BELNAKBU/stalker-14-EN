@@ -1046,5 +1046,12 @@
   id: 113
   time: '2026-03-03T14:06:41.642879+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/570
+- author: Roland410
+  changes:
+  - message: Rebalances new artifacts, and changes vendor prices accordingly.
+    type: Tweak
+  id: 114
+  time: '2026-03-03T23:29:28.796693+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/542
 Name: Stalker
 Order: -1
