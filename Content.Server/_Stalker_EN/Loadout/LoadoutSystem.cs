@@ -1443,6 +1443,7 @@ public sealed class LoadoutSystem : EntitySystem
         {
             RepositoryItemInfo? best = null;
             var bestAmmo = -1;
+            RepositoryItemInfo? fallback = null;
 
             for (var i = protoList.Count - 1; i >= 0; i--)
             {
@@ -1459,12 +1460,11 @@ public sealed class LoadoutSystem : EntitySystem
                 }
                 else
                 {
-                    // Non-magazine items: return first available (existing behavior)
-                    return protoList[i];
+                    fallback ??= protoList[i];
                 }
             }
 
-            return best;
+            return best ?? fallback;
         }
 
         return null;
