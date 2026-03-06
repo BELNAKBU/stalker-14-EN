@@ -8,6 +8,7 @@ using Content.Shared._Stalker.Bands;
 using Content.Shared._Stalker_EN.CCVar;
 using Content.Shared._Stalker_EN.FactionRelations;
 using Content.Shared._Stalker_EN.BulletinBoard;
+using Content.Shared._Stalker_EN.News;
 using Content.Shared._Stalker_EN.PdaMessenger;
 using Content.Shared.CartridgeLoader;
 using Content.Shared.Database;
@@ -238,6 +239,9 @@ public sealed partial class STMessengerSystem : EntitySystem
                 break;
             case STMessengerNavigateToOfferEvent navigateToOffer:
                 OnNavigateToOffer(args.LoaderUid, navigateToOffer);
+                break;
+            case STMessengerNavigateToNewsEvent navigateToNews:
+                OnNavigateToNews(args.LoaderUid, navigateToNews);
                 break;
         }
     }
@@ -578,6 +582,25 @@ public sealed partial class STMessengerSystem : EntitySystem
                 return;
         }
     }
+
+    // stalker-en-changes: news link navigation
+    private void OnNavigateToNews(NetEntity loaderNetUid, STMessengerNavigateToNewsEvent navigateToNews)
+    {
+        var loaderUid = GetEntity(loaderNetUid);
+
+        var ev = new STOpenNewsArticleEvent(loaderUid, navigateToNews.ArticleId);
+        var installed = _cartridgeLoader.GetInstalled(loaderUid);
+        foreach (var progUid in installed)
+        {
+            if (!HasComp<STNewsCartridgeComponent>(progUid))
+                continue;
+
+            RaiseLocalEvent(progUid, ref ev);
+            if (ev.Handled)
+                return;
+        }
+    }
+    // stalker-en-changes-end
 
     private void MarkChatAsRead(string chatId, STMessengerServerComponent server)
     {
