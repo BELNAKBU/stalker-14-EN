@@ -667,6 +667,7 @@
   - type: SpawnItemsOnUse
     items:
     - id: ClothingOuterArmorMonolith
+    - id: ClothingOuterCoatKevlarMonolith
     - id: ClothingMaskNeckBalaklava1
     - id: ClothingBeltWebbingHolsterMonolith
     - id: ClothingBackpackStalkerZaryaGreen
