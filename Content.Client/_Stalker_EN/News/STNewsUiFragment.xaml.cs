@@ -33,6 +33,9 @@ public sealed partial class STNewsUiFragment : BoxContainer, INewsLinkClickHandl
     /// <summary>Fired when the user navigates back from article detail to list view.</summary>
     public event Action? OnCloseArticle;
 
+    /// <summary>Fired when the user toggles a reaction (articleId, reactionId).</summary>
+    public event Action<int, string>? OnToggleReaction;
+
     private readonly IClipboardManager _clipboard = IoCManager.Resolve<IClipboardManager>();
     private readonly SpriteSystem _spriteSystem = IoCManager.Resolve<IEntitySystemManager>().GetEntitySystem<SpriteSystem>();
 
@@ -41,6 +44,9 @@ public sealed partial class STNewsUiFragment : BoxContainer, INewsLinkClickHandl
     private static readonly Color MetaColor = Color.FromHex("#888888");
     private static readonly Color PreviewColor = Color.FromHex("#AAAAAA");
     private static readonly Color NewIndicatorColor = Color.FromHex("#00CC00");
+    private static readonly Color TrendingColor = Color.FromHex("#FFD700");
+    private static readonly Color ReactionActiveColor = Color.FromHex("#334466");
+    private static readonly Color ReactionInactiveColor = Color.Transparent;
 
     private const float CardColorBlendFactor = 0.18f;
     private const float CardBorderBlendFactor = 0.30f;
@@ -77,6 +83,9 @@ public sealed partial class STNewsUiFragment : BoxContainer, INewsLinkClickHandl
     /// <summary>Latest new-comment article IDs from server, cached for client-side filtering.</summary>
     private HashSet<int> _lastNewCommentIds = new();
 
+    /// <summary>Latest article reactions from server, cached for re-render.</summary>
+    private Dictionary<int, List<STReactionSummary>> _lastArticleReactions = new();
+
     private readonly List<PanelContainer> _colorPanels = new();
 
     private static string FormatNewsLink(int id) => $"[NEWS#{id}]";
@@ -103,7 +112,6 @@ public sealed partial class STNewsUiFragment : BoxContainer, INewsLinkClickHandl
         EditButton.Text = Loc.GetString("st-news-edit-button");
         PreviewPublishButton.Text = Loc.GetString("st-news-publish-button");
 
-        DetailCopyLinkButton.Text = Loc.GetString("st-news-copy-link-button");
         DeleteArticleButton.Text = Loc.GetString("st-news-delete-button");
         PostCommentButton.Text = Loc.GetString("st-news-comment-post");
         CommentEdit.Placeholder = new Rope.Leaf(Loc.GetString("st-news-comment-placeholder"));
@@ -114,11 +122,6 @@ public sealed partial class STNewsUiFragment : BoxContainer, INewsLinkClickHandl
             OnCloseArticle?.Invoke();
             ShowArticleList();
             RebuildArticleList(_lastArticles, _lastNewIds, _lastDeletableIds, _lastNewCommentIds);
-        };
-        DetailCopyLinkButton.OnPressed += _ =>
-        {
-            if (_detailArticleId is { } id)
-                _clipboard.SetText(FormatNewsLink(id));
         };
         DeleteArticleButton.OnPressed += _ =>
         {
@@ -168,11 +171,12 @@ public sealed partial class STNewsUiFragment : BoxContainer, INewsLinkClickHandl
 
         if (state.OpenArticle != null)
         {
-            // If already viewing this article, just refresh comments (preserves scroll/input)
+            // If already viewing this article, just refresh comments and reactions (preserves scroll/input)
             if (ArticleDetailView.Visible && _detailArticleId == state.OpenArticle.Id)
             {
                 DeleteArticleButton.Visible = state.CanDeleteOpenArticle;
                 RebuildCommentList(state.OpenArticleComments);
+                RebuildDetailReactionBar(state.OpenArticle.Id, state.ArticleReactions);
             }
             else
             {
@@ -184,6 +188,7 @@ public sealed partial class STNewsUiFragment : BoxContainer, INewsLinkClickHandl
             _lastNewIds = state.NewArticleIds;
             _lastDeletableIds = state.DeletableArticleIds;
             _lastNewCommentIds = state.NewCommentArticleIds;
+            _lastArticleReactions = state.ArticleReactions;
             return;
         }
 
@@ -194,6 +199,7 @@ public sealed partial class STNewsUiFragment : BoxContainer, INewsLinkClickHandl
         _lastNewIds = state.NewArticleIds;
         _lastDeletableIds = state.DeletableArticleIds;
         _lastNewCommentIds = state.NewCommentArticleIds;
+        _lastArticleReactions = state.ArticleReactions;
         RebuildArticleList(state.Articles, state.NewArticleIds, state.DeletableArticleIds, state.NewCommentArticleIds);
 
         if (!WriterView.Visible && !PreviewView.Visible
@@ -233,6 +239,7 @@ public sealed partial class STNewsUiFragment : BoxContainer, INewsLinkClickHandl
         DetailContent.SetMarkupPermissive(article.Content);
 
         DeleteArticleButton.Visible = state.CanDeleteOpenArticle;
+        RebuildDetailReactionBar(article.Id, state.ArticleReactions);
         RebuildCommentList(state.OpenArticleComments);
         CommentEdit.TextRope = Rope.Leaf.Empty;
         UpdateCommentCounter();
@@ -336,6 +343,17 @@ public sealed partial class STNewsUiFragment : BoxContainer, INewsLinkClickHandl
             HorizontalExpand = true,
         };
 
+        if (article.IsTrending)
+        {
+            var trendingLabel = new Label
+            {
+                Text = Loc.GetString("st-news-trending"),
+                FontColorOverride = TrendingColor,
+                Margin = new Thickness(0, 0, 6, 0),
+            };
+            titleRow.AddChild(trendingLabel);
+        }
+
         if (isNew)
         {
             var newLabel = new Label
@@ -400,12 +418,21 @@ public sealed partial class STNewsUiFragment : BoxContainer, INewsLinkClickHandl
         var buttonRow = new BoxContainer
         {
             Orientation = LayoutOrientation.Horizontal,
-            HorizontalAlignment = HAlignment.Right,
+            HorizontalExpand = true,
             SeparationOverride = 4,
             Margin = new Thickness(0, 4, 0, 0),
         };
 
         var articleId = article.Id;
+
+        // Compact reactions (left side)
+        if (_lastArticleReactions.TryGetValue(article.Id, out var reactions) && reactions.Count > 0)
+        {
+            buttonRow.AddChild(BuildCompactReactionBar(reactions));
+        }
+
+        // Spacer pushes buttons to the right
+        buttonRow.AddChild(new Control { HorizontalExpand = true });
 
         if (canDelete)
         {
@@ -535,6 +562,220 @@ public sealed partial class STNewsUiFragment : BoxContainer, INewsLinkClickHandl
         CommentCounter.Text = $"{remaining}/{STNewsConstants.MaxCommentLength}";
         CommentCounter.FontColorOverride = remaining < 0 ? Color.Red : MetaColor;
         PostCommentButton.Disabled = remaining < 0;
+    }
+
+    #endregion
+
+    #region Reactions
+
+    private static readonly Vector2 ReactionIconSize = new(16, 16);
+    private static readonly Vector2 PickerIconSize = new(20, 20);
+    private const int PickerColumnsPerRow = 7;
+
+    /// <summary>
+    /// Creates a TextureRect displaying a faction band patch sprite.
+    /// </summary>
+    private TextureRect CreatePatchIcon(string reactionId, Vector2 size)
+    {
+        var (rsi, state) = STFactionPatchIcons.PatchStates[reactionId];
+        return new TextureRect
+        {
+            Texture = _spriteSystem.Frame0(new SpriteSpecifier.Rsi(rsi, state)),
+            MinSize = size,
+            MaxSize = size,
+            Stretch = TextureRect.StretchMode.KeepAspectCentered,
+        };
+    }
+
+    /// <summary>
+    /// Builds a compact reaction bar for article list cards (only non-zero reactions, not clickable).
+    /// </summary>
+    private Control BuildCompactReactionBar(List<STReactionSummary> reactions)
+    {
+        var row = new BoxContainer
+        {
+            Orientation = LayoutOrientation.Horizontal,
+            SeparationOverride = 6,
+        };
+
+        foreach (var reaction in reactions)
+        {
+            if (reaction.Count <= 0)
+                continue;
+
+            if (!STFactionPatchIcons.PatchStates.ContainsKey(reaction.ReactionId))
+                continue;
+
+            var cell = new BoxContainer
+            {
+                Orientation = LayoutOrientation.Horizontal,
+                SeparationOverride = 2,
+            };
+
+            cell.AddChild(CreatePatchIcon(reaction.ReactionId, ReactionIconSize));
+
+            var countLabel = new Label
+            {
+                Text = reaction.Count.ToString(),
+                FontColorOverride = reaction.UserReacted ? Color.White : MetaColor,
+                VerticalAlignment = VAlignment.Center,
+            };
+            cell.AddChild(countLabel);
+
+            row.AddChild(cell);
+        }
+
+        return row;
+    }
+
+    /// <summary>
+    /// Rebuilds the clickable reaction bar in the article detail view.
+    /// Shows only reactions with count > 0 as toggle buttons, plus a "+" button to open the picker.
+    /// </summary>
+    private void RebuildDetailReactionBar(
+        int articleId,
+        Dictionary<int, List<STReactionSummary>> articleReactions)
+    {
+        DetailReactionBar.RemoveAllChildren();
+
+        // Build a lookup for this article's reactions
+        Dictionary<string, STReactionSummary>? summaryLookup = null;
+        if (articleReactions.TryGetValue(articleId, out var summaries))
+        {
+            summaryLookup = new Dictionary<string, STReactionSummary>(summaries.Count);
+            foreach (var s in summaries)
+                summaryLookup[s.ReactionId] = s;
+        }
+
+        // Show existing reactions as toggle buttons
+        if (summaryLookup != null)
+        {
+            foreach (var (reactionId, summary) in summaryLookup)
+            {
+                if (summary.Count <= 0)
+                    continue;
+
+                if (!STFactionPatchIcons.PatchStates.ContainsKey(reactionId))
+                    continue;
+
+                var btn = new Button
+                {
+                    MinWidth = 42,
+                    ModulateSelfOverride = summary.UserReacted ? ReactionActiveColor : ReactionInactiveColor,
+                    ToolTip = Loc.GetString($"st-news-reaction-{reactionId}"),
+                };
+
+                var content = new BoxContainer
+                {
+                    Orientation = LayoutOrientation.Horizontal,
+                    SeparationOverride = 3,
+                };
+
+                content.AddChild(CreatePatchIcon(reactionId, ReactionIconSize));
+                content.AddChild(new Label
+                {
+                    Text = summary.Count.ToString(),
+                    VerticalAlignment = VAlignment.Center,
+                });
+
+                btn.AddChild(content);
+
+                var capturedId = reactionId;
+                var capturedArticleId = articleId;
+                btn.OnPressed += _ => OnToggleReaction?.Invoke(capturedArticleId, capturedId);
+
+                DetailReactionBar.AddChild(btn);
+            }
+        }
+
+        // "+" button to open faction patch picker
+        var addButton = new Button
+        {
+            Text = Loc.GetString("st-news-reaction-add"),
+            MinWidth = 28,
+        };
+
+        var capturedArticle = articleId;
+        addButton.OnPressed += _ => ShowPatchPicker(capturedArticle, addButton);
+
+        DetailReactionBar.AddChild(addButton);
+
+        // Spacer pushes copy link button to the right
+        DetailReactionBar.AddChild(new Control { HorizontalExpand = true });
+
+        var copyLinkBtn = new Button
+        {
+            Text = Loc.GetString("st-news-copy-link-button"),
+        };
+        copyLinkBtn.OnPressed += _ =>
+        {
+            if (_detailArticleId is { } id)
+                _clipboard.SetText(FormatNewsLink(id));
+        };
+        DetailReactionBar.AddChild(copyLinkBtn);
+    }
+
+    /// <summary>
+    /// Shows a popup grid of all 14 faction patch icons for the user to pick a reaction.
+    /// </summary>
+    private void ShowPatchPicker(int articleId, Control anchor)
+    {
+        var popup = new Popup();
+
+        var panel = new PanelContainer
+        {
+            PanelOverride = new StyleBoxFlat
+            {
+                BackgroundColor = Color.FromHex("#1a1a2eEE"),
+                ContentMarginLeftOverride = 6,
+                ContentMarginRightOverride = 6,
+                ContentMarginTopOverride = 6,
+                ContentMarginBottomOverride = 6,
+                BorderColor = CardBorder,
+                BorderThickness = new Thickness(1),
+            },
+        };
+
+        var grid = new GridContainer
+        {
+            Columns = PickerColumnsPerRow,
+            HSeparationOverride = 3,
+            VSeparationOverride = 3,
+        };
+
+        foreach (var reactionId in STReactionDefinitions.Available)
+        {
+            if (!STFactionPatchIcons.PatchStates.ContainsKey(reactionId))
+                continue;
+
+            var btn = new Button
+            {
+                MinSize = new Vector2(28, 28),
+                MaxSize = new Vector2(28, 28),
+                ToolTip = Loc.GetString($"st-news-reaction-{reactionId}"),
+            };
+
+            btn.AddChild(CreatePatchIcon(reactionId, PickerIconSize));
+
+            var capturedId = reactionId;
+            btn.OnPressed += _ =>
+            {
+                OnToggleReaction?.Invoke(articleId, capturedId);
+                popup.Close();
+            };
+
+            grid.AddChild(btn);
+        }
+
+        panel.AddChild(grid);
+        popup.AddChild(panel);
+
+        popup.OnPopupHide += popup.Orphan;
+
+        UserInterfaceManager.ModalRoot.AddChild(popup);
+        popup.Open(UIBox2.FromDimensions(
+            anchor.GlobalPosition + new Vector2(0, anchor.Height),
+            new Vector2(1, 1)));
     }
 
     #endregion

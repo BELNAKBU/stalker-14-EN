@@ -36,8 +36,7 @@
             <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="4 4 4 2">
                 <Button Name="BackButton"/>
                 <Control HorizontalExpand="True"/>
-                <Button Name="DeleteArticleButton" Visible="False" Margin="0 0 4 0"/>
-                <Button Name="DetailCopyLinkButton"/>
+                <Button Name="DeleteArticleButton" Visible="False"/>
             </BoxContainer>
             <PanelContainer StyleClasses="LowDivider" Margin="4 0 4 4"/>
 
@@ -50,6 +49,10 @@
                     <Label Name="DetailMeta" FontColorOverride="#888888"/>
                     <PanelContainer StyleClasses="LowDivider" Margin="0 4 0 4"/>
                     <RichTextLabel Name="DetailContent" HorizontalExpand="True"/>
+
+                    <!-- Reaction Bar -->
+                    <BoxContainer Name="DetailReactionBar" Orientation="Horizontal" SeparationOverride="4"
+                                  Margin="0 8 0 0" HorizontalExpand="True" HorizontalAlignment="Stretch"/>
 
                     <!-- Comments Section -->
                     <PanelContainer StyleClasses="LowDivider" Margin="0 8 0 4"/>

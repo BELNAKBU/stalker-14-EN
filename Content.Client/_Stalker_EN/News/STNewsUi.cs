@@ -40,6 +40,10 @@ public sealed partial class STNewsUi : UIFragment
         {
             SendMessage(new STNewsCloseArticleEvent(), userInterface);
         };
+        _fragment.OnToggleReaction += (articleId, reactionId) =>
+        {
+            SendMessage(new STNewsToggleReactionEvent(articleId, reactionId), userInterface);
+        };
     }
 
     public override void UpdateState(BoundUserInterfaceState state)
