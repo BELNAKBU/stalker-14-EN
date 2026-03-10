@@ -1287,5 +1287,14 @@
   id: 139
   time: '2026-03-10T01:47:36.097548+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/606
+- author: teecoding
+  changes:
+  - message: You can now comment on PDA news articles
+    type: Add
+  - message: You can now react to PDA news articles with faction-themed icons
+    type: Add
+  id: 140
+  time: '2026-03-10T01:48:25.690246+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/607
 Name: Stalker
 Order: -1
