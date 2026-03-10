@@ -1254,5 +1254,12 @@
   id: 135
   time: '2026-03-09T10:30:13.935409+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/602
+- author: teecoding
+  changes:
+  - message: Byurer mutant now has proper weight
+    type: Fix
+  id: 136
+  time: '2026-03-10T01:37:31.080895+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/608
 Name: Stalker
 Order: -1
