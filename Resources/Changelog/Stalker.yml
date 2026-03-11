@@ -1349,5 +1349,13 @@
   id: 145
   time: '2026-03-11T02:18:16.600713+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/614
+- author: teecoding
+  changes:
+  - message: PDA news comments no longer escape containment and clip off screen. Text
+      wrapping works now, your manifestos are fully readable.
+    type: Fix
+  id: 146
+  time: '2026-03-11T17:52:44.153238+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/616
 Name: Stalker
 Order: -1
