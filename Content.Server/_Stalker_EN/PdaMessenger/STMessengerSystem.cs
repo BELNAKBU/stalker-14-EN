@@ -294,6 +294,7 @@ public sealed partial class STMessengerSystem : EntitySystem
         List<STMessengerMessage> chatMessages;
         int maxMessages;
         string storageKey;
+        STMessengerChannelPrototype? channelProto = null;
 
         if (isDm)
         {
@@ -320,7 +321,7 @@ public sealed partial class STMessengerSystem : EntitySystem
         else
         {
             // Validate that the channel prototype exists to prevent clients from polluting storage
-            if (!_protoManager.TryIndex<STMessengerChannelPrototype>(chatId, out var channelProto))
+            if (!_protoManager.TryIndex(chatId, out channelProto))
                 return;
 
             if (!HasChannelAccess(channelProto, server))
@@ -400,7 +401,7 @@ public sealed partial class STMessengerSystem : EntitySystem
         }
         else
         {
-            if (channelProto.BroadcastToDiscord)
+            if (channelProto!.BroadcastToDiscord)
             {
                 SendDiscordWebhook(chatId, displayName, content);
             }
