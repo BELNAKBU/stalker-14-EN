@@ -966,14 +966,19 @@
     uiKey: enum.PdaUiKey.Key
     notificationsEnabled: false
     preinstalled:
-      - CrewManifestCartridge
+      #- CrewManifestCartridge
       - NotekeeperCartridge
       - NanoTaskCartridge
-      - NewsReaderCartridge
-      - LogProbeCartridge
-      - WantedListCartridge
+      #- NewsReaderCartridge
+      #- LogProbeCartridge
+      #- WantedListCartridge
       - MedTekCartridge
       - AstroNavCartridge
+      - STMessengerCartridge # stalker-en-changes
+      - STFactionRelationsCartridge # stalker-en-changes
+      - STMercBoardCartridge # stalker-en-changes
+      - STTradeBoardCartridge # stalker-en-changes
+      - STNewsCartridge # stalker-en-changes
   - type: Tag #  Ignore Chameleon tags
     tags:
     - DoorBumpOpener

@@ -66,6 +66,8 @@
     availableModes:
       - FullAuto
     soundGunshot: /Audio/_Stalker/Mutants/wooden_box_breaking.ogg
+  - type: STWeight
+    self: 80
   - type: Butcherable
     spawned:
     - id: MutantPartBurerBrain

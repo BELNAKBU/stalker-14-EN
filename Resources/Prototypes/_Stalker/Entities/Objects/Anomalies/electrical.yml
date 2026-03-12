@@ -61,6 +61,9 @@
         - id: ZoneArtifactAccumulator
           tier: 2
           ratio: 8
+        - id: ZoneArtifactArf
+          tier: 3
+          ratio: 5
 
 - type: entity
   parent: ZoneAnomalyBase
@@ -117,6 +120,9 @@
         - id: ZoneArtifactAccumulator
           tier: 2
           ratio: 7
+        - id: ZoneArtifactArf
+          tier: 3
+          ratio: 5
     - type: ZoneAnomalyEffectFlash
       range: 5
     - type: Fixtures
@@ -204,6 +210,9 @@
         - id: ZoneArtifactAccumulator
           tier: 2
           ratio: 5
+        - id: ZoneArtifactArf
+          tier: 3
+          ratio: 5
         - id: ZoneArtifactDiamond
           tier: 4
           ratio: 2
@@ -270,6 +279,9 @@
       artifacts:
         - id: null
           ratio: 300
+        - id: ZoneArtifactArf
+          tier: 3
+          ratio: 10
         - id: ArtMoon
           tier: 4
           ratio: 15

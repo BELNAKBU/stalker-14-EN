@@ -11,6 +11,21 @@ using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototy
 
 namespace Content.Shared._Stalker.Storage;
 
+// stalker-en-changes - deterministic hash for stable identifiers across process restarts
+internal static class StalkerIdentifierHelper
+{
+    internal static int DeterministicHash(string input)
+    {
+        unchecked
+        {
+            var hash = 5381;
+            foreach (var c in input)
+                hash = (hash << 5) + hash + c;
+            return hash;
+        }
+    }
+}
+
 public interface IItemStalkerStorage
 {
     string ClassType { get; set; }
@@ -90,9 +105,9 @@ public class SimpleItemStalker : IItemStalkerStorage
     {
         var id = "S_" + PrototypeName;
         if (!string.IsNullOrEmpty(EngravedMessage))
-            id += "_ENG=" + EngravedMessage.GetHashCode();
+            id += "_ENG=" + StalkerIdentifierHelper.DeterministicHash(EngravedMessage); // stalker-en-changes
         if (!string.IsNullOrEmpty(CurrentLabel))
-            id += "_LBL=" + CurrentLabel.GetHashCode();
+            id += "_LBL=" + StalkerIdentifierHelper.DeterministicHash(CurrentLabel); // stalker-en-changes
         return id;
     }
 
@@ -126,7 +141,7 @@ public class PaperItemStalker : IItemStalkerStorage
     {
         if (input == null)
             return "";
-        return "" + input.GetHashCode();
+        return "" + StalkerIdentifierHelper.DeterministicHash(input); // stalker-en-changes
     }
 
     public string Identifier()
@@ -145,9 +160,9 @@ public class PaperItemStalker : IItemStalkerStorage
 
         var Return = "P_" + PrototypeName + "_HASHTEXT=" + Hash(Content) + "_CS=" + ContentSize + "_SS=" + StampState + "_STAMPS=" + StampsDataString;
         if (!string.IsNullOrEmpty(EngravedMessage))
-            Return += "_ENG=" + EngravedMessage.GetHashCode();
+            Return += "_ENG=" + StalkerIdentifierHelper.DeterministicHash(EngravedMessage); // stalker-en-changes
         if (!string.IsNullOrEmpty(CurrentLabel))
-            Return += "_LBL=" + CurrentLabel.GetHashCode();
+            Return += "_LBL=" + StalkerIdentifierHelper.DeterministicHash(CurrentLabel); // stalker-en-changes
 
         SavedIdentifier = Return;
 
@@ -200,9 +215,9 @@ public sealed class BatteryItemStalker : IItemStalkerStorage
     {
         var id = PrototypeName + "_" + CurrentCharge;
         if (!string.IsNullOrEmpty(EngravedMessage))
-            id += "_ENG=" + EngravedMessage.GetHashCode();
+            id += "_ENG=" + StalkerIdentifierHelper.DeterministicHash(EngravedMessage); // stalker-en-changes
         if (!string.IsNullOrEmpty(CurrentLabel))
-            id += "_LBL=" + CurrentLabel.GetHashCode();
+            id += "_LBL=" + StalkerIdentifierHelper.DeterministicHash(CurrentLabel); // stalker-en-changes
         return id;
     }
 
@@ -237,9 +252,9 @@ public sealed class SolutionItemStalker : IItemStalkerStorage
         var contentsString = string.Join(", ", Contents.Select(kv => $"{kv.Key}: [{string.Join(", ", kv.Value)}]"));
         var id = $"{PrototypeName}_{contentsString}_{Volume}";
         if (!string.IsNullOrEmpty(EngravedMessage))
-            id += "_ENG=" + EngravedMessage.GetHashCode();
+            id += "_ENG=" + StalkerIdentifierHelper.DeterministicHash(EngravedMessage); // stalker-en-changes
         if (!string.IsNullOrEmpty(CurrentLabel))
-            id += "_LBL=" + CurrentLabel.GetHashCode();
+            id += "_LBL=" + StalkerIdentifierHelper.DeterministicHash(CurrentLabel); // stalker-en-changes
         return id;
     }
 
@@ -266,9 +281,9 @@ public class StackItemStalker : IItemStalkerStorage
     {
         var id = PrototypeName + "_" + StackCount;
         if (!string.IsNullOrEmpty(EngravedMessage))
-            id += "_ENG=" + EngravedMessage.GetHashCode();
+            id += "_ENG=" + StalkerIdentifierHelper.DeterministicHash(EngravedMessage); // stalker-en-changes
         if (!string.IsNullOrEmpty(CurrentLabel))
-            id += "_LBL=" + CurrentLabel.GetHashCode();
+            id += "_LBL=" + StalkerIdentifierHelper.DeterministicHash(CurrentLabel); // stalker-en-changes
         return id;
     }
 }
@@ -306,14 +321,15 @@ public sealed class AmmoContainerStalker : IItemStalkerStorage
     public string Identifier()
     {
         // Include hash of EntProtoIds to distinguish magazines with different ammo compositions
+        // stalker-en-changes - use deterministic hash for stable identifiers across process restarts
         var entProtosHash = EntProtoIds.Count > 0
-            ? string.Join(",", EntProtoIds).GetHashCode()
+            ? StalkerIdentifierHelper.DeterministicHash(string.Join(",", EntProtoIds))
             : 0;
         var id = $"{PrototypeName}_{AmmoPrototypeName}_{AmmoCount}_{entProtosHash}";
         if (!string.IsNullOrEmpty(EngravedMessage))
-            id += "_ENG=" + EngravedMessage.GetHashCode();
+            id += "_ENG=" + StalkerIdentifierHelper.DeterministicHash(EngravedMessage); // stalker-en-changes
         if (!string.IsNullOrEmpty(CurrentLabel))
-            id += "_LBL=" + CurrentLabel.GetHashCode();
+            id += "_LBL=" + StalkerIdentifierHelper.DeterministicHash(CurrentLabel); // stalker-en-changes
         return id;
     }
 }
@@ -338,9 +354,9 @@ public sealed class AmmoItemStalker : IItemStalkerStorage
     {
         var id = $"{PrototypeName}_{Exhausted}";
         if (!string.IsNullOrEmpty(EngravedMessage))
-            id += "_ENG=" + EngravedMessage.GetHashCode();
+            id += "_ENG=" + StalkerIdentifierHelper.DeterministicHash(EngravedMessage); // stalker-en-changes
         if (!string.IsNullOrEmpty(CurrentLabel))
-            id += "_LBL=" + CurrentLabel.GetHashCode();
+            id += "_LBL=" + StalkerIdentifierHelper.DeterministicHash(CurrentLabel); // stalker-en-changes
         return id;
     }
 }
@@ -366,9 +382,9 @@ public sealed class CrayonItemStalker : IItemStalkerStorage
     {
         var id = $"{PrototypeName}_{Charges}";
         if (!string.IsNullOrEmpty(EngravedMessage))
-            id += "_ENG=" + EngravedMessage.GetHashCode();
+            id += "_ENG=" + StalkerIdentifierHelper.DeterministicHash(EngravedMessage); // stalker-en-changes
         if (!string.IsNullOrEmpty(CurrentLabel))
-            id += "_LBL=" + CurrentLabel.GetHashCode();
+            id += "_LBL=" + StalkerIdentifierHelper.DeterministicHash(CurrentLabel); // stalker-en-changes
         return id;
     }
 }

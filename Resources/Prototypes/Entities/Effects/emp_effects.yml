@@ -17,6 +17,9 @@
     tags:
     - HideContextMenu
   - type: AnimationPlayer
+  - type: EmitSoundOnSpawn #Stalker EN changes
+    sound:
+      path: /Audio/Effects/Lightning/lightningbolt.ogg
 
 - type: entity
   id: EffectEmpDisabled

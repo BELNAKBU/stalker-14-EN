@@ -36,9 +36,9 @@
   description: Это шлем, специально разработанный для защиты от колющих атак.
   components:
   - type: Sprite
-    sprite: _Stalker/Objects/Clothing/hats/sh68.rsi
+    sprite: _Stalker_EN/Objects/Clothing/hats/sh68.rsi
   - type: Clothing
-    sprite: _Stalker/Objects/Clothing/hats/sh68.rsi
+    sprite: _Stalker_EN/Objects/Clothing/hats/sh68.rsi
 
 - type: entity
   parent: STClothingHeadHelmetCombatT1Base
@@ -60,6 +60,6 @@
   description: Это шлем, специально разработанный для защиты от колющих атак. Класс Брони - 1.
   components:
   - type: Sprite
-    sprite: _Stalker/Objects/Clothing/hats/sh68_rene.rsi
+    sprite: _Stalker_EN/Objects/Clothing/hats/sh68_rene.rsi
   - type: Clothing
-    sprite: _Stalker/Objects/Clothing/hats/sh68_rene.rsi
+    sprite: _Stalker_EN/Objects/Clothing/hats/sh68_rene.rsi

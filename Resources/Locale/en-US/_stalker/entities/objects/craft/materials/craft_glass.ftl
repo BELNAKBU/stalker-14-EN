@@ -1,7 +1,7 @@
-ent-STCraftGlassT1 = T1 low-quality  glass
+ent-STCraftGlassT1 = T1 Low-Quality Glass
     .desc = plain glass of poor quality, used for temporary structures and windows in minor buildings. T1
     .suffix = Stalker, crafting, T1
-ent-STCraftGlassT2 = T2 glass
+ent-STCraftGlassT2 = T2 Glass
     .desc = improved glass of medium quality, used for standard windows and decorative elements. T2
     .suffix = Stalker, crafting, T2
 ent-STCraftQuartzCrystalT3 = T3 Quartz Crystal

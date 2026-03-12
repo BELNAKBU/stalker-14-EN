@@ -1,3 +1,4 @@
+using Content.Shared._Stalker_EN.News;
 using Robust.Shared.Utility;
 
 namespace Content.Client._Stalker_EN.FactionRelations;
@@ -10,37 +11,25 @@ public static class STFactionPatchIcons
     private static readonly ResPath PatchRsiPath = new("/Textures/_Stalker/Icons/Patches/band.rsi");
     private static readonly ResPath PatchRsiPathEN = new("/Textures/_Stalker_EN/Icons/Patches/band.rsi");
 
-    private const string Loners = "Loners";
-    private const string Freedom = "Freedom";
-    private const string Bandits = "Bandits";
-    private const string Duty = "Duty";
-    private const string Ecologist = "Ecologist";
-    private const string Neutrals = "Neutrals";
-    private const string Mercenaries = "Mercenaries";
-    private const string Military = "Military";
-    private const string Monolith = "Monolith";
-    private const string ClearSky = "ClearSky";
-    private const string Renegades = "Renegades";
-    private const string Rookies = "Rookies";
-    private const string Journalists = "Journalists";
-
     /// <summary>
     /// Maps faction relation names to their patch RSI paths and state names.
+    /// Keys use constants from <see cref="STReactionDefinitions"/>.
     /// </summary>
     public static readonly Dictionary<string, (ResPath Rsi, string State)> PatchStates = new()
     {
-        [Loners] = (PatchRsiPath, "stalker"),
-        [Freedom] = (PatchRsiPath, "freedom"),
-        [Bandits] = (PatchRsiPath, "band"),
-        [Duty] = (PatchRsiPathEN, "dolg1"),
-        [Ecologist] = (PatchRsiPath, "sci"),
-        [Neutrals] = (PatchRsiPath, "ne"),
-        [Mercenaries] = (PatchRsiPath, "merc"),
-        [Military] = (PatchRsiPathEN, "voen1"),
-        [Monolith] = (PatchRsiPath, "monolith"),
-        [ClearSky] = (PatchRsiPath, "cn"),
-        [Renegades] = (PatchRsiPath, "rene"),
-        [Rookies] = (PatchRsiPathEN, "rookie"),
-        [Journalists] = (PatchRsiPath, "journalist"),
+        [STReactionDefinitions.Loners] = (PatchRsiPath, "stalker"),
+        [STReactionDefinitions.Freedom] = (PatchRsiPath, "freedom"),
+        [STReactionDefinitions.Bandits] = (PatchRsiPath, "band"),
+        [STReactionDefinitions.Duty] = (PatchRsiPathEN, "dolg1"),
+        [STReactionDefinitions.Ecologist] = (PatchRsiPath, "sci"),
+        [STReactionDefinitions.Neutrals] = (PatchRsiPath, "ne"),
+        [STReactionDefinitions.Mercenaries] = (PatchRsiPath, "merc"),
+        [STReactionDefinitions.Military] = (PatchRsiPathEN, "voen1"),
+        [STReactionDefinitions.Monolith] = (PatchRsiPath, "monolith"),
+        [STReactionDefinitions.ClearSky] = (PatchRsiPath, "cn"),
+        [STReactionDefinitions.Renegades] = (PatchRsiPath, "rene"),
+        [STReactionDefinitions.Rookies] = (PatchRsiPathEN, "rookie"),
+        [STReactionDefinitions.Journalists] = (PatchRsiPath, "journalist"),
+        [STReactionDefinitions.UN] = (PatchRsiPath, "un"),
     };
 }

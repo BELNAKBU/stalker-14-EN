@@ -31,7 +31,8 @@
   description: Полностью блокирует все свойства артефакта.
   suffix: Stalker
   components:
-  - type: ExplosionSafe
+  - type: ExplosionResistance
+    damageCoefficient: 0.0
   - type: PersonalDamageBlock
   - type: Item
     size: Normal

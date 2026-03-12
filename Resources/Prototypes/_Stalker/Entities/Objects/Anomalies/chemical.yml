@@ -104,6 +104,9 @@
         - id: ZoneArtifactCytoplasm
           tier: 2
           ratio: 10
+        - id: ZoneArtifactThorn
+          tier: 3
+          ratio: 10
         - id: ZoneArtifactBaloon
           tier: 4
           ratio: 10
@@ -147,6 +150,9 @@
           ratio: 10
         - id: ZoneArtifactCytoplasm
           tier: 2
+          ratio: 10
+        - id: ZoneArtifactThorn
+          tier: 3
           ratio: 10
         - id: ZoneArtifactBaloon
           tier: 4

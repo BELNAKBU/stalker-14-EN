@@ -433,3 +433,15 @@
       amount: 1
     FoodSTSpice:
       amount: 2
+
+- type: craftRecipe
+  id: recipeFoodSTButerbrod
+  resultProtos:
+  - STFoodMeatButerbrod
+  craftTime: 5
+  requiredWorkbench: StalkerCookingStation
+  items:
+    STFoodMeatSalamiSlice:
+      amount: 1
+    STFoodBreadPlainSlice:
+      amount: 1

@@ -12,7 +12,6 @@ using Content.Shared._Stalker.Weight;
 using Content.Shared.Actions;
 using Content.Shared.Body.Organ;
 using Content.Shared.Body.Part;
-using Content.Shared.CartridgeLoader;
 using Content.Shared.Chemistry.Components;
 using Content.Shared.Clothing.Components;
 using Content.Shared.Database;
@@ -692,7 +691,7 @@ public sealed class StalkerRepositorySystem : EntitySystem
 
         foreach (var container in managerComponent.Containers)
         {
-            if (container.Key == "toggleable-clothing") // We don't need anything from this container
+            if (container.Key == "toggleable-clothing" || container.Key == "program-container") // We don't need anything from these containers
                 continue;
             foreach (var element in container.Value.ContainedEntities)
             {
@@ -703,7 +702,6 @@ public sealed class StalkerRepositorySystem : EntitySystem
                     HasComp<EntityTargetActionComponent>(element) ||
                     HasComp<SubdermalImplantComponent>(element) ||
                     HasComp<BodyPartComponent>(element) ||
-                    HasComp<CartridgeComponent>(element) ||
                     HasComp<VirtualItemComponent>(element) ||
                     HasComp<MindContainerComponent>(element) || // Do not insert alive objects(mice, etc.)
                     HasComp<StatusEffectComponent>(element) || // Don't look at status effect entities
@@ -767,7 +765,7 @@ public sealed class StalkerRepositorySystem : EntitySystem
 
         foreach (var container in containerMan.Containers)
         {
-            if (container.Key == "toggleable-clothing") // We don't need to add something from this container
+            if (container.Key == "toggleable-clothing" || container.Key == "program-container") // We don't need to add something from these containers
                 continue;
 
             foreach (var item in container.Value.ContainedEntities)
@@ -777,8 +775,7 @@ public sealed class StalkerRepositorySystem : EntitySystem
                 // another large blacklist
                 if (HasComp<SolutionComponent>(item) || // Do not insert solutions
                     HasComp<InstantActionComponent>(item) || // Do not insert actions
-                    HasComp<CartridgeComponent>(item) && !_tags.HasTag(item, "Dogtag") ||
-                    HasComp<BallisticAmmoProviderComponent>(playerItem) && _tags.HasTag(item, "Cartridge") || // Do not insert program cartridges
+                    HasComp<BallisticAmmoProviderComponent>(playerItem) && _tags.HasTag(item, "Cartridge") || // Do not insert ammo cartridges
                     HasComp<UnremoveableComponent>(item) ||
                     HasComp<SelfUnremovableClothingComponent>(item))
                     continue;

@@ -54,6 +54,9 @@
   components:
   - type: STWeight
     self: 0.1
+  - type: Material
+  - type: StaticPrice
+    price: 0
   - type: Stack
     stackType: GunpowderStalker
     count: 1
@@ -120,6 +123,9 @@
       size: Normal
       shape:
         - 0,0,2,2
+    - type: Material
+    - type: StaticPrice
+      price: 0
     - type: Sprite
       sprite: _Stalker/Objects/Tools/Craft/64.rsi
       state: hide
@@ -147,6 +153,9 @@
       time: 1200
     - type: Item
       size: Normal
+    - type: Material
+    - type: StaticPrice
+      price: 0
     - type: Craftable
     - type: RepositoryItem
       categoryName: repository-crafting-category
@@ -163,6 +172,9 @@
       size: Normal
       shape:
         - 0,0,0,0
+    - type: Material
+    - type: StaticPrice
+      price: 0
     - type: Trash
       time: 1200
     - type: Sprite
@@ -185,6 +197,9 @@
       size: Normal
       shape:
         - 0,0,0,0
+    - type: Material
+    - type: StaticPrice
+      price: 0
     - type: Craftable
     - type: Sprite
       sprite: Objects/Specific/Chemistry/beaker_cryostasis.rsi
@@ -206,6 +221,9 @@
     size: Large
     shape:
       - 0,0,3,2
+  - type: Material
+  - type: StaticPrice
+    price: 0
   - type: Sprite
     sprite: Objects/Materials/materials.rsi
     state: cardboard
@@ -227,6 +245,9 @@
     size: Small
     shape:
       - 0,0,1,1
+  - type: Material
+  - type: StaticPrice
+    price: 0
   - type: Sprite
     sprite: Objects/Fun/figurines.rsi
     state: fig_box_unfolded
@@ -248,6 +269,9 @@
     size: Small
     shape:
       - 0,0,1,0
+  - type: Material
+  - type: StaticPrice
+    price: 0
   - type: Sprite
     sprite: _Stalker/Objects/Tools/Craft/32.rsi
     state: cardboard_tube
@@ -297,6 +321,9 @@
       self: 0.2
     - type: Item
       size: Tiny
+    - type: Material
+    - type: StaticPrice
+      price: 0
     - type: Sprite
       sprite: _Stalker/Objects/Tools/Craft/32.rsi
       state: fitil
@@ -318,6 +345,9 @@
       size: Normal
       shape:
         - 0,0,2,2
+    - type: Material
+    - type: StaticPrice
+      price: 0
     - type: Sprite
       sprite: _Stalker/Objects/Tools/Craft/32.rsi
       state: bloodsuckerhide

@@ -383,6 +383,6 @@
           tags:
             - STCartridge545
   - type: STWeaponDamageFalloff
-    falloffMultiplier: 1.2
+    falloffMultiplier: 0.8
   - type: STWeaponAccuracy
-    accuracyMultiplier: 0.9
+    accuracyMultiplier: 1.5

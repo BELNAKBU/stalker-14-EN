@@ -145,6 +145,9 @@ public abstract partial class STSharedScopeSystem : EntitySystem
 
     private void OnGetActions(Entity<ScopeComponent> ent, ref GetItemActionsEvent args)
     {
+        if (!args.InHands)
+            return;
+
         args.AddAction(ref ent.Comp.ScopingToggleActionEntity, ent.Comp.ScopingToggleAction);
     }
 

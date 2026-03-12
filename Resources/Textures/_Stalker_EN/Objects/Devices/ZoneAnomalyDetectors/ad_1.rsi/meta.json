@@ -1,0 +1,67 @@
+{
+    "version": 1,
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Made by Tornado-Technology (github), screen_prox sprites by skollvargr (discord)",
+    "states": [
+        {
+            "name": "icon",
+            "delays": [
+                [
+                    1.3,
+                    3.4,
+                    2.0
+                ]
+            ]
+        },
+        {
+            "name": "screen_prox_1",
+            "delays": [
+                [
+                    1.3,
+                    3.4,
+                    2.0
+                ]
+            ]
+        },
+        {
+            "name": "screen_prox_2",
+            "delays": [
+                [
+                    1.3,
+                    3.4,
+                    2.0
+                ]
+            ]
+        },
+        {
+            "name": "screen_prox_3",
+            "delays": [
+                [
+                    1.3,
+                    3.4,
+                    2.0
+                ]
+            ]
+        },
+        {
+            "name": "screen_prox_4",
+            "delays": [
+                [
+                    1.3,
+                    3.4,
+                    2.0
+                ]
+            ]
+        },
+        {
+            "name": "screen_off"
+        },
+        {
+            "name": "base"
+        }
+    ]
+}

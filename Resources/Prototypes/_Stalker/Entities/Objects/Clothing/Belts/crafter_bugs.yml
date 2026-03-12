@@ -15,6 +15,7 @@
     sprite: _Stalker/Objects/Clothing/belt/crafter_bag.rsi
     state: icon
   - type: Storage
+    areaInsert: true #stalker-en change
     maxItemSize: Normal
     grid:
     - 0,0,9,9

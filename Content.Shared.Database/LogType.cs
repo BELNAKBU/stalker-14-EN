@@ -484,4 +484,19 @@ public enum LogType
     /// </summary>
     RespawnContainer = 191,
     PdaMessage = 192,
+
+    /// <summary>
+    /// Stalker bulletin board actions (post, withdraw, contact poster).
+    /// </summary>
+    STBulletinBoard = 193,
+
+    /// <summary>
+    /// Stalker PDA messenger actions (send message, add/remove contact).
+    /// </summary>
+    STMessenger = 194,
+
+    /// <summary>
+    /// Stalker news actions (publish, delete, comment).
+    /// </summary>
+    STNews = 195, // stalker-en-changes
 }

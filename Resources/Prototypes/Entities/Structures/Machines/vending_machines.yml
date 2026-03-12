@@ -11,7 +11,7 @@
     actions:
     - ActionVendingThrow
   - type: StationAiWhitelist
-  - type: AmbientOnPowered
+  #- type: AmbientOnPowered # stalker-en-changes - remove powernet system
   - type: AmbientSound
     volume: -9
     range: 3
@@ -58,7 +58,7 @@
     doAfterDelay: 8
   - type: ActivatableUI
     key: enum.VendingMachineUiKey.Key
-  - type: ActivatableUIRequiresPower
+  #- type: ActivatableUIRequiresPower # stalker-en-changes - remove powernet system
   - type: UserInterface
     interfaces:
       enum.VendingMachineUiKey.Key:
@@ -95,7 +95,7 @@
     enabled: false
     castShadows: false
     radius: 1.5
-  - type: LitOnPowered
+  #- type: LitOnPowered # stalker-en-changes - remove powernet system
   # stalker-en-changes - disable powernet system
   #- type: ApcPowerReceiver
   #  powerLoad: 200
@@ -116,7 +116,7 @@
   abstract: true
   components:
   - type: StationAiWhitelist
-  - type: AmbientOnPowered
+  #- type: AmbientOnPowered # stalker-en-changes - remove powernet system
   - type: AmbientSound
     volume: -9
     range: 3
@@ -150,7 +150,7 @@
     doAfterDelay: 8
   - type: ActivatableUI
     key: enum.VendingMachineUiKey.Key
-  - type: ActivatableUIRequiresPower
+  #- type: ActivatableUIRequiresPower # stalker-en-changes - remove powernet system
   - type: UserInterface
     interfaces:
       enum.VendingMachineUiKey.Key:
@@ -165,7 +165,7 @@
     enabled: false
     castShadows: false
     radius: 1.5
-  - type: LitOnPowered
+  #- type: LitOnPowered # stalker-en-changes - remove powernet system
   - type: Appearance
   - type: WiresVisuals
   - type: Electrified

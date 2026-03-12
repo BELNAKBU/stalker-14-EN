@@ -11,6 +11,9 @@
       intensitySlope: 3
       totalIntensity: 80 # about a ~4 tile radius
       canCreateVacuum: false
+    - type: EmitSoundOnTrigger # EN
+      sound: /Audio/Effects/balloon_hits.ogg
+      positional: true
     - type: TriggerOnUse
     - type: TimerTrigger
     - type: ScatteringGrenade
@@ -57,6 +60,9 @@
         - type: ExplodeOnTrigger
           keysIn:
           - stageTwo
+    - type: EmitSoundOnTrigger # EN
+      sound: /Audio/Effects/balloon_hits.ogg
+      positional: true
     - type: Sprite
       sprite: _Stalker/Objects/Weapons/Grenades/rgdgrenade.rsi
       layers:
@@ -91,6 +97,9 @@
       intensitySlope: 3.99
       totalIntensity: 10
       canCreateVacuum: false
+    - type: EmitSoundOnTrigger # EN
+      sound: /Audio/Effects/box_deploy.ogg
+      positional: true
     - type: TriggerOnUse
     - type: TimerTrigger
       delay: 2
@@ -115,6 +124,9 @@
   id: SignalSmoke
   suffix: Stalker, Граната
   components:
+    - type: EmitSoundOnTrigger # EN # change this one
+      sound: /Audio/Effects/balloon_hits.ogg
+      positional: true
     - type: Sprite
       sprite: Objects/Weapons/Grenades/smoke.rsi
     - type: TimerTriggerVisuals
@@ -172,6 +184,9 @@
       intensitySlope: 5
       totalIntensity: 240
       canCreateVacuum: false
+    - type: EmitSoundOnTrigger # EN
+      sound: /Audio/Effects/balloon_hits.ogg
+      positional: true
     - type: TriggerOnUse
     - type: TimerTrigger
       delay: 1.5
@@ -260,6 +275,9 @@
       intensitySlope: 4
       totalIntensity: 150
       canCreateVacuum: false
+    - type: EmitSoundOnTrigger # EN
+      sound: /Audio/Effects/balloon_hits.ogg
+      positional: true
     - type: TriggerOnUse
     - type: TimerTrigger
       delay: 1.5
@@ -302,6 +320,9 @@
       intensitySlope: 2
       totalIntensity: 50
       canCreateVacuum: false
+    - type: EmitSoundOnTrigger # EN
+      sound: /Audio/Effects/balloon_hits.ogg
+      positional: true
     - type: TriggerOnUse
     - type: TimerTrigger
       delay: 1.5

@@ -40,6 +40,7 @@
     damage:
       types:
         Slash: 41
+        Mutant: 20
 
 - type: entity
   name: бритвенно-острый метательный нож
@@ -54,5 +55,6 @@
     damage:
       types:
         Slash: 51
+        Mutant: 30
   - type: Item
     sprite: _Stalker/Objects/Weapons/Melee/throwingknife_yellow.rsi

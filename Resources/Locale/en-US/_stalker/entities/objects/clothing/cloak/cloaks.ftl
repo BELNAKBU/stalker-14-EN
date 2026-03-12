@@ -40,3 +40,6 @@ ent-ClothingOuterCoatAugust = August Raincoat
 ent-ClothingOuterCoatAugustM = August-M Raincoat
     .desc = An unusual cloak crafted by skilled technicians. It features a camouflage pattern that helps conceal oneself in the Zone. It is an improved version of the August cloak of the same name. It features a layer of insulating material that provides some protection from chemical agents. It is equipped with a durable hood and a gas mask for additional protection from external influences.
     .suffix = Stalker
+ent-ClothingHeadHelmetAugustM = August-M Hood
+    .desc = A durable hood that hides the owner's head.
+    .suffix = Stalker

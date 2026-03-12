@@ -1,5 +1,5 @@
 - type: entity
-  parent: PosterBaseStalker
+  parent: STpuhBase # EN
   id: Puh1
   name: жгучий пух
   description: Лучше не прогать.
@@ -10,7 +10,7 @@
     state: puh1
 
 - type: entity
-  parent: PosterBaseStalker
+  parent: STpuhBase # EN
   id: Puh2
   name: жгучий пух
   description: Лучше не прогать.
@@ -21,7 +21,7 @@
     state: puh2
 
 - type: entity
-  parent: PosterBaseStalker
+  parent: STpuhBase # EN
   id: Puh3
   name: жгучий пух
   description: Лучше не прогать.
@@ -32,7 +32,7 @@
     state: puh3
 
 - type: entity
-  parent: PosterBaseStalker
+  parent: STpuhBase # EN
   id: Puh4
   name: жгучий пух
   description: Лучше не прогать.
@@ -43,7 +43,7 @@
     state: puh4
 
 - type: entity
-  parent: PosterBaseStalker
+  parent: STpuhBase # EN
   id: Puh5
   name: жгучий пух
   description: Лучше не прогать.
@@ -52,3 +52,49 @@
   - type: Sprite
     sprite: _Stalker/Structures/Wallmounts/puh.rsi
     state: puh5
+
+# EN changes
+- type: entity
+  name: burnt fuzz
+  id: STpuhBase
+  parent: ZoneAnomalyBase
+  abstract: true
+  components:
+  - type: WallMount
+    arc: 360
+  - type: Clickable
+  - type: Damageable
+    damageContainer: Inorganic
+    damageModifierSet: Wood
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 55
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: Transform
+    anchored: false
+  - type: Sprite
+    sprite: _Stalker/Structures/Wallmounts/puh.rsi
+    state: puh1
+    drawdepth: OverMobs
+    snapCardinals: true
+  - type: ZoneAnomalyUpdateTriggerCollide
+  - type: ZoneAnomaly
+    detectedLevel: 0
+    preparingDelay: 0
+    activationDelay: 0
+    chargeTime: 2
+  - type: ZoneAnomalyEffectDamage
+    damage:
+      types:
+        Caustic: 5
+  - type: ZoneAnomalyEffectPlaySound
+    sound: /Audio/Effects/cig_snuff.ogg
+  - type: STAnomalyTips
+    icon:
+      sprite: /Textures/_Stalker/Interface/Overlays/anomaly_tips.rsi
+      state: toxic
+# end EN changes

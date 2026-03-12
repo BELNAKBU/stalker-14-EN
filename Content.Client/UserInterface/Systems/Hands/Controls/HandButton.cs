@@ -13,6 +13,15 @@ public sealed class HandButton : SlotControl
         Name = "hand_" + handName;
         SlotName = handName;
         SetBackground(handLocation);
+        FullButtonTexturePath = "HandSlotBackground"; // stalker-en-changes
+
+        HighlightTexturePath = handLocation switch // stalker-en-changes
+        {
+            HandLocation.Left => "slot_highlight_l",
+            HandLocation.Middle => "slot_highlight",
+            HandLocation.Right => "slot_highlight_r",
+            _ => "slot_highlight"
+        };
     }
 
     private void SetBackground(HandLocation handLoc)

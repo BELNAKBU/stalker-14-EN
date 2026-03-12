@@ -2317,6 +2317,109 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
                 await db.DbContext.SaveChangesAsync();
             }
         }
+
+        // stalker-en-changes: News articles
+        public async Task<List<StalkerNewsArticle>> GetRecentStalkerNewsArticlesAsync(int limit)
+        {
+            await using var db = await GetDb();
+            return await db.DbContext.StalkerNewsArticles
+                .OrderByDescending(a => a.Id)
+                .Take(limit)
+                .ToListAsync();
+        }
+
+        public async Task<int> AddStalkerNewsArticleAsync(StalkerNewsArticle article)
+        {
+            await using var db = await GetDb();
+            db.DbContext.StalkerNewsArticles.Add(article);
+            await db.DbContext.SaveChangesAsync();
+            return article.Id;
+        }
+
+        public async Task DeleteStalkerNewsArticleAsync(int articleId)
+        {
+            await using var db = await GetDb();
+            var comments = await db.DbContext.StalkerNewsComments
+                .Where(c => c.ArticleId == articleId)
+                .ToListAsync();
+            db.DbContext.StalkerNewsComments.RemoveRange(comments);
+
+            var article = await db.DbContext.StalkerNewsArticles
+                .FirstOrDefaultAsync(a => a.Id == articleId);
+            if (article != null)
+                db.DbContext.StalkerNewsArticles.Remove(article);
+
+            await db.DbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<StalkerNewsComment>> GetStalkerNewsCommentsAsync(List<int> articleIds)
+        {
+            await using var db = await GetDb();
+            return await db.DbContext.StalkerNewsComments
+                .Where(c => articleIds.Contains(c.ArticleId))
+                .OrderBy(c => c.Id)
+                .ToListAsync();
+        }
+
+        public async Task<int> AddStalkerNewsCommentAsync(StalkerNewsComment comment)
+        {
+            await using var db = await GetDb();
+            db.DbContext.StalkerNewsComments.Add(comment);
+            await db.DbContext.SaveChangesAsync();
+            return comment.Id;
+        }
+
+        // stalker-en-changes: News reactions
+        public async Task<List<StalkerNewsReaction>> GetStalkerNewsReactionsAsync(int targetType, List<int> targetIds)
+        {
+            await using var db = await GetDb();
+            return await db.DbContext.StalkerNewsReactions
+                .Where(r => r.TargetType == targetType && targetIds.Contains(r.TargetId))
+                .ToListAsync();
+        }
+
+        public async Task<bool> ToggleStalkerNewsReactionAsync(
+            int targetType,
+            int targetId,
+            Guid userId,
+            string reactionId)
+        {
+            await using var db = await GetDb();
+            var existing = await db.DbContext.StalkerNewsReactions
+                .FirstOrDefaultAsync(r =>
+                    r.TargetType == targetType
+                    && r.TargetId == targetId
+                    && r.UserId == userId
+                    && r.ReactionId == reactionId);
+
+            if (existing != null)
+            {
+                db.DbContext.StalkerNewsReactions.Remove(existing);
+                await db.DbContext.SaveChangesAsync();
+                return false; // removed
+            }
+
+            db.DbContext.StalkerNewsReactions.Add(new StalkerNewsReaction
+            {
+                TargetType = targetType,
+                TargetId = targetId,
+                UserId = userId,
+                ReactionId = reactionId,
+                CreatedAt = DateTime.UtcNow,
+            });
+            await db.DbContext.SaveChangesAsync();
+            return true; // added
+        }
+
+        public async Task DeleteStalkerNewsReactionsByTargetAsync(int targetType, int targetId)
+        {
+            await using var db = await GetDb();
+            var reactions = await db.DbContext.StalkerNewsReactions
+                .Where(r => r.TargetType == targetType && r.TargetId == targetId)
+                .ToListAsync();
+            db.DbContext.StalkerNewsReactions.RemoveRange(reactions);
+            await db.DbContext.SaveChangesAsync();
+        }
         // stalker-en-changes-end
 
         #endregion

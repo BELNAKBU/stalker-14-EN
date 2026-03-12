@@ -1,7 +1,7 @@
-ent-STCraftBasicThreadKitT1 = Base Thread Set T1
+ent-STCraftBasicThreadKitT1 = T1 Basic Thread Set
     .desc = a simple set of threads of different colors and strengths, used for sewing and light repair of clothes. T1
     .suffix = Stalker, crafting, T1
-ent-STCraftTapeKitT2 = T2 tape and glue set
+ent-STCraftTapeKitT2 = T2 Tape and Glue Set
     .desc = the set includes different types of tape and glue, used for temporary repairs and fastening materials. T2
     .suffix = Stalker, crafting, T2
 ent-STCraftGlueKitT3 = T3 Glue Kit

@@ -1,4 +1,4 @@
-ent-STCraftBasicPCBT1 = Basic T1 PCB
+ent-STCraftBasicPCBT1 = T1 Basic PCB
     .desc = single-sided board with a minimum number of components, used for simple electrical circuits. T1
     .suffix = Stalker, crafting, T1
 ent-STCraftStandardPCBT2 = T2 Standard PCB
@@ -10,6 +10,6 @@ ent-STCraftMultilayerPCBT3 = T3 Multilayer PCB
 ent-STCraftHighPerformanceChipT4 = T4 High-Performance Microprocessor
     .desc = a complex chip with many transistors, provides high performance, used in high-end computers. T4
     .suffix = Stalker, crafting, T4
-ent-STCraftNanoChipT5 = T5 nanoelectronic chip
+ent-STCraftNanoChipT5 = T5 Nanoelectronic Chip
     .desc = state-of-the-art chip, uses nanotechnology for maximum density and performance, applied in the latest technology. T5
     .suffix = Stalker, crafting, T5

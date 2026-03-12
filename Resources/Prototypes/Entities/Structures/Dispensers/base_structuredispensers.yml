@@ -23,11 +23,11 @@
         - TabletopMachineMask
         layer:
         - TabletopMachineLayer
-  - type: ApcPowerReceiver
+  #- type: ApcPowerReceiver # stalker-en-changes - remove powernet system
   - type: ExtensionCableReceiver
   - type: ActivatableUI
     key: enum.ReagentDispenserUiKey.Key
-  - type: ActivatableUIRequiresPower
+  #- type: ActivatableUIRequiresPower # stalker-en-changes - remove powernet system
   - type: UserInterface
     interfaces:
       enum.ReagentDispenserUiKey.Key:

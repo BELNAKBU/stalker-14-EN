@@ -49,15 +49,20 @@
     - type: Tag
       tags:
         - BlockMask
+    - type: PressureProtection
+      highPressureMultiplier: 0.1
+      lowPressureMultiplier: 1000
     - type: Armor
       armorClass: 1
       modifiers:
         flatReductions:
-          Heat: 2
+          Heat: 4
           Radiation: 1
+          Psy: 1
         coefficients:
           Heat: 0.9
           Radiation: 0.8
+          Psy: 0.9
     - type: HideLayerClothing
       slots:
       - Hair

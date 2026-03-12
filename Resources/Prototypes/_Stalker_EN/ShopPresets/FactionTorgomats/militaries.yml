@@ -212,7 +212,7 @@
       HandheldGPSBasic: 50
       Paper: 2
       Pen: 5
-      Binocularus1: 2500
+      Binocularus1: 1000
       BoxFlare: 60
       ClothingBackpackDuffelGreenStalkerHydroponic: 500
       Beaker: 40
@@ -487,6 +487,7 @@
       ClothingBackpackDuffelBlackTacticStalker: 1000 # T4
       # Belts
       ClothingBeltGreenWebbingStalker: 250
+      ClothingBeltWebbingOfficerStalker: 400
       ClothingBeltBandolierStalker: 20 # T1 - PVE
       ClothingBeltTarzanBlack: 200 # T1 - PVP
       ClothingBeltTarzanGreen: 200 # T1 - PVP
@@ -530,7 +531,8 @@
       HandheldGPSBasic: 50
       Paper: 2
       Pen: 5
-      Binocularus1: 2500
+      BoxFolderClipboardEmpty: 20 # Clipboard
+      Binocularus1: 1000
       BoxFlare: 60
       ClothingBackpackDuffelGreenStalkerHydroponic: 500
       Beaker: 40
@@ -600,6 +602,7 @@
       Paper: 5
       Pen: 5
       LuxuryPen: 15
+      BoxFolderClipboardEmpty: 20 # Clipboard
 
   - name: "Morale Boosters"
     priority: 2

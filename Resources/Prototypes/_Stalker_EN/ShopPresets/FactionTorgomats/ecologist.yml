@@ -174,11 +174,11 @@
         # ZoneArtifactDetectorBear: 8000 #T4 Disabled for now
 
         # RP Items / Anomaly Destructors
-        BaseMachineAnomalyDestructorFolded: 1250
-        BaseMachineAnomalyDestructorFolded1: 1250
-        BaseMachineAnomalyDestructorFolded2: 1250
-        BaseMachineAnomalyDestructorFolded3: 1250
-        BaseMachineAnomalyDestructorFolded4: 1250
+        BaseMachineAnomalyDestructorFolded: 450
+        BaseMachineAnomalyDestructorFolded1: 450
+        BaseMachineAnomalyDestructorFolded2: 450
+        BaseMachineAnomalyDestructorFolded3: 450
+        BaseMachineAnomalyDestructorFolded4: 450
 
     - name: shop-category-utilities
       priority: 10
@@ -197,6 +197,8 @@
         HandheldGPSBasic: 50
         Paper: 2
         Pen: 5
+        BoxFolderClipboardEmpty: 20 # Clipboard
+        STEcoClipboard: 20 # Cool Clipboard
         Binocularus1: 750
         BoxFlare: 60
         ClothingBackpackDuffelGreenStalkerHydroponic: 500

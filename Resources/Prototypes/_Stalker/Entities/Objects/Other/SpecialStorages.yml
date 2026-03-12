@@ -7,7 +7,8 @@
   components:
   - type: STWeight
     self: 1
-  - type: ExplosionSafe
+  - type: ExplosionResistance
+    damageCoefficient: 0.0
   - type: Item
     size: Large
     shape:

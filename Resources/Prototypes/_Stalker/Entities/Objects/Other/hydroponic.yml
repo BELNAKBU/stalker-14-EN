@@ -166,8 +166,9 @@
     swingLeft: true
     damage:
       types:
-        Slash: 8
-        Piercing: 6
+        Slash: 10
+        Piercing: 5
+        Structural: 25
   - type: Item
     sprite: Objects/Tools/Hydroponics/hatchet.rsi
   - type: Craftable

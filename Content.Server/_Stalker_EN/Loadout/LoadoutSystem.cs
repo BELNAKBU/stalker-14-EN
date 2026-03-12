@@ -949,7 +949,11 @@ public sealed class LoadoutSystem : EntitySystem
         HashSet<EntityUid> consumedExistingItems)
     {
         // Find the item in stash
-        var stashItem = FindItemInStash(slotItem.Identifier, slotItem.PrototypeId, stashLookup);
+        var stashItem = FindItemInStash(
+            slotItem.Identifier,
+            slotItem.PrototypeId,
+            stashLookup,
+            slotItem.StorageData as IItemStalkerStorage);
         if (stashItem == null)
             return false;
 
@@ -1035,7 +1039,11 @@ public sealed class LoadoutSystem : EntitySystem
             }
 
             // Find the item in stash
-            var stashItem = FindItemInStash(nestedItem.Identifier, nestedItem.PrototypeId, stashLookup);
+            var stashItem = FindItemInStash(
+                nestedItem.Identifier,
+                nestedItem.PrototypeId,
+                stashLookup,
+                nestedItem.StorageData as IItemStalkerStorage);
             if (stashItem == null)
                 continue;
 
@@ -1424,7 +1432,16 @@ public sealed class LoadoutSystem : EntitySystem
         return null;
     }
 
-    private RepositoryItemInfo? FindItemInStash(string identifier, string prototypeId, StashLookup lookup)
+    /// <summary>
+    /// Finds a stash item by exact identifier match, falling back to prototype-based matching.
+    /// When <paramref name="loadoutStorageData"/> is an <see cref="AmmoContainerStalker"/>,
+    /// the fallback prefers magazines with matching ammo composition over just the fullest.
+    /// </summary>
+    private RepositoryItemInfo? FindItemInStash(
+        string identifier,
+        string prototypeId,
+        StashLookup lookup,
+        IItemStalkerStorage? loadoutStorageData = null)
     {
         // Try exact identifier match first - iterate through list
         if (lookup.ByIdentifier.TryGetValue(identifier, out var identList))
@@ -1438,17 +1455,93 @@ public sealed class LoadoutSystem : EntitySystem
 
         // Fallback to prototype match - return ANY item with count > 0
         // This handles state-based identifier mismatches (stack counts, ammo counts, charges)
-        // Prefer items at the end of the list (most recently added)
         if (lookup.ByPrototype.TryGetValue(prototypeId, out var protoList))
         {
+            // For ammo containers: prefer matching ammo composition over just fullest magazine
+            if (loadoutStorageData is AmmoContainerStalker loadoutAmmo)
+                return FindBestAmmoMatch(protoList, loadoutAmmo);
+
+            // Generic fallback: for magazines without loadout ammo data, prefer fullest
+            RepositoryItemInfo? best = null;
+            var bestAmmo = -1;
+            RepositoryItemInfo? fallback = null;
+
             for (var i = protoList.Count - 1; i >= 0; i--)
             {
-                if (protoList[i].Count > 0)
-                    return protoList[i];
+                if (protoList[i].Count <= 0)
+                    continue;
+
+                if (protoList[i].SStorageData is AmmoContainerStalker ammo)
+                {
+                    if (ammo.AmmoCount > bestAmmo)
+                    {
+                        bestAmmo = ammo.AmmoCount;
+                        best = protoList[i];
+                    }
+                }
+                else
+                {
+                    fallback ??= protoList[i];
+                }
             }
+
+            return best ?? fallback;
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// Finds the best ammo container match from stash using preference tiers:
+    /// 1. Exact EntProtoIds match (same ammo composition and order)
+    /// 2. Same set of unique ammo types (handles partial magazines)
+    /// 3. Fullest magazine (last resort)
+    /// </summary>
+    private static RepositoryItemInfo? FindBestAmmoMatch(
+        List<RepositoryItemInfo> protoList,
+        AmmoContainerStalker loadoutAmmo)
+    {
+        RepositoryItemInfo? exactMatch = null;
+        RepositoryItemInfo? sameTypesMatch = null;
+        RepositoryItemInfo? fullestMatch = null;
+        var fullestAmmo = -1;
+
+        var loadoutAmmoTypes = loadoutAmmo.EntProtoIds.ToHashSet();
+
+        for (var i = protoList.Count - 1; i >= 0; i--)
+        {
+            if (protoList[i].Count <= 0)
+                continue;
+
+            if (protoList[i].SStorageData is not AmmoContainerStalker stashAmmo)
+                continue;
+
+            // Tier 1: Exact EntProtoIds match
+            if (exactMatch == null &&
+                stashAmmo.EntProtoIds.SequenceEqual(loadoutAmmo.EntProtoIds))
+            {
+                exactMatch = protoList[i];
+                break; // Can't do better than exact match
+            }
+
+            // Tier 2: Same set of unique ammo types (order/count may differ)
+            // Use IsSupersetOf with count check to avoid allocating a HashSet per candidate
+            if (sameTypesMatch == null &&
+                stashAmmo.EntProtoIds.Count == loadoutAmmoTypes.Count &&
+                loadoutAmmoTypes.IsSupersetOf(stashAmmo.EntProtoIds))
+            {
+                sameTypesMatch = protoList[i];
+            }
+
+            // Tier 3: Track fullest magazine as last resort
+            if (stashAmmo.AmmoCount > fullestAmmo)
+            {
+                fullestAmmo = stashAmmo.AmmoCount;
+                fullestMatch = protoList[i];
+            }
+        }
+
+        return exactMatch ?? sameTypesMatch ?? fullestMatch;
     }
 
     private void RemoveFromStash(

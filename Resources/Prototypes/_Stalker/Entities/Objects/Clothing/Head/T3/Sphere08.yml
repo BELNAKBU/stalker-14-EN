@@ -36,7 +36,7 @@
   description: Шлем удачливых вояк и военсталов, разработанный для защиты от колющих атак. Является шлемом от «Берилл-5М».
   components:
   - type: Sprite
-    sprite: _Stalker/Objects/Clothing/hats/berill5m_helm_military.rsi
+    sprite: _Stalker_EN/Objects/Clothing/hats/berill5m_helm_military.rsi
     layers:
     - state: icon
     - state: light-icon
@@ -44,7 +44,7 @@
       visible: false
       map: [ "light" ]
   - type: Clothing
-    sprite: _Stalker/Objects/Clothing/hats/berill5m_helm_military.rsi
+    sprite: _Stalker_EN/Objects/Clothing/hats/berill5m_helm_military.rsi
     equippedPrefix: off
   - type: Item
     heldPrefix: off
@@ -100,9 +100,9 @@
   description: Шлем тех самых фанатиков, разработанный для защиты от колющих атак. Является шлемом от «Берилл-5М». Класс брони - 3.
   components:
   - type: Sprite
-    sprite: _Stalker/Objects/Clothing/hats/berill5m_helm_monolith.rsi
+    sprite: _Stalker_EN/Objects/Clothing/hats/berill5m_helm_monolith.rsi
   - type: Clothing
-    sprite: _Stalker/Objects/Clothing/hats/berill5m_helm_monolith.rsi
+    sprite: _Stalker_EN/Objects/Clothing/hats/berill5m_helm_monolith.rsi
   - type: PersonalDamage
     damage:
       types:
