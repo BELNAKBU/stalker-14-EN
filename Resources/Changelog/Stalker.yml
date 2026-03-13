@@ -1485,5 +1485,16 @@
   id: 155
   time: '2026-03-13T22:02:02.073509+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/626
+- author: dallaszzz
+  changes:
+  - message: Freedom can buy the galil now
+    type: Add
+  - message: CS and military have revolvers in their stores
+    type: Add
+  - message: duty ak-12 sprite had a broken sprite definition that i fixed
+    type: Fix
+  id: 156
+  time: '2026-03-13T22:19:17.426226+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/627
 Name: Stalker
 Order: -1
