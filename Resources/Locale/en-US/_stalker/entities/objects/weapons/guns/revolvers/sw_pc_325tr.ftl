@@ -1,2 +1,2 @@
-ent-STWeaponRevolverSWPC325TR = S&W PC 325 TR
-    .desc = A six-shooter for experienced shooters with good rapid-fire characteristics for .45 ACP. Large dispersion due to recoil, it is recommended to shoot at long distances slowly.
+ent-STWeaponRevolverSWPC325TR = S&W R8
+    .desc = A modern eight-shooter chambered in .357 magnum with a slick metal finish and rubber grip. Has less recoil then other revolvers but cant shoot as fast.

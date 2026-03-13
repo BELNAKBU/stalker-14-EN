@@ -1,0 +1,38 @@
+- type: entity
+  id: STBullet357MagnumFMJ
+  name: bullet (.357 Magnum FMJ)
+  parent: STBaseRevolverBullet
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TimedDespawn
+    lifetime: 2
+  - type: Projectile
+    projectileClass: 2
+    damage:
+      types:
+        Piercing: 35
+
+- type: entity
+  id: STBullet357MagnumHP
+  name: bullet (.357 Magnum HP)
+  parent: STBullet357MagnumFMJ
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    projectileClass: 0
+    damage:
+      types:
+        Piercing: 20
+        Mutant: 80
+
+- type: entity
+  id: STBullet357MagnumAP
+  name: bullet (.357 Magnum)
+  parent: STBullet357MagnumFMJ
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    projectileClass: 3
+    damage:
+      types:
+        Piercing: 34

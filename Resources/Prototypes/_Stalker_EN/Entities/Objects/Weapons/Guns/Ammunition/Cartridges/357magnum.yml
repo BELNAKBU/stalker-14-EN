@@ -1,0 +1,48 @@
+- type: entity
+  parent: BaseCartridge
+  id: BaseCartridge357Magnum
+  name: cartridge (.357 magnum)
+  suffix: Stalker
+  abstract: true
+  components:
+  - type: Tag
+    tags:
+    - Cartridge
+    - Cartridge357Magnum
+  - type: CartridgeAmmo
+    deleteOnSpawn: true
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Casings/ammo_casing.rsi
+    layers:
+    - state: base
+      map: ["enum.AmmoVisualLayers.Base"]
+  - type: Appearance
+  - type: SpentAmmoVisuals
+    state: "base"
+
+- type: entity
+  parent: BaseCartridge357Magnum
+  id: Cartridge357MagnumFMJ
+  name: cartridge (.357 magnum FMJ)
+  suffix: Stalker
+  components:
+  - type: CartridgeAmmo
+    proto: STBullet357MagnumFMJ
+
+- type: entity
+  parent: BaseCartridge357Magnum
+  id: Cartridge357MagnumHP
+  name: cartridge (.357 magnum HP)
+  suffix: Stalker
+  components:
+  - type: CartridgeAmmo
+    proto: STBullet357MagnumHP
+
+- type: entity
+  parent: BaseCartridge357Magnum
+  id: Cartridge357MagnumAP
+  name: cartridge (.357 magnum AP)
+  suffix: Stalker
+  components:
+  - type: CartridgeAmmo
+    proto: STBullet357MagnumAP

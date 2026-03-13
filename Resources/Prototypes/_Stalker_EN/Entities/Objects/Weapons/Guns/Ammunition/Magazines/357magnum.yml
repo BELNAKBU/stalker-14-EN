@@ -1,0 +1,82 @@
+- type: entity
+  id: BaseSTSpeedLoader357Magnum
+  name: speedloader (.357 magnum)
+  description: "A tool used to quickly reload a .357 magnum revolver with 8 rounds of capacity."
+  suffix: Stalker
+  parent: BaseItem
+  abstract: true
+  components:
+    - type: STBulkBuyable
+      maxQuantity: 10
+    - type: Tag
+      tags:
+        - SpeedLoader357Magnum
+    - type: SpeedLoader
+    - type: BallisticAmmoProvider
+      whitelist:
+        tags:
+          - Cartridge357Magnum
+      capacity: 8
+    - type: Sprite
+    - type: ContainerContainer
+      containers:
+        ballistic-ammo: !type:Container
+          ents: []
+        item_slot: !type:ContainerSlot {}
+    - type: RepositoryItem
+      categoryName: repository-magazines-category
+    - type: ItemSlots
+      slots:
+        item_slot:
+          name: mop-bucket-slot-component-slot-name-item123
+          ejectVerbText: mop-bucket-slot-component-eject-verb123
+          whitelist:
+            tags:
+              - STElasticRubberRed
+              - STElasticRubberGreen
+              - STElasticRubberBlue
+    - type: ItemMapper
+      mapLayers:
+        red:
+          whitelist:
+            tags:
+              - STElasticRubberRed
+        green:
+          whitelist:
+            tags:
+              - STElasticRubberGreen
+        blue:
+          whitelist:
+            tags:
+              - STElasticRubberBlue
+      sprite: _Stalker/Objects/Weapons/Guns/Ammunition/Magazines/speed_loader/elastic_rubber.rsi
+
+- type: entity
+  parent: BaseSTSpeedLoader357Magnum
+  id: STSpeedLoader357Magnum
+  categories: [ HideSpawnMenu ]
+  name: Speedloader (.357 magnum)
+  suffix: Stalker
+  components:
+    - type: BallisticAmmoProvider
+      proto: Cartridge357MagnumFMJ
+    - type: Sprite
+      sprite: Objects/Weapons/Guns/Ammunition/SpeedLoaders/Magnum/magnum_speed_loader.rsi
+      layers:
+        - state: base
+          map: ["enum.GunVisualLayers.Base"]
+        - state: base-6
+          map: ["enum.GunVisualLayers.Mag"]
+    - type: MagazineVisuals
+      magState: base
+      steps: 7
+      zeroVisible: false
+    - type: Appearance
+
+- type: entity
+  parent: STSpeedLoader357Magnum
+  id: STSpeedLoader357MagnumEmpty
+  suffix: Stalker
+  components:
+    - type: BallisticAmmoProvider
+      proto: null

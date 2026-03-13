@@ -1,7 +1,7 @@
 
 - type: entity
   id: Bullet45ACPLFMJ
-  name: bullet (.45 ACP Lasermatch FMJ magnum)
+  name: bullet (.45 ACP Lasermatch FMJ)
   parent: STBase45ACP
   categories: [ HideSpawnMenu ]
   components:
@@ -11,13 +11,11 @@
     projectileClass: 1
     damage:
       types:
-        Piercing: 29
-  - type: StaminaDamageOnCollide
-    damage: 1
+        Piercing: 24
 
 - type: entity
   id: Bullet45ACPMFMJ
-  name: bullet (.45 ACP Match FMJ magnum)
+  name: bullet (.45 ACP Match FMJ)
   parent: Bullet45ACPLFMJ
   categories: [ HideSpawnMenu ]
   components:
@@ -25,13 +23,11 @@
     projectileClass: 2
     damage:
       types:
-        Piercing: 33
-  - type: StaminaDamageOnCollide
-    damage: 5
+        Piercing: 25
 
 - type: entity
   id: Bullet45ACPHydroshock
-  name: bullet (.45 ACP Hydra-Shok magnum)
+  name: bullet (.45 ACP Hydra-Shok)
   parent: Bullet45ACPLFMJ
   categories: [ HideSpawnMenu ]
   components:
@@ -41,13 +37,12 @@
       types:
         Blunt: 10
         Slash: 10
-        Piercing: 40
-  - type: StaminaDamageOnCollide
-    damage: 15
+        Piercing: 30
+        Mutant: 20
 
 - type: entity
   id: Bullet45ACPRIP
-  name: bullet (.45 ACP RIP magnum)
+  name: bullet (.45 ACP RIP)
   parent: Bullet45ACPLFMJ
   categories: [ HideSpawnMenu ]
   components:
@@ -55,16 +50,14 @@
     projectileClass: 0
     damage:
       types:
-        Mutant: 80
-        Piercing: 10
-        Blunt: 10
-        Slash: 10
-  - type: StaminaDamageOnCollide
-    damage: 30
+        Mutant: 45
+        Piercing: 7
+        Blunt: 7
+        Slash: 7
 
 - type: entity
   id: Bullet45ACPAP
-  name: bullet (.45 ACP AP magnum)
+  name: bullet (.45 ACP AP)
   parent: Bullet45ACPLFMJ
   categories: [ HideSpawnMenu ]
   components:
@@ -72,6 +65,4 @@
     projectileClass: 3
     damage:
       types:
-        Piercing: 42
-  - type: StaminaDamageOnCollide
-    damage: 5
+        Piercing: 28

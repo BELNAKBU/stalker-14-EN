@@ -2,7 +2,7 @@
 - type: entity
   parent: STBaseWeaponGameRevolver
   id: STWeaponRevolverRugerRedhawk
-  name: Ruger Redhawk .45 ACP
+  name: Ruger Redhawk .45 ACP # changed to use 357 on stalker EN
   description: Шестизарядный надежный револьвер на калибре .45 ACP. Имеет хорошую точность и малую отдачу, является популярным среди различных группировок.
   components:
     - type: Sprite
@@ -12,12 +12,12 @@
       - state: icon
         map: ["enum.GunVisualLayers.Base"]
     - type: Gun
-      projectileSpeed: 35
+      projectileSpeed: 55
       minAngle:  0
-      maxAngle: 35
-      angleIncrease: 5
-      angleDecay: 10
-      fireRate: 3
+      maxAngle: 45
+      angleIncrease: 20
+      angleDecay: 25
+      fireRate: 5
       selectedMode: SemiAuto
       soundGunshot:
         path: /Audio/_Stalker/Effects/Guns/revolver3.ogg
@@ -26,12 +26,12 @@
     - type: RevolverAmmoProvider
       whitelist:
         tags:
-          - Cartridge45ACP
-          - STSpeedLoader45ACP
+          - Cartridge357Magnum
+          - SpeedLoader357Magnum
       proto: null
-      capacity: 6
-      chambers: [ null, null, null, null, null, null ]
-      ammoSlots: [ null, null, null, null, null, null ]
+      capacity: 8
+      chambers: [ null, null, null, null, null, null, null, null ]
+      ammoSlots: [ null, null, null, null, null, null, null, null ]
       soundEject:
         path: /Audio/Weapons/Guns/MagOut/revolver_magout.ogg
       soundInsert:

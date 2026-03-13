@@ -1,0 +1,75 @@
+- type: entity
+  parent: BaseItem
+  id: BaseMagazineBox357Magnum
+  suffix: Stalker
+  abstract: true
+  components:
+  - type: RepositoryItem
+    categoryName: repository-cartridges-category
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    whitelist:
+      tags:
+      - Cartridge357Magnum
+    proto: SpeedLoader357Magnum
+    capacity: 30
+  - type: Item
+    size: Small
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Boxes/magnum.rsi
+  - type: MagazineVisuals
+    magState: mag
+    steps: 2
+    zeroVisible: false
+  - type: Appearance
+
+# Boxes
+- type: entity
+  parent: BaseMagazineBox357Magnum
+  id: MagazineBox357Magnum
+  name: ammunition box (.357 magnum)
+  suffix: Stalker
+  components:
+  - type: BallisticAmmoProvider
+    proto: Cartridge357MagnumFMJ
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+- type: entity
+  parent: BaseMagazineBox357Magnum
+  id: MagazineBox357MagnumHP
+  name: ammunition box (.357 magnum hollow-point)
+  suffix: Stalker
+  components:
+  - type: BallisticAmmoProvider
+    proto: Cartridge357MagnumHP
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+    - state: piercing
+
+- type: entity
+  parent: BaseMagazineBox357Magnum
+  id: MagazineBox357MagnumAP
+  name: ammunition box (.357 magnum armor-piercing)
+  suffix: Stalker
+  components:
+  - type: BallisticAmmoProvider
+    proto: Cartridge357MagnumAP
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+    - state: piercing

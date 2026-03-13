@@ -95,8 +95,8 @@
   components:
   - type: STProjectileAccuracy
     thresholds:
-    - range: 1
-      falloff: 0.1
+    - range: 5
+      falloff: 0.05
   - type: STProjectileDamageFalloff
     thresholds:
     - range: 2
@@ -112,7 +112,7 @@
   components:
   - type: STProjectileAccuracy
     thresholds:
-    - range: 1
+    - range: 5
       falloff: 0.05
   - type: STProjectileDamageFalloff
     thresholds:
@@ -129,8 +129,8 @@
   components:
   - type: STProjectileAccuracy
     thresholds:
-    - range: 1
-      falloff: 0.03
+    - range: 5
+      falloff: 0.04
   - type: STProjectileDamageFalloff
     thresholds:
     - range: 4
@@ -146,8 +146,8 @@
   components:
   - type: STProjectileAccuracy
     thresholds:
-    - range: 1
-      falloff: 0.01
+    - range: 5
+      falloff: 0.02
   - type: STProjectileDamageFalloff
     thresholds:
     - range: 4
@@ -163,7 +163,7 @@
   components:
   - type: STProjectileAccuracy
     thresholds:
-    - range: 1
+    - range: 5
       falloff: 0.001
   - type: STProjectileDamageFalloff
     thresholds:
@@ -180,7 +180,7 @@
   components:
   - type: STProjectileAccuracy
     thresholds:
-    - range: 2
+    - range: 5
       falloff: 0.08
   - type: STProjectileDamageFalloff
     thresholds:
@@ -197,7 +197,7 @@
   components:
   - type: STProjectileAccuracy
     thresholds:
-    - range: 1
+    - range: 5
       falloff: 0.03
   - type: STProjectileDamageFalloff
     thresholds:
@@ -205,3 +205,21 @@
       falloff: 0.03
     - range: 12
       falloff: 0.2
+
+# stalker EN change - used for revolvers
+- type: entity
+  abstract: true
+  parent: STBaseBullet
+  id: STBaseRevolverBullet # longer range
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STProjectileAccuracy
+    thresholds:
+    - range: 5
+      falloff: 0.03
+  - type: STProjectileDamageFalloff
+    thresholds:
+    - range: 2
+      falloff: 0.02
+    - range: 8
+      falloff: 0.05

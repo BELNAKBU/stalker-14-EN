@@ -51,6 +51,12 @@
 - type: Tag
   id: STElasticRubberBlue
 
+- type: Tag
+  id: Cartridge357Magnum
+
+- type: Tag
+  id: SpeedLoader357Magnum
+
 # For ritual chasm, this is stuff related to the flesh mutant
 - type: Tag
   id: STFleshRelated
