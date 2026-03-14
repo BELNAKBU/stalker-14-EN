@@ -11,6 +11,11 @@ namespace Content.Shared._Stalker_EN.Camera;
 public sealed partial class STCameraComponent : Component
 {
     /// <summary>
+    /// ItemSlot ID for the film slot.
+    /// </summary>
+    public const string FilmSlotId = "film_slot";
+
+    /// <summary>
     /// Duration of the "taking photo" DoAfter.
     /// </summary>
     [DataField]

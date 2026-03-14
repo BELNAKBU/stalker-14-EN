@@ -11,6 +11,15 @@
   - type: Item
     size: Small
     storedRotation: 90
+  - type: ItemSlots
+    slots:
+      film_slot:
+        name: st-camera-film-slot-name
+        startingItem: STCameraFilm
+        swap: true
+        whitelist:
+          tags:
+          - STCameraFilm
   - type: STCamera
   - type: STWeight
     self: 0.5
@@ -55,5 +64,25 @@
       enum.STPhotoUiKey.Key:
         type: STPhotoBoundUserInterface
   - type: STPhoto
+  - type: STWeight
+    self: 0.1
+
+- type: entity
+  parent: BaseItem
+  id: STCameraFilm
+  name: camera film
+  suffix: ST
+  description: A roll of photographic film. Holds 5 exposures.
+  components:
+  - type: Sprite
+    sprite: _Stalker_EN/Objects/Devices/film.rsi
+    state: icon
+  - type: Item
+    size: Tiny
+  - type: Tag
+    tags:
+    - STCameraFilm
+  - type: LimitedCharges
+    maxCharges: 5
   - type: STWeight
     self: 0.1

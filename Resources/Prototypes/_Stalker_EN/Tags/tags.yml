@@ -43,6 +43,9 @@
   id: Plate
 
 - type: Tag
+  id: STCameraFilm
+
+- type: Tag
   id: STElasticRubberRed
 
 - type: Tag

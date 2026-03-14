@@ -1,11 +1,12 @@
 using Content.Server.Popups;
 using Content.Shared._Stalker_EN.Camera;
+using Content.Shared.Charges.Systems;
+using Content.Shared.Containers.ItemSlots;
 using Content.Shared.DoAfter;
 using Content.Shared.Hands.EntitySystems;
-using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction.Events;
-using Robust.Shared.Audio.Systems;
 using Robust.Server.Player;
+using Robust.Shared.Audio.Systems;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Timing;
@@ -15,7 +16,7 @@ namespace Content.Server._Stalker_EN.Camera;
 /// <summary>
 /// Handles camera use-in-hand, DoAfter, capture request/response, and photo spawning.
 /// </summary>
-public sealed class STCameraSystem : EntitySystem
+public sealed class STCameraSystem : SharedSTCameraSystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
@@ -23,6 +24,8 @@ public sealed class STCameraSystem : EntitySystem
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
+    [Dependency] private readonly SharedChargesSystem _charges = default!;
     [Dependency] private readonly PopupSystem _popup = default!;
 
     /// <summary>
@@ -55,7 +58,6 @@ public sealed class STCameraSystem : EntitySystem
         if (_pendingCaptures.Count == 0)
             return;
 
-        // Expire stale pending tokens
         var now = _timing.CurTime;
         _toRemove?.Clear();
 
@@ -87,6 +89,18 @@ public sealed class STCameraSystem : EntitySystem
             return;
         }
 
+        if (!_itemSlots.TryGetSlot(uid, STCameraComponent.FilmSlotId, out var filmSlot) || filmSlot.Item is not { } filmItem)
+        {
+            _popup.PopupEntity(Loc.GetString("st-camera-no-film"), uid, args.User);
+            return;
+        }
+
+        if (_charges.IsEmpty(filmItem))
+        {
+            _popup.PopupEntity(Loc.GetString("st-camera-film-empty"), uid, args.User);
+            return;
+        }
+
         var doAfterArgs = new DoAfterArgs(EntityManager, args.User, comp.CaptureDelay, new STCameraDoAfterEvent(), uid, used: uid)
         {
             BreakOnMove = true,
@@ -110,7 +124,6 @@ public sealed class STCameraSystem : EntitySystem
         if (!_playerManager.TryGetSessionByEntity(user, out var session))
             return;
 
-        // Generate token and store pending request
         var token = Guid.NewGuid();
         _pendingCaptures[session.UserId] = new PendingCapture(
             token,
@@ -118,7 +131,6 @@ public sealed class STCameraSystem : EntitySystem
             user,
             _timing.CurTime + TokenExpiry);
 
-        // Send capture request to client
         RaiseNetworkEvent(new STCaptureViewportRequestEvent
         {
             Token = token,
@@ -126,7 +138,6 @@ public sealed class STCameraSystem : EntitySystem
             Effect = comp.Effect,
         }, session);
 
-        // Play shutter sound and set cooldown
         _audio.PlayPvs(comp.CaptureSound, uid);
         comp.NextCaptureTime = _timing.CurTime + comp.CaptureCooldown;
         Dirty(uid, comp);
@@ -144,7 +155,6 @@ public sealed class STCameraSystem : EntitySystem
 
         _pendingCaptures.Remove(userId);
 
-        // Validate image data is non-empty
         if (ev.ImageData.Length == 0)
             return;
 
@@ -168,11 +178,9 @@ public sealed class STCameraSystem : EntitySystem
             return;
         }
 
-        // Validate user entity still exists
         if (!Exists(pending.User))
             return;
 
-        // Spawn photo entity
         var photoUid = Spawn(comp.PhotoPrototype, _transform.GetMoverCoordinates(cameraUid));
 
         if (!TryComp<STPhotoComponent>(photoUid, out var photo))
@@ -181,12 +189,22 @@ public sealed class STCameraSystem : EntitySystem
             return;
         }
 
-        // Set photo data
         photo.ImageData = ev.ImageData;
         photo.PhotoId = Guid.NewGuid();
-        photo.PhotographerName = Identity.Name(pending.User, EntityManager);
-        photo.TimeTaken = _timing.CurTime;
         Dirty(photoUid, photo);
+
+        // Consume a film charge and auto-delete empty film
+        if (_itemSlots.TryGetSlot(cameraUid, STCameraComponent.FilmSlotId, out var filmSlot)
+            && filmSlot.Item is { } filmItem)
+        {
+            _charges.TryUseCharge(filmItem);
+
+            if (_charges.IsEmpty(filmItem))
+            {
+                _itemSlots.TryEject(cameraUid, STCameraComponent.FilmSlotId, null, out _);
+                Del(filmItem);
+            }
+        }
 
         // Try to give to player, fall back to dropping at feet
         _hands.PickupOrDrop(pending.User, photoUid);

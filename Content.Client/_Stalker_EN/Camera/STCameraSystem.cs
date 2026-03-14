@@ -14,7 +14,7 @@ namespace Content.Client._Stalker_EN.Camera;
 /// <summary>
 /// Client-side camera system: captures viewport, resizes, applies effects, JPEG-encodes, sends to server.
 /// </summary>
-public sealed class STCameraSystem : EntitySystem
+public sealed class STCameraSystem : SharedSTCameraSystem
 {
     [Dependency] private readonly IOverlayManager _overlayManager = default!;
     [Dependency] private readonly IStateManager _stateManager = default!;
