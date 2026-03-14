@@ -5,6 +5,7 @@ using Content.Server.Database;
 using Content.Server.Discord;
 using Content.Server.GameTicking;
 using Content.Server.PDA.Ringer;
+using Content.Server._Stalker_EN.Camera;
 using Content.Shared.Access;
 using Content.Shared.Access.Systems;
 using Content.Shared.Hands.EntitySystems;
@@ -12,8 +13,10 @@ using Content.Shared._Stalker_EN.Camera;
 using Content.Shared.CartridgeLoader;
 using Content.Shared.Database;
 using Content.Shared.GameTicking;
+using Content.Shared.Hands.EntitySystems;
 using Content.Shared.PDA.Ringer;
 using Content.Shared._Stalker.Bands;
+using Content.Shared._Stalker_EN.Camera;
 using Content.Shared._Stalker_EN.CCVar;
 using Content.Shared._Stalker_EN.FactionRelations;
 using Content.Shared._Stalker_EN.News;
@@ -43,6 +46,7 @@ public sealed partial class STNewsSystem : EntitySystem
     [Dependency] private readonly SharedHandsSystem _handsSystem = default!;
     [Dependency] private readonly SharedSTFactionResolutionSystem _factionResolution = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedHandsSystem _hands = default!;
 
     private static readonly ProtoId<AccessLevelPrototype> JournalistAccess = "Journalist";
     private static readonly ProtoId<STBandPrototype> ClearSkyBandId = "STClearSkyBand";
@@ -347,6 +351,24 @@ public sealed partial class STNewsSystem : EntitySystem
 
         var author = MetaData(args.Actor).EntityName;
 
+        // Validate and extract attached photo data
+        Guid? photoId = null;
+        byte[]? photoData = null;
+        if (publish.PhotoEntity is { } photoNetEntity)
+        {
+            var photoUid = GetEntity(photoNetEntity);
+            if (!TryComp<STPhotoComponent>(photoUid, out var photoComp)
+                || photoComp.ImageData.Length == 0
+                || !_hands.TryGetActiveItem(args.Actor, out var activeItem)
+                || activeItem != photoUid)
+            {
+                return;
+            }
+
+            photoId = Guid.NewGuid();
+            photoData = photoComp.ImageData;
+        }
+
         _adminLogger.Add(
             LogType.STNews,
             LogImpact.Low,
@@ -439,6 +461,7 @@ public sealed partial class STNewsSystem : EntitySystem
             LogImpact.Medium,
             $"{ToPrettyString(args.Actor):player} deleted news article #{delete.ArticleId}: \"{article.Title}\"");
 
+        // The DB DeleteArticleAsync cascades to the attached photo
         DeleteArticleAsync(delete.ArticleId);
         DeleteReactionsForArticleAsync(delete.ArticleId);
 
