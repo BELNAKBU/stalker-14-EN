@@ -75,8 +75,8 @@
   description: A roll of photographic film. Holds 5 exposures.
   components:
   - type: Sprite
-    sprite: _Stalker_EN/Objects/Devices/film.rsi  # Todo: replace with proper sprite
-    state: icon
+    sprite: _Stalker/Objects/Craft/tech_card.rsi
+    state: base
   - type: Item
     size: Tiny
   - type: Tag
