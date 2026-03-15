@@ -9,6 +9,7 @@ using Robust.Server.Player;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
+using Content.Shared.GameTicking;
 using Robust.Shared.Timing;
 
 namespace Content.Server._Stalker_EN.Camera;
@@ -49,6 +50,7 @@ public sealed class STCameraSystem : SharedSTCameraSystem
         SubscribeLocalEvent<STCameraComponent, STCameraDoAfterEvent>(OnCameraDoAfterEvent);
         SubscribeNetworkEvent<STCaptureViewportResponseEvent>(OnViewportResponse);
         SubscribeLocalEvent<PlayerDetachedEvent>(OnPlayerDetached);
+        SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
     }
 
     public override void Update(float frameTime)
@@ -159,9 +161,7 @@ public sealed class STCameraSystem : SharedSTCameraSystem
             return;
 
         if (ev.ImageData.Length < JpegMagic.Length
-            || ev.ImageData[0] != JpegMagic[0]
-            || ev.ImageData[1] != JpegMagic[1]
-            || ev.ImageData[2] != JpegMagic[2])
+            || !ev.ImageData.AsSpan(0, JpegMagic.Length).SequenceEqual(JpegMagic))
         {
             Log.Warning($"Player {args.SenderSession.Name} sent invalid photo data (bad JPEG header)");
             return;
@@ -210,10 +210,15 @@ public sealed class STCameraSystem : SharedSTCameraSystem
         _hands.PickupOrDrop(pending.User, photoUid);
     }
 
+    private void OnRoundRestart(RoundRestartCleanupEvent ev)
+    {
+        _pendingCaptures.Clear();
+    }
+
     private void OnPlayerDetached(PlayerDetachedEvent args)
     {
         _pendingCaptures.Remove(args.Player.UserId);
     }
 
-    private sealed record PendingCapture(Guid Token, EntityUid Camera, EntityUid User, TimeSpan ExpiresAt);
+    private readonly record struct PendingCapture(Guid Token, EntityUid Camera, EntityUid User, TimeSpan ExpiresAt);
 }
