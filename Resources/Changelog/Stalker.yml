@@ -1524,5 +1524,27 @@
   id: 160
   time: '2026-03-15T19:45:52.571767+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/636
+- author: teecoding
+  changes:
+  - message: Cameras! Capture what you see before an anomaly captures you. Comes in
+      standard, vintage, and damaged flavors
+    type: Add
+  - message: Replaceable film cartridges because nothing in the Zone lasts forever.
+      5 shots per roll
+    type: Add
+  - message: Photo viewer and photo attachments in news articles. Proof or it didn't
+      happen
+    type: Add
+  - message: Photos and cameras survive in stashes across rounds. Your memories are
+      safe, even if you aren't
+    type: Add
+  - message: Every faction vendor now stocks cameras and film. Even bandits appreciate
+      good photography
+    type: Add
+  - message: News cartridge no longer wastes space at the bottom of your PDA screen
+    type: Fix
+  id: 161
+  time: '2026-03-15T19:48:40.366787+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/638
 Name: Stalker
 Order: -1
