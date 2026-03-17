@@ -258,6 +258,7 @@
   components:
   - type: Sprite
     state: treestump
+  - type: Climbable # stalker-en changes
 
 - type: entity
   parent: BaseTreeLarge
@@ -357,6 +358,7 @@
   components:
   - type: Sprite
     state: treestumpconifer
+  - type: Climbable # stalker-en changes
 
 - type: entity
   parent: FloraTree

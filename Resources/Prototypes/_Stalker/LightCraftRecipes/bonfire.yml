@@ -94,7 +94,7 @@
 # ##################### Деревья
 
 - type: lightCraftingRecipe
-  id: CraftLogFromTree
+  id: CraftLogFromTree1
   results:
     - LogStalker
   steps:
@@ -102,26 +102,15 @@
     secondIngredient: STBaseTree
     keepFirst: true
     exactSecond: false
-    time: 10
-
-- type: lightCraftingRecipe
-  id: CraftLogFromTree1
-  results:
-    - STCraftPinePlankT1
-  steps:
-    firstIngredient: HatchetStalker
-    secondIngredient: STLogStalkerT1
-    keepFirst: true
-    exactSecond: false
     time: 5
 
 - type: lightCraftingRecipe
   id: CraftLogFromTree2
   results:
-    - STCraftBirchPlankT2
+    - LogStalker
   steps:
     firstIngredient: HatchetStalker
-    secondIngredient: STLogStalkerT2
+    secondIngredient: STBaseTreeLarge
     keepFirst: true
     exactSecond: false
     time: 5
@@ -129,10 +118,10 @@
 - type: lightCraftingRecipe
   id: CraftLogFromTree3
   results:
-    - STCraftOakPlankT3
+    - LogStalker
   steps:
     firstIngredient: HatchetStalker
-    secondIngredient: STLogStalkerT3
+    secondIngredient: BaseTree
     keepFirst: true
     exactSecond: false
     time: 5
@@ -140,17 +129,61 @@
 - type: lightCraftingRecipe
   id: CraftLogFromTree4
   results:
+    - LogStalker
+  steps:
+    firstIngredient: HatchetStalker
+    secondIngredient: BaseTreeLarge
+    keepFirst: true
+    exactSecond: false
+    time: 5
+
+- type: lightCraftingRecipe
+  id: CraftLogFromTree5
+  results:
+    - STCraftPinePlankT1
+  steps:
+    firstIngredient: HatchetStalker
+    secondIngredient: STLogStalkerT1
+    keepFirst: true
+    exactSecond: false
+    time: 3
+
+- type: lightCraftingRecipe
+  id: CraftLogFromTree6
+  results:
+    - STCraftBirchPlankT2
+  steps:
+    firstIngredient: HatchetStalker
+    secondIngredient: STLogStalkerT2
+    keepFirst: true
+    exactSecond: false
+    time: 3
+
+- type: lightCraftingRecipe
+  id: CraftLogFromTree7
+  results:
+    - STCraftOakPlankT3
+  steps:
+    firstIngredient: HatchetStalker
+    secondIngredient: STLogStalkerT3
+    keepFirst: true
+    exactSecond: false
+    time: 3
+
+- type: lightCraftingRecipe
+  id: CraftLogFromTree8
+  results:
     - STCraftYewPlankT4
   steps:
     firstIngredient: HatchetStalker
     secondIngredient: STLogStalkerT4
     keepFirst: true
     exactSecond: false
-    time: 5
+    time: 3
 
 ## Деревья спонсоры
 - type: lightCraftingRecipe
-  id: CraftLogFromTreeSponsor
+  id: CraftLogFromTreeSponsor1
   results:
     - LogStalker
   steps:
@@ -161,7 +194,40 @@
     time: 3
 
 - type: lightCraftingRecipe
-  id: CraftLogFromTree1Sponsor
+  id: CraftLogFromTreeSponsor2
+  results:
+    - LogStalker
+  steps:
+    firstIngredient: STHatchetSponsor
+    secondIngredient: STBaseTreeLarge
+    keepFirst: true
+    exactSecond: false
+    time: 1
+
+- type: lightCraftingRecipe
+  id: CraftLogFromTreeSponsor3
+  results:
+    - LogStalker
+  steps:
+    firstIngredient: STHatchetSponsor
+    secondIngredient: BaseTree
+    keepFirst: true
+    exactSecond: false
+    time: 1
+
+- type: lightCraftingRecipe
+  id: CraftLogFromTreeSponsor4
+  results:
+    - LogStalker
+  steps:
+    firstIngredient: STHatchetSponsor
+    secondIngredient: BaseTreeLarge
+    keepFirst: true
+    exactSecond: false
+    time: 1
+
+- type: lightCraftingRecipe
+  id: CraftLogFromTreeSponsor5
   results:
     - STCraftPinePlankT1
   steps:
@@ -172,7 +238,7 @@
     time: 1
 
 - type: lightCraftingRecipe
-  id: CraftLogFromTree2Sponsor
+  id: CraftLogFromTreeSponsor6
   results:
     - STCraftBirchPlankT2
   steps:
@@ -183,7 +249,7 @@
     time: 1
 
 - type: lightCraftingRecipe
-  id: CraftLogFromTree3Sponsor
+  id: CraftLogFromTreeSponsor7
   results:
     - STCraftOakPlankT3
   steps:
@@ -194,7 +260,7 @@
     time: 1
 
 - type: lightCraftingRecipe
-  id: CraftLogFromTree4Sponsor
+  id: CraftLogFromTreeSponsor8
   results:
     - STCraftYewPlankT4
   steps:
