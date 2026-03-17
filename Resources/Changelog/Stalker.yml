@@ -1571,5 +1571,13 @@
   id: 164
   time: '2026-03-17T11:00:28.306404+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/653
+- author: Roland410
+  changes:
+  - message: Expands faction and personal stash capacity to 2000 and 500 kilograms
+      respectively, removing the need to stuff amoebas into stashes.
+    type: Tweak
+  id: 165
+  time: '2026-03-17T11:03:47.617976+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/644
 Name: Stalker
 Order: -1
