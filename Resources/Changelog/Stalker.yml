@@ -1690,5 +1690,12 @@
   id: 177
   time: '2026-03-19T10:54:01.150239+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/667
+- author: DuckManZach
+  changes:
+  - message: some fixes to the portal refactor
+    type: Fix
+  id: 178
+  time: '2026-03-19T19:43:14.582095+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/676
 Name: Stalker
 Order: -1
