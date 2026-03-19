@@ -169,6 +169,15 @@ public sealed partial class StalkerRepositoryMenu : DefaultWindow
             }
             var texture = item.Icon == null ? spriteSys.GetPrototypeIcon(item.ProductEntity).Default : null;
             var control = new StalkerRepositoryItemControl(item, texture);
+            // stalker-en-changes
+            control.InteractButton.Text = item.UserItem
+                ? Loc.GetString("repository-insert-item")
+                : Loc.GetString("repository-eject-item");
+            control.InteractButton.OnPressed += _ =>
+            {
+                PutInsideHandler(item);
+            };
+            // stalker-en-changes-end
             control.SelectButton.OnPressed += _ =>
             {
                 _selectedControl = control;
@@ -230,53 +239,60 @@ public sealed partial class StalkerRepositoryMenu : DefaultWindow
             return;
 
         var control = _selectedControl;
-        switch (control.ItemInfo.UserItem)
+        PutInsideHandler(control.ItemInfo); // stalker-en-changes - separate out item function
+    }
+
+    // stalker-en-changes - Separate out item function
+    private void PutInsideHandler(RepositoryItemInfo item)
+    {
+        switch (item.UserItem)
         {
-            case true when control.ItemInfo.Count == 1:
-                RepositoryButtonPutPressed?.Invoke(control.ItemInfo, 1);
+            case true when item.Count == 1:
+                RepositoryButtonPutPressed?.Invoke(item, 1);
                 break;
 
             case true:
+            {
+                if (_slider?.IsOpen == true)
                 {
-                    if (_slider?.IsOpen == true)
-                    {
-                        _slider.MoveToFront();
-                    }
-                    else
-                    {
-                        _slider = new RepositorySlider.RepositorySlider(control.ItemInfo.Count);
-                        _slider.ConfirmButtonPressed += () =>
-                        {
-                            RepositoryButtonPutPressed?.Invoke(control.ItemInfo, _slider.GetSliderValue());
-                        };
-                        _slider.OpenCentered();
-                    }
-                    break;
+                    _slider.MoveToFront();
                 }
+                else
+                {
+                    _slider = new RepositorySlider.RepositorySlider(item.Count);
+                    _slider.ConfirmButtonPressed += () =>
+                    {
+                        RepositoryButtonPutPressed?.Invoke(item, _slider.GetSliderValue());
+                    };
+                    _slider.OpenCentered();
+                }
+                break;
+            }
 
-            case false when control.ItemInfo.Count == 1:
-                RepositoryButtonGetPressed?.Invoke(control.ItemInfo, 1);
+            case false when item.Count == 1:
+                RepositoryButtonGetPressed?.Invoke(item, 1);
                 return;
 
             case false:
+            {
+                if (_slider?.IsOpen == true)
                 {
-                    if (_slider?.IsOpen == true)
-                    {
-                        _slider.MoveToFront();
-                    }
-                    else
-                    {
-                        _slider = new RepositorySlider.RepositorySlider(control.ItemInfo.Count);
-                        _slider.ConfirmButtonPressed += () =>
-                        {
-                            RepositoryButtonGetPressed?.Invoke(control.ItemInfo, _slider.GetSliderValue());
-                        };
-                        _slider.OpenCentered();
-                    }
-                    break;
+                    _slider.MoveToFront();
                 }
+                else
+                {
+                    _slider = new RepositorySlider.RepositorySlider(item.Count);
+                    _slider.ConfirmButtonPressed += () =>
+                    {
+                        RepositoryButtonGetPressed?.Invoke(item, _slider.GetSliderValue());
+                    };
+                    _slider.OpenCentered();
+                }
+                break;
+            }
         }
     }
+    // stalker-en-changes-end
 
 
     private void SetupLabels(StalkerRepositoryItemControl control, RepositoryItemInfo item, Texture? texture)
