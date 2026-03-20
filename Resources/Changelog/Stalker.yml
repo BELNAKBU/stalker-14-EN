@@ -1722,5 +1722,12 @@
   id: 181
   time: '2026-03-20T19:34:28.302016+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/651
+- author: Roland410
+  changes:
+  - message: Removes RU sponsor shops
+    type: Remove
+  id: 182
+  time: '2026-03-20T20:21:23.220652+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/681
 Name: Stalker
 Order: -1
