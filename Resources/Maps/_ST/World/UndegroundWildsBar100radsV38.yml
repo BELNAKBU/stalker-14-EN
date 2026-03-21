@@ -2468,15 +2468,15 @@ entities:
     - type: Transform
       pos: -7.5,95.5
       parent: 1
-    - type: LocalTeleport
-      portalName: NeutralB1
+    - type: LinkByString
+      linkString: NeutralB1
   - uid: 1444
     components:
     - type: Transform
       pos: -7.5,116.5
       parent: 1
-    - type: LocalTeleport
-      portalName: NeutralB1
+    - type: LinkByString
+      linkString: NeutralB1
 - proto: LockerBig
   entities:
   - uid: 368

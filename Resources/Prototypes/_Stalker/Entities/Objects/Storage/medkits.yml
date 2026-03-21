@@ -34,6 +34,7 @@
           - Syringe
           - Medkit
           - SecBeltEquip
+          - Pill
         components:
           - Hypospray
           - Injector

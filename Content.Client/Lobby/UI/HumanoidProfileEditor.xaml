@@ -27,6 +27,23 @@
                                                    HorizontalAlignment="Left" />
                                 </BoxContainer>
                             </ui:HighlightedContainer>
+                            <!-- stalker-en-changes-start: Anonymous Alias -->
+                            <ui:HighlightedContainer>
+                                <BoxContainer Orientation="Vertical">
+                                    <Label Text="{Loc 'st-profile-editor-alias-label'}" />
+                                    <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
+                                        <OptionButton Name="AliasAdjectiveButton" HorizontalExpand="True" />
+                                        <OptionButton Name="AliasNounButton" HorizontalExpand="True" />
+                                        <Button Name="AliasRandomize" Text="{Loc 'st-profile-editor-alias-random'}" />
+                                    </BoxContainer>
+                                    <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
+                                        <Label Text="{Loc 'st-profile-editor-alias-color-label'}" />
+                                        <Control HorizontalExpand="True"/>
+                                        <OptionButton Name="AliasColorButton" HorizontalAlignment="Right" />
+                                    </BoxContainer>
+                                </BoxContainer>
+                            </ui:HighlightedContainer>
+                            <!-- stalker-en-changes-end -->
                         </BoxContainer>
                     </ui:HighlightedContainer>
                 </BoxContainer>

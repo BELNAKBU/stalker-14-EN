@@ -163,6 +163,8 @@
         # Melee
         STThrowingknifeYellow: 500
         # Pistols
+        STWeaponPistolM1911: 1500
+        STWeaponPistolP99: 700
         WeaponPistolStalkerAPS: 800
         WeaponPistolGSH18: 500
         WeaponPistolStalkerTT: 125
@@ -189,6 +191,8 @@
     - name: shop-category-magazines
       priority: 2
       items:
+        M1911Mag7: 140
+        P99Mag15: 150
         TTMag: 120
         BaseGlockMag10: 135
         BaseGSH-18Mag10: 135

@@ -81,7 +81,7 @@
   id: STCheekiBreeki
   name: chat-emote-name-st-cheekibreeki
   category: VoiceLine
-  icon: _Stalker/Decals/groupings.rsi/bandit_graf.png
+  icon: _Stalker_EN/Interface/Emotes/bandit.png
   whitelist:
     components:
     - Vocal
@@ -95,7 +95,7 @@
   id: STPsyVoice
   name: chat-emote-name-st-psyvoice
   category: VoiceLine
-  icon: _Stalker/Decals/groupings.rsi/monolit_graf.png
+  icon: _Stalker_EN/Interface/Emotes/monolith.png
   whitelist:
     components:
     - Vocal

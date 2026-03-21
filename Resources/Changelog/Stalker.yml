@@ -1647,5 +1647,87 @@
   id: 172
   time: '2026-03-18T08:09:31.120793+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/664
+- author: Roland410
+  changes:
+  - message: Makes bandages faster to apply.
+    type: Tweak
+  id: 173
+  time: '2026-03-19T10:37:45.092014+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/658
+- author: dallaszzz & @TheOverwatchVoice
+  changes:
+  - message: Freedoms base has had many changes
+    type: Tweak
+  - message: a certain spot in RF has been changed a fair bit
+    type: Tweak
+  - message: an area lacking roofs in DV has been fixed
+    type: Fix
+  - message: a swastika hidden in the rocks in RF
+    type: Remove
+  id: 174
+  time: '2026-03-19T10:39:29.316796+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/666
+- author: DuckManZach
+  changes:
+  - message: Added a shortcut insert/withdraw button for the stash
+    type: Add
+  id: 175
+  time: '2026-03-19T10:45:19.004836+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/668
+- author: Noguchi47
+  changes:
+  - message: brand new HK USP, Walther P99 and Colt M1911 pistols
+    type: Add
+  - message: the new pistols are added to some vendors and find out IC :)
+    type: Add
+  id: 176
+  time: '2026-03-19T10:47:04.261583+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/669
+- author: DuckManZach
+  changes:
+  - message: Portals now teleport reliably
+    type: Fix
+  id: 177
+  time: '2026-03-19T10:54:01.150239+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/667
+- author: DuckManZach
+  changes:
+  - message: some fixes to the portal refactor
+    type: Fix
+  id: 178
+  time: '2026-03-19T19:43:14.582095+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/676
+- author: dallaszzz
+  changes:
+  - message: Fixes the backup emote and error sprites in the emote menu
+    type: Fix
+  id: 179
+  time: '2026-03-19T19:48:43.273714+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/677
+- author: teecoding
+  changes:
+  - message: Masked players now show a unique anonymous alias instead of "Unknown"
+    type: Add
+  - message: Character editor lets you pick your alias name and color
+    type: Add
+  - message: Anonymous aliases no longer disappear on dead bodies
+    type: Fix
+  id: 180
+  time: '2026-03-20T19:31:17.483895+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/678
+- author: King-spin
+  changes:
+  - message: Rene teeth necklace
+    type: Add
+  id: 181
+  time: '2026-03-20T19:34:28.302016+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/651
+- author: Roland410
+  changes:
+  - message: Removes RU sponsor shops
+    type: Remove
+  id: 182
+  time: '2026-03-20T20:21:23.220652+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/681
 Name: Stalker
 Order: -1

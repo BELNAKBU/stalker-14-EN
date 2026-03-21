@@ -1,0 +1,81 @@
+- type: entity
+  id: BaseP99Mag
+  name: Walther P99 Magazine
+  description: A compact 15-round magazine for the Walther P99. Reliable and easy to handle. They sell empty.
+  parent: BaseItem
+  suffix: Stalker
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STWeight
+    self: 0.1
+  - type: Sprite
+    sprite: _Stalker_EN/Objects/Weapons/Guns/Ammunition/Magazines/919/P99/15.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Tag
+    tags:
+    - MagazineP99
+  - type: Item
+    size: Small
+    shape:
+    - 0,0,0,0
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: MagazineVisuals
+    magState: mag
+    steps: 2
+    zeroVisible: false
+  - type: Appearance
+  - type: RepositoryItem
+    categoryName: repository-magazines-category
+  
+
+- type: entity
+  id: P99Mag15
+  name: Walther P99 Magazine (15)
+  parent: BaseP99Mag
+  suffix: Stalker
+  components:
+  - type: BallisticAmmoProvider
+    proto:
+    mayTransfer: true
+    whitelist:
+      tags:
+        - STCartridge919
+    capacity: 15
+  - type: Sprite
+    sprite: _Stalker_EN/Objects/Weapons/Guns/Ammunition/Magazines/919/P99/15.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: ItemSlots
+    slots:
+      item_slot:
+        name: mop-bucket-slot-component-slot-name-item123
+        ejectVerbText: mop-bucket-slot-component-eject-verb123
+        whitelist:
+          tags:
+            - STElasticRubberRed
+            - STElasticRubberGreen
+            - STElasticRubberBlue
+  - type: ItemMapper
+    mapLayers:
+      red_p99_15:
+        whitelist:
+          tags:
+            - STElasticRubberRed
+      green_p99_15:
+        whitelist:
+          tags:
+            - STElasticRubberGreen
+      blue_p99_15:
+        whitelist:
+          tags:
+            - STElasticRubberBlue
+    sprite: _Stalker_EN/Objects/Weapons/Guns/Ammunition/Magazines/919/elastic_rubber.rsi

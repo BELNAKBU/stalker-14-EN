@@ -4,5 +4,5 @@
   suffix: Ecologist
   name: Elevator Teleport
   components:
-  - type: LocalTeleport
-    portalName: EcoBunker
+  - type: LinkByString
+    linkString: EcoBunker

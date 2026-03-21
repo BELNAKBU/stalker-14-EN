@@ -33,6 +33,8 @@ using Robust.Shared.Configuration;
 using Robust.Shared.ContentPack;
 using Robust.Shared.Enums;
 using Robust.Shared.Prototypes;
+using Content.Shared._Stalker_EN.AnonymousAlias; // stalker-en-changes
+using Robust.Shared.Random; // stalker-en-changes
 using Robust.Shared.Utility;
 using Direction = Robust.Shared.Maths.Direction;
 
@@ -104,6 +106,13 @@ namespace Content.Client.Lobby.UI
         private ColorSelectorSliders _rgbSkinColorSelector;
 
         private bool _isDirty;
+
+        // stalker-en-changes-start: anonymous alias
+        private List<string> _aliasAdjectives = new();
+        private List<string> _aliasNouns = new();
+        private List<(string Name, string Hex)> _aliasColors = new();
+        private IRobustRandom _aliasRandom = default!;
+        // stalker-en-changes-end
 
         private static readonly ProtoId<GuideEntryPrototype> DefaultSpeciesGuidebook = "Species";
 
@@ -188,6 +197,10 @@ namespace Content.Client.Lobby.UI
             NameRandomize.OnPressed += args => RandomizeName();
             RandomizeEverythingButton.OnPressed += args => { RandomizeEverything(); };
             WarningLabel.SetMarkup($"[color=red]{Loc.GetString("humanoid-profile-editor-naming-rules-warning")}[/color]");
+
+            // stalker-en-changes-start: anonymous alias UI
+            InitializeAliasControls();
+            // stalker-en-changes-end
 
             #endregion Name
 
@@ -798,6 +811,7 @@ namespace Content.Client.Lobby.UI
             RefreshSpecies();
             RefreshTraits();
             RefreshFlavorText();
+            UpdateAliasControls(); // stalker-en-changes
             ReloadPreview();
 
             if (Profile != null)
@@ -1657,5 +1671,115 @@ namespace Content.Client.Lobby.UI
             _preferencesManager.UpdateCharacter(Profile, CharacterSlot.Value);
         }
         // stalker-changes-end
+
+        // stalker-en-changes-start: anonymous alias controls
+        private void InitializeAliasControls()
+        {
+            _aliasRandom = IoCManager.Resolve<IRobustRandom>();
+
+            if (_prototypeManager.TryIndex(SharedSTAnonymousAliasSystem.AdjDatasetId, out var adjProto))
+                _aliasAdjectives = adjProto.Values.Select(locId => Loc.GetString(locId)).ToList();
+
+            if (_prototypeManager.TryIndex(SharedSTAnonymousAliasSystem.NounDatasetId, out var nounProto))
+                _aliasNouns = nounProto.Values.Select(locId => Loc.GetString(locId)).ToList();
+
+            if (_prototypeManager.TryIndex(SharedSTAnonymousAliasSystem.ColorPaletteId, out var palette))
+            {
+                foreach (var (name, color) in palette.Colors)
+                    _aliasColors.Add((name, color.ToHex()));
+            }
+
+            AliasAdjectiveButton.AddItem(Loc.GetString("st-profile-editor-alias-adjective-none"), 0);
+            for (var i = 0; i < _aliasAdjectives.Count; i++)
+                AliasAdjectiveButton.AddItem(_aliasAdjectives[i], i + 1);
+
+            AliasAdjectiveButton.OnItemSelected += args =>
+            {
+                AliasAdjectiveButton.SelectId(args.Id);
+                if (Profile == null)
+                    return;
+                Profile = Profile.WithSTAliasAdjective(args.Id == 0 ? string.Empty : _aliasAdjectives[args.Id - 1]);
+                SetDirty();
+            };
+
+            AliasNounButton.AddItem(Loc.GetString("st-profile-editor-alias-noun-none"), 0);
+            for (var i = 0; i < _aliasNouns.Count; i++)
+                AliasNounButton.AddItem(_aliasNouns[i], i + 1);
+
+            AliasNounButton.OnItemSelected += args =>
+            {
+                AliasNounButton.SelectId(args.Id);
+                if (Profile == null)
+                    return;
+                Profile = Profile.WithSTAliasNoun(args.Id == 0 ? string.Empty : _aliasNouns[args.Id - 1]);
+                SetDirty();
+            };
+
+            AliasColorButton.AddItem(Loc.GetString("st-profile-editor-alias-color-none"), 0);
+            for (var i = 0; i < _aliasColors.Count; i++)
+                AliasColorButton.AddItem(_aliasColors[i].Name, i + 1);
+
+            AliasColorButton.OnItemSelected += args =>
+            {
+                AliasColorButton.SelectId(args.Id);
+                if (Profile == null)
+                    return;
+                Profile = Profile.WithSTAliasColor(args.Id == 0 ? string.Empty : _aliasColors[args.Id - 1].Hex);
+                SetDirty();
+            };
+
+            AliasRandomize.OnPressed += _ =>
+            {
+                if (Profile == null)
+                    return;
+                var adjIdx = _aliasRandom.Next(_aliasAdjectives.Count);
+                var nounIdx = _aliasRandom.Next(_aliasNouns.Count);
+                Profile = Profile
+                    .WithSTAliasAdjective(_aliasAdjectives[adjIdx])
+                    .WithSTAliasNoun(_aliasNouns[nounIdx]);
+                AliasAdjectiveButton.SelectId(adjIdx + 1);
+                AliasNounButton.SelectId(nounIdx + 1);
+                SetDirty();
+            };
+        }
+
+        private void UpdateAliasControls()
+        {
+            if (Profile == null)
+                return;
+
+            var adjIdx = 0;
+            if (!string.IsNullOrEmpty(Profile.STAliasAdjective))
+            {
+                var found = _aliasAdjectives.IndexOf(Profile.STAliasAdjective);
+                if (found >= 0)
+                    adjIdx = found + 1;
+            }
+            AliasAdjectiveButton.SelectId(adjIdx);
+
+            var nounIdx = 0;
+            if (!string.IsNullOrEmpty(Profile.STAliasNoun))
+            {
+                var found = _aliasNouns.IndexOf(Profile.STAliasNoun);
+                if (found >= 0)
+                    nounIdx = found + 1;
+            }
+            AliasNounButton.SelectId(nounIdx);
+
+            var colorIdx = 0;
+            if (!string.IsNullOrEmpty(Profile.STAliasColor))
+            {
+                for (var i = 0; i < _aliasColors.Count; i++)
+                {
+                    if (_aliasColors[i].Hex == Profile.STAliasColor)
+                    {
+                        colorIdx = i + 1;
+                        break;
+                    }
+                }
+            }
+            AliasColorButton.SelectId(colorIdx);
+        }
+        // stalker-en-changes-end
     }
 }

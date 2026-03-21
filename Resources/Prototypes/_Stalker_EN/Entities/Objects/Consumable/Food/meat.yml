@@ -436,7 +436,7 @@
 
 # salo
 - type: entity
-  parent: STFoodMeatSalo
+  parent: FoodMeatBase
   id: FoodSaloSlice
   name: salo chunk
   description: A chunk of raw fat, perfect for frying.
@@ -444,6 +444,8 @@
   components:
   - type: Item
     size: Tiny
+  - type: STWeight
+    self: 0.3
   - type: Sprite
     sprite: _Stalker_EN/Objects/Consumable/Food/meat.rsi
     state: salochunk

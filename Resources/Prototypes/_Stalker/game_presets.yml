@@ -7,4 +7,5 @@
   rules:
     - STEmissionEventScheduler
     - STWeatherScheduler
+    - STLoadMaps
   supportedMaps: STDefaultMapPool

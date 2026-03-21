@@ -100,6 +100,7 @@
 - type: entity
   parent: STDrinkJar
   id: STDrinkJarMoonshine
+  name: jar of moonshine
   suffix: moonshine
   components:
   - type: SolutionContainerManager
@@ -113,6 +114,7 @@
 - type: entity
   parent: STDrinkJar
   id: STDrinkJarDirtyWater
+  name: dirty jar
   suffix: dirty water
   components:
   - type: SolutionContainerManager
@@ -126,6 +128,7 @@
 - type: entity
   parent: STDrinkJar
   id: STDrinkJarPiss
+  name: dirty jar
   suffix: piss
   components:
   - type: SolutionContainerManager
@@ -139,6 +142,7 @@
 - type: entity
   parent: STDrinkJar
   id: STDrinkJarMold
+  name: dirty jar
   suffix: mold
   components:
   - type: SolutionContainerManager
@@ -152,6 +156,7 @@
 - type: entity
   parent: STDrinkJar
   id: STDrinkJarBlood
+  name: dirty jar
   suffix: blood
   components:
   - type: SolutionContainerManager
@@ -165,6 +170,7 @@
 - type: entity
   parent: STDrinkJar
   id: STDrinkJarSap
+  name: dirty jar
   suffix: sap
   components:
   - type: SolutionContainerManager
@@ -178,6 +184,7 @@
 - type: entity
   parent: STDrinkJar
   id: STDrinkJarJuicePotato
+  name: dirty jar
   suffix: potato juice
   components:
   - type: SolutionContainerManager
@@ -191,6 +198,7 @@
 - type: entity
   parent: STDrinkJar
   id: STDrinkJarMilkSpoiled
+  name: dirty jar
   suffix: spoiled milk
   components:
   - type: SolutionContainerManager

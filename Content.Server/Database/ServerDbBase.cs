@@ -285,7 +285,10 @@ namespace Content.Server.Database
                 antags.ToHashSet(),
                 traits.ToHashSet(),
                 loadouts,
-                profile.Changeable
+                profile.Changeable,
+                profile.STAliasAdjective, // stalker-en-changes
+                profile.STAliasNoun, // stalker-en-changes
+                profile.STAliasColor // stalker-en-changes
             );
         }
 
@@ -317,6 +320,11 @@ namespace Content.Server.Database
             profile.Slot = slot;
             profile.PreferenceUnavailable = (DbPreferenceUnavailableMode) humanoid.PreferenceUnavailable;
             profile.Changeable = humanoid.Changeable; // stalker-changes
+            // stalker-en-changes-start
+            profile.STAliasAdjective = humanoid.STAliasAdjective;
+            profile.STAliasNoun = humanoid.STAliasNoun;
+            profile.STAliasColor = humanoid.STAliasColor;
+            // stalker-en-changes-end
 
             profile.Jobs.Clear();
             profile.Jobs.AddRange(

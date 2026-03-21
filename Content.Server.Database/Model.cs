@@ -514,6 +514,15 @@ namespace Content.Server.Database
         public int PreferenceId { get; set; }
         public Preference Preference { get; set; } = null!;
         public bool Changeable { get; set; } = true; // stalker-changes
+
+        // stalker-en-changes-start: anonymous alias
+        [MaxLength(64)]
+        public string STAliasAdjective { get; set; } = string.Empty;
+        [MaxLength(64)]
+        public string STAliasNoun { get; set; } = string.Empty;
+        [MaxLength(16)]
+        public string STAliasColor { get; set; } = string.Empty;
+        // stalker-en-changes-end
     }
 
     public class Job

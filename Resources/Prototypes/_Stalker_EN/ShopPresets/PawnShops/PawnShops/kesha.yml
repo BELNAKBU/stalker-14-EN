@@ -188,6 +188,7 @@
         STWeaponSMGPP91: 2750
         STWeaponSMGStalkerCP2Veresk: 5000
         # Other
+        STWeaponPistolUSP: 5000 # this one is supposed to be rare in the zone so it's expensive.
         STWeaponRifleSaiga739: 1400
         WeaponPistolStalkerTT: 250
         WeaponPistolStalkerAPS: 500
@@ -204,6 +205,7 @@
         BasePPSHMag: 350
         VityazMag: 400
           # Other
+        USPMag12: 500
         TTMag: 100
         STSpeedLoader45ACPEmpty: 300
         STSpeedLoader357MagnumEmpty: 330

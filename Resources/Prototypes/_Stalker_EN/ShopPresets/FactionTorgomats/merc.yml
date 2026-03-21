@@ -104,6 +104,9 @@
         STWeaponShotgunBenelliM4Super90: 1200 # T3
         STWeaponShotgunSPAS: 2200 # T3
         # Pistols
+        STWeaponPistolP99: 400
+        STWeaponPistolUSP: 1500
+        STWeaponPistolM1911: 800
         WeaponPistolStalkerGlock: 200
         STWeaponRevolverSWPC325TR: 350
         STWeaponRevolverRugerRedhawk: 650
@@ -126,6 +129,7 @@
         556Mag45: 400
         556Mag30: 330
         # 9.19
+        P99Mag15: 120
         BaseMP5Mag: 260
         BaseTEC9Mag: 120
         BaseGlockMag10: 100
@@ -136,6 +140,8 @@
         751Mag20: 400
         751Mag30: 500
         # .45
+        USPMag12: 170
+        M1911Mag7: 100
         STSpeedLoader45ACPEmpty: 90
         STSpeedLoader357MagnumEmpty: 120
 

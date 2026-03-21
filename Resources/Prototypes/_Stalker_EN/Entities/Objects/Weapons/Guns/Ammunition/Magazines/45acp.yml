@@ -75,3 +75,167 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
+
+# Noguchi47 was here :3
+- type: entity
+  id: BaseUSPMag
+  name: HK USP Magazine
+  description: A detachable 12-round .45 ACP magazine designed for the HK USP. They sell empty.
+  parent: BaseItem
+  suffix: Stalker
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STWeight
+    self: 0.1
+  - type: Sprite
+    sprite: _Stalker_EN/Objects/Weapons/Guns/Ammunition/Magazines/45/usp/12.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Tag
+    tags:
+    - MagazineUSP
+  - type: Item
+    size: Small
+    shape:
+    - 0,0,0,0
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: MagazineVisuals
+    magState: mag
+    steps: 2
+    zeroVisible: false
+  - type: Appearance
+  - type: RepositoryItem
+    categoryName: repository-magazines-category
+
+- type: entity
+  id: USPMag12
+  name: HK USP Magazine (12)
+  parent: BaseUSPMag
+  suffix: Stalker
+  components:
+  - type: BallisticAmmoProvider
+    proto:
+    mayTransfer: true
+    whitelist:
+      tags:
+        - Cartridge45ACP
+    capacity: 12
+  - type: Sprite
+    sprite: _Stalker_EN/Objects/Weapons/Guns/Ammunition/Magazines/45/usp/12.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: ItemSlots
+    slots:
+      item_slot:
+        name: mop-bucket-slot-component-slot-name-item123
+        ejectVerbText: mop-bucket-slot-component-eject-verb123
+        whitelist:
+          tags:
+            - STElasticRubberRed
+            - STElasticRubberGreen
+            - STElasticRubberBlue
+  - type: ItemMapper
+    mapLayers:
+      red_usp_12:
+        whitelist:
+          tags:
+            - STElasticRubberRed
+      green_usp_12:
+        whitelist:
+          tags:
+            - STElasticRubberGreen
+      blue_usp_12:
+        whitelist:
+          tags:
+            - STElasticRubberBlue
+    sprite: _Stalker_EN/Objects/Weapons/Guns/Ammunition/Magazines/45/elastic_rubber.rsi
+
+
+- type: entity
+  id: BaseM1911Mag
+  name: Colt M1911 Magazine
+  description: A standard 7-round .45 ACP magazine for the M1911. Simple and reliable. They sell empty.
+  parent: BaseItem
+  suffix: Stalker
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STWeight
+    self: 0.1
+  - type: Sprite
+    sprite: _Stalker_EN/Objects/Weapons/Guns/Ammunition/Magazines/45/m1911/7.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Tag
+    tags:
+    - MagazineM1911
+  - type: Item
+    size: Small
+    shape:
+    - 0,0,0,0
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: MagazineVisuals
+    magState: mag
+    steps: 2
+    zeroVisible: false
+  - type: Appearance
+  - type: RepositoryItem
+    categoryName: repository-magazines-category
+
+- type: entity
+  id: M1911Mag7
+  name: Colt M1911 Magazine (7)
+  parent: BaseM1911Mag
+  suffix: Stalker
+  components:
+  - type: BallisticAmmoProvider
+    proto:
+    mayTransfer: true
+    whitelist:
+      tags:
+        - Cartridge45ACP
+    capacity: 7
+  - type: Sprite
+    sprite: _Stalker_EN/Objects/Weapons/Guns/Ammunition/Magazines/45/m1911/7.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: ItemSlots
+    slots:
+      item_slot:
+        name: mop-bucket-slot-component-slot-name-item123
+        ejectVerbText: mop-bucket-slot-component-eject-verb123
+        whitelist:
+          tags:
+            - STElasticRubberRed
+            - STElasticRubberGreen
+            - STElasticRubberBlue
+  - type: ItemMapper
+    mapLayers:
+      red_1911_7:
+        whitelist:
+          tags:
+            - STElasticRubberRed
+      green_1911_7:
+        whitelist:
+          tags:
+            - STElasticRubberGreen
+      blue_1911_7:
+        whitelist:
+          tags:
+            - STElasticRubberBlue
+    sprite: _Stalker_EN/Objects/Weapons/Guns/Ammunition/Magazines/45/elastic_rubber.rsi    

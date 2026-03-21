@@ -838,6 +838,24 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("INTEGER")
                         .HasColumnName("pref_unavailable");
 
+                    b.Property<string>("STAliasAdjective")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("stalias_adjective");
+
+                    b.Property<string>("STAliasColor")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("stalias_color");
+
+                    b.Property<string>("STAliasNoun")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("stalias_noun");
+
                     b.Property<string>("Sex")
                         .IsRequired()
                         .HasColumnType("TEXT")

@@ -1,0 +1,20 @@
+- type: palette
+  id: STAliasColors
+  name: Anonymous Alias Colors
+  colors:
+    Red: "#E74C3C"
+    Orange: "#E67E22"
+    Gold: "#F1C40F"
+    Green: "#2ECC71"
+    Teal: "#1ABC9C"
+    Blue: "#3498DB"
+    Purple: "#9B59B6"
+    Pink: "#E91E63"
+    White: "#ECF0F1"
+    Gray: "#95A5A6"
+    Crimson: "#C0392B"
+    Lime: "#27AE60"
+    Sky: "#5DADE2"
+    Lavender: "#BB8FCE"
+    Coral: "#F1948A"
+    Amber: "#F0B27A"

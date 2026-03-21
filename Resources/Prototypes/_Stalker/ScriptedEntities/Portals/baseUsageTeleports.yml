@@ -51,7 +51,3 @@
     Для работы данного портала
     найдите компонент: LocalTeleportComponent.
   suffix: Local, Mapping, Teleport
-  components:
-    - type: LocalTeleport
-      allowAll: true #Boolean
-      portalName: "Name"

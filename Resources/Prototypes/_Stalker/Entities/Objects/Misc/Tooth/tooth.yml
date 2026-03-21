@@ -44,6 +44,9 @@
   name: Зуб
   description: Обычный целый зуб.
   components:
+  - type: Tag
+    tags:
+    - Stalkertooth
   - type: PhysicalComposition
     materialComposition:
       Credit: 1

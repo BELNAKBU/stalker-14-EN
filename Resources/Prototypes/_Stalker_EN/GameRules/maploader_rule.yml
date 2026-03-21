@@ -1,0 +1,6 @@
+- type: entity
+  parent: BaseGameRule
+  id: STLoadMaps
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: MapLoaderRule

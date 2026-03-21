@@ -169,7 +169,6 @@
   - type: Tag
     tags:
       - Pill
-  - type: Pill # EN
   - type: Item
     size: Tiny
     sprite: _Stalker/Objects/medicine.rsi # Stalker-TODO: Need an inhand sprite for this item
@@ -301,7 +300,6 @@
   - type: Tag
     tags:
       - Pill
-  - type: Pill # EN
   - type: Item
     size: Tiny
     sprite: _Stalker/Objects/medicine.rsi # Stalker-TODO: Need an inhand sprite for this item
@@ -428,7 +426,6 @@
   - type: Tag
     tags:
       - Pill
-  - type: Pill # EN
   - type: Item
     size: Tiny
     sprite: _Stalker/Objects/medicine.rsi # Stalker-TODO: Need an inhand sprite for this item

@@ -98,6 +98,31 @@ namespace Content.Shared.Preferences
         /// Is the chacacter allowed to be changed
         /// </summary>
         public bool Changeable { get; set; } = true; // stalker-changes
+
+        // stalker-en-changes-start: anonymous alias
+
+        /// <summary>
+        /// Player-chosen adjective for their anonymous alias (e.g. "Scarred").
+        /// Stored as a localized display string, validated server-side against the dataset allowlist.
+        /// </summary>
+        [DataField]
+        public string STAliasAdjective { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Player-chosen noun for their anonymous alias (e.g. "Stalker").
+        /// Stored as a localized display string, validated server-side against the dataset allowlist.
+        /// </summary>
+        [DataField]
+        public string STAliasNoun { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Player-chosen hex color for their anonymous alias chat name (e.g. "#E74C3C").
+        /// Validated server-side against the <c>STAliasColors</c> palette.
+        /// </summary>
+        [DataField]
+        public string STAliasColor { get; set; } = string.Empty;
+        // stalker-en-changes-end
+
         /// <summary>
         /// When spawning into a round what's the preferred spot to spawn.
         /// </summary>
@@ -140,7 +165,10 @@ namespace Content.Shared.Preferences
             HashSet<ProtoId<AntagPrototype>> antagPreferences,
             HashSet<ProtoId<TraitPrototype>> traitPreferences,
             Dictionary<string, RoleLoadout> loadouts,
-            bool changeable) // stalker-changes
+            bool changeable, // stalker-changes
+            string stAliasAdjective = "", // stalker-en-changes
+            string stAliasNoun = "", // stalker-en-changes
+            string stAliasColor = "") // stalker-en-changes
         {
             Name = name;
             FlavorText = flavortext;
@@ -156,6 +184,9 @@ namespace Content.Shared.Preferences
             _traitPreferences = traitPreferences;
             _loadouts = loadouts;
             Changeable = changeable;
+            STAliasAdjective = stAliasAdjective; // stalker-en-changes
+            STAliasNoun = stAliasNoun; // stalker-en-changes
+            STAliasColor = stAliasColor; // stalker-en-changes
             var hasHighPrority = false;
             foreach (var (key, value) in _jobPriorities)
             {
@@ -186,7 +217,10 @@ namespace Content.Shared.Preferences
                 new HashSet<ProtoId<AntagPrototype>>(other.AntagPreferences),
                 new HashSet<ProtoId<TraitPrototype>>(other.TraitPreferences),
                 new Dictionary<string, RoleLoadout>(other.Loadouts),
-                other.Changeable) // stalker-changes
+                other.Changeable, // stalker-changes
+                other.STAliasAdjective, // stalker-en-changes
+                other.STAliasNoun, // stalker-en-changes
+                other.STAliasColor) // stalker-en-changes
         {
         }
 
@@ -312,6 +346,34 @@ namespace Content.Shared.Preferences
             return new(this) { Changeable = changeable };
         }
         // stalker-changes-end
+
+        // stalker-en-changes-start: anonymous alias
+
+        /// <summary>
+        /// Returns a copy of this profile with the specified anonymous alias adjective.
+        /// </summary>
+        public HumanoidCharacterProfile WithSTAliasAdjective(string adjective)
+        {
+            return new(this) { STAliasAdjective = adjective };
+        }
+
+        /// <summary>
+        /// Returns a copy of this profile with the specified anonymous alias noun.
+        /// </summary>
+        public HumanoidCharacterProfile WithSTAliasNoun(string noun)
+        {
+            return new(this) { STAliasNoun = noun };
+        }
+
+        /// <summary>
+        /// Returns a copy of this profile with the specified anonymous alias color hex string.
+        /// </summary>
+        public HumanoidCharacterProfile WithSTAliasColor(string color)
+        {
+            return new(this) { STAliasColor = color };
+        }
+        // stalker-en-changes-end
+
         public HumanoidCharacterProfile WithSpawnPriorityPreference(SpawnPriorityPreference spawnPriority)
         {
             return new(this) { SpawnPriority = spawnPriority };
@@ -483,6 +545,11 @@ namespace Content.Shared.Preferences
             if (!_traitPreferences.SequenceEqual(other._traitPreferences)) return false;
             if (!Loadouts.SequenceEqual(other.Loadouts)) return false;
             if (FlavorText != other.FlavorText) return false;
+            // stalker-en-changes-start
+            if (STAliasAdjective != other.STAliasAdjective) return false;
+            if (STAliasNoun != other.STAliasNoun) return false;
+            if (STAliasColor != other.STAliasColor) return false;
+            // stalker-en-changes-end
             return Appearance.MemberwiseEquals(other.Appearance);
         }
 
@@ -633,6 +700,15 @@ namespace Content.Shared.Preferences
             _traitPreferences.Clear();
             _traitPreferences.UnionWith(GetValidTraits(traits, prototypeManager));
 
+            // stalker-en-changes-start: anonymous alias validation (length only, allowlist is server-side)
+            if (STAliasAdjective.Length > 64)
+                STAliasAdjective = STAliasAdjective[..64];
+            if (STAliasNoun.Length > 64)
+                STAliasNoun = STAliasNoun[..64];
+            if (STAliasColor.Length > 16)
+                STAliasColor = STAliasColor[..16];
+            // stalker-en-changes-end
+
             // Checks prototypes exist for all loadouts and dump / set to default if not.
             var toRemove = new ValueList<string>();
 
@@ -738,6 +814,11 @@ namespace Content.Shared.Preferences
             hashCode.Add(Appearance);
             hashCode.Add((int)SpawnPriority);
             hashCode.Add((int)PreferenceUnavailable);
+            // stalker-en-changes-start
+            hashCode.Add(STAliasAdjective);
+            hashCode.Add(STAliasNoun);
+            hashCode.Add(STAliasColor);
+            // stalker-en-changes-end
             return hashCode.ToHashCode();
         }
 

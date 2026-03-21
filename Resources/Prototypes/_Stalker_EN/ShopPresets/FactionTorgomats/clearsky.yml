@@ -136,6 +136,9 @@
       StalkerBallBat: 50
       STThrowingknifeYellow: 300
       # Pistols
+      STWeaponPistolP99: 500
+      STWeaponPistolM1911Chrome: 1000
+      STWeaponPistolUSP: 1700
       WeaponPistolStalkerTT: 300
       WeaponPistolStalkerGlock: 250
       WeaponPistolStalkerAPS: 800
@@ -187,6 +190,9 @@
       BizonMag: 750
       BizonMag919: 800
       # Other
+      P99Mag15: 140
+      M1911Mag7: 120
+      USPMag12: 200
       BaseGlockMag10: 100
       GlockMag17: 200
       TTMag: 75

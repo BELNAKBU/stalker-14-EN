@@ -39,7 +39,7 @@ public sealed class EmotesUIController : UIController, IOnStateChanged<GameplayS
             [EmoteCategory.TacticalWarn] = ("emote-menu-category-tacticalwarn",
                 new SpriteSpecifier.Texture(new ResPath("/Textures/Interface/Emotes/tactical/tachand.png"))),
             [EmoteCategory.VoiceLine] = ("emote-menu-category-voiceline",
-                new SpriteSpecifier.Texture(new ResPath("/Textures/_Stalker/Decals/groupings.rsi/stalker_graf.png"))),
+                new SpriteSpecifier.Texture(new ResPath("_Stalker_EN/Interface/Emotes/stalker.png"))),
             // Stalker-EN-Changes-End
         };
 

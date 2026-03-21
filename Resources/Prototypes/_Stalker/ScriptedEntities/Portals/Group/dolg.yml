@@ -3,17 +3,13 @@
   id: Cordon-Dolg
   name: Cordon-Dolg (spawn)
   components:
-    - type: NewMapTeleport
-      allowAll: false
-      portalName: Cordon-Dolg
-    - type: AccessReader
-      access: [["Dolg"] , ["DolgNovice"]]
+  - type: AccessReader
+    access: [["Dolg"], ["DolgNovice"]]
 
 - type: entity
   parent: MapTeleportBaseUncollide
   id: Cordon-DolgUncollide
   name: Cordon-DolgUncollide (spawn)
   components:
-    - type: NewMapTeleport
-      allowAll: false
-      portalName: Cordon-Dolg
+  - type: LinkByString
+    linkString: Cordon-Dolg

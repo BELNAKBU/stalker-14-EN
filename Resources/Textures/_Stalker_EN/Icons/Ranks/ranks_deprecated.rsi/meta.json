@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "skollvargr (Discord)",
+  "size": {
+    "x": 12,
+    "y": 12
+  },
+  "states": [
+    { "name": "Novice" },
+    { "name": "Trainee" },
+    { "name": "Experienced" },
+    { "name": "Professional" },
+    { "name": "Veteran" },
+    { "name": "Expert" },
+    { "name": "Master" },
+    { "name": "Legend" }
+  ]
+}

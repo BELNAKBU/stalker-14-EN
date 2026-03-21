@@ -194,6 +194,7 @@
   id: SciGear2
   equipment:
     id: ScientistPDA
+    dogtag: ClothingNeckDogtagEcoLeader # EN
     legs: ClothingLegsJeansSandCargo
     shoes: STClothingShoesBootsCombatFilled
     torso: ClothingTorsoShirtWhiteScientific

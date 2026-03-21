@@ -3,9 +3,8 @@
   id: Spawn-CovenantUncollide
   name: Spawn-CovenantUncollide (spawn)
   components:
-  - type: NewMapTeleport
-    allowAll: false
-    portalName: Spawn-Covenant
+  - type: LinkByString
+    linkString: Spawn-Covenant
   - type: AccessReader
     access: [["Covenant"]]
 
@@ -14,9 +13,6 @@
   id: Spawn-Covenant
   name: Spawn-Covenant (spawn)
   components:
-  - type: NewMapTeleport
-    allowAll: false
-    portalName: Spawn-Covenant
   - type: AccessReader
     access: [["Covenant"]]
 
@@ -25,9 +21,6 @@
   id: Agroprom-Covenant
   name: Agroprom-Covenant (spawn)
   components:
-  - type: NewMapTeleport
-    allowAll: false
-    portalName: Agroprom-Covenant
   - type: PointLight
     radius: 0
     energy: 0

@@ -149,6 +149,7 @@
         ClothingOuterCoatStalker: 1000
         ClothingOuterCoatLoyalistLight: 2500
         ClothingOuterCoatLoyalist: 3000
+        ClothingOuterCoatEmergencyResourcePouch: 3500
           # Gasmasks
         ClothingMaskGasM40: 200 # T2
         ClothingMaskM51: 1000

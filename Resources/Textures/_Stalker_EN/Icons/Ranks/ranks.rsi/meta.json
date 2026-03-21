@@ -1,19 +1,35 @@
-{
-  "version": 1,
-  "license": "CC-BY-SA-3.0",
-  "copyright": "skollvargr (Discord)",
-  "size": {
-    "x": 12,
-    "y": 12
-  },
-  "states": [
-    { "name": "Novice" },
-    { "name": "Trainee" },
-    { "name": "Experienced" },
-    { "name": "Professional" },
-    { "name": "Veteran" },
-    { "name": "Expert" },
-    { "name": "Master" },
-    { "name": "Legend" }
-  ]
+﻿{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "sprites by carousel",
+    "size": {
+        "x": 12,
+        "y": 12
+    },
+    "states": [
+        {
+            "name": "Experienced"
+        },
+        {
+            "name": "Expert"
+        },
+        {
+            "name": "Legend"
+        },
+        {
+            "name": "Master"
+        },
+        {
+            "name": "Novice"
+        },
+        {
+            "name": "Professional"
+        },
+        {
+            "name": "Trainee"
+        },
+        {
+            "name": "Veteran"
+        }
+    ]
 }

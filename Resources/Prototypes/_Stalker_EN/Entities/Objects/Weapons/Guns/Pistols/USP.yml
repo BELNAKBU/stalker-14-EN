@@ -1,0 +1,54 @@
+# I think USP is very drippy and very tacticool
+- type: entity
+  name: HK USP
+  parent: STBaseWeaponPistol
+  suffix: ST
+  id: STWeaponPistolUSP
+  description: A german-engineered service pistol made by HK, chambered in .45 ACP. Built for reliability and accuracy. Favored by military and special forces.
+  components:
+  - type: STWeight
+    self: 0.75
+  - type: Sprite
+    scale: 0.8, 0.8
+    sprite: _Stalker_EN/Objects/Weapons/Guns/Pistols/usp45.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+  - type: Gun
+    projectileSpeed: 40
+    minAngle: 4
+    maxAngle: 30
+    angleIncrease: 0.6
+    angleDecay: 7
+    fireRate: 5.5
+    soundGunshot:
+      path: /Audio/_Stalker_EN/Effects/Guns/USP_shoot.ogg
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: USPMag12
+        insertSound: /Audio/Weapons/Guns/MagIn/pistol_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/pistol_magout.ogg
+        priority: 3
+        whitelist:
+          tags:
+          - MagazineUSP
+      gun_auto_sear:
+        name: Insides
+        priority: 2
+        whitelist:
+          tags:
+          - STModuleAutoSear
+      gun_chamber:
+        name: Chamber
+        startingItem:
+        priority: 1
+        whitelist:
+          tags:
+          - Cartridge45ACP
+  - type: ContainerContainer
+    containers:
+      gun_magazine: !type:ContainerSlot
+      gun_auto_sear: !type:ContainerSlot
+      gun_chamber: !type:ContainerSlot

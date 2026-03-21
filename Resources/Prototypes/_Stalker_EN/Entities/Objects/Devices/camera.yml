@@ -6,8 +6,8 @@
   description: A battered Zenit camera. Still takes decent pictures in the Zone.
   components:
   - type: Sprite
-    sprite: _Stalker_EN/Objects/Devices/camera.rsi # Todo: replace with proper sprite
-    state: icon
+    sprite: _Stalker_EN/Objects/Devices/camera.rsi
+    state: camera
   - type: Item
     size: Small
     storedRotation: 90
@@ -33,6 +33,9 @@
   components:
   - type: STCamera
     effect: Polaroid
+  - type: Sprite
+    sprite: _Stalker_EN/Objects/Devices/camera.rsi
+    state: camera_vintage
 
 - type: entity
   parent: STCamera
@@ -43,6 +46,9 @@
   components:
   - type: STCamera
     effect: Glitch
+  - type: Sprite
+    sprite: _Stalker_EN/Objects/Devices/camera.rsi
+    state: camera_broken
 
 - type: entity
   parent: BaseItem

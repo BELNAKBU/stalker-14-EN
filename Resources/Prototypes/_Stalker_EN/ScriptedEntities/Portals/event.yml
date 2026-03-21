@@ -3,9 +3,6 @@
   id: Spawn-Gulag #Event
   name: Spawn-Gulag
   suffix: Teleport, Portal, Event
-  components:
-  - type: NewMapTeleport
-    portalName: Spawn-Gulag
 
 - type: entity
   parent: MapTeleportBaseUncollide
@@ -13,17 +10,14 @@
   name: Spawn-Gulag
   suffix: Teleport, Portal, Event, Uncollide
   components:
-  - type: NewMapTeleport
-    portalName: Spawn-Gulag
+  - type: LinkByString
+    linkString: Spawn-Gulag
 
 - type: entity
   parent: MapTeleportBase
   id: Spawn-Casino #Event
   name: Spawn-Casino
   suffix: Teleport, Portal, Event
-  components:
-  - type: NewMapTeleport
-    portalName: Spawn-Casino
 
 - type: entity
   parent: MapTeleportBaseUncollide
@@ -31,5 +25,5 @@
   name: Spawn-Casino
   suffix: Teleport, Portal, Event, Uncollide
   components:
-  - type: NewMapTeleport
-    portalName: Spawn-Casino
+  - type: LinkByString
+    linkString: Spawn-Casino

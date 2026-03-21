@@ -6,7 +6,7 @@ namespace Content.Shared.Teleportation.Components;
 ///     Attached to an entity after portal transit to mark that they should not immediately be portaled back
 ///     at the end destination.
 /// </summary>
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState, AutoGenerateComponentPause]
 public sealed partial class PortalTimeoutComponent : Component
 {
     /// <summary>
@@ -16,5 +16,6 @@ public sealed partial class PortalTimeoutComponent : Component
     public EntityUid? EnteredPortal;
 
     // Stalker-Changes
-    public TimeSpan? Cooldown;
+    [ViewVariables, AutoNetworkedField, AutoPausedField]
+    public TimeSpan Cooldown;
 }

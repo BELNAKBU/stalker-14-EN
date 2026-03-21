@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "sprites by CaramelKitten",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "red_usp_12"
+    },
+    {
+      "name": "green_usp_12"
+    },
+    {
+      "name": "blue_usp_12"
+    },
+    {
+      "name": "red_1911_7"
+    },
+    {
+      "name": "green_1911_7"
+    },
+    {
+      "name": "blue_1911_7"
+    }
+  ]
+}

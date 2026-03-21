@@ -470,6 +470,7 @@
     items:
       # ARMOR
       STClothingOuterArmorLightPlateVestBasePSZ7rene: 22
+      ClothingNeckToothNecklace: 1
   # - name: shop-category-storage-and-containers
   #   priority: 7
   #   items:

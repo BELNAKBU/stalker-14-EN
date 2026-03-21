@@ -177,8 +177,7 @@ public sealed class TimedPortalSystem : SharedTeleportSystem
         var subject = args.OtherEntity;
 
         if (TryComp<PortalTimeoutComponent>(subject, out var timeoutComponent) &&
-            component.CooldownEnabled &&
-            timeoutComponent.Cooldown.HasValue)
+            component.CooldownEnabled)
         {
             if (timeoutComponent.Cooldown > _timing.CurTime)
                 return;
@@ -226,11 +225,7 @@ public sealed class TimedPortalSystem : SharedTeleportSystem
         if (!TryComp<PortalTimeoutComponent>(subject, out var timeout) || timeout.EnteredPortal != uid)
             return;
 
-        if (timeout.Cooldown.HasValue && timeout.Cooldown <= _timing.CurTime)
-        {
-            RemCompDeferred<PortalTimeoutComponent>(subject);
-        }
-        else if (!timeout.Cooldown.HasValue)
+        if (timeout.Cooldown <= _timing.CurTime)
         {
             RemCompDeferred<PortalTimeoutComponent>(subject);
         }

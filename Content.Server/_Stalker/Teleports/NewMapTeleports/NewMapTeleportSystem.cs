@@ -30,6 +30,7 @@ using Content.Shared.Players.PlayTimeTracking;
 
 namespace Content.Server._Stalker.Teleports.NewMapTeleports;
 // TODO: Rename this system
+[Obsolete("[Stalker] NewMapTeleport has been replaced by PortalComponent")]
 public sealed class NewMapTeleportSystem : SharedTeleportSystem
 {
     [Dependency] private readonly IMapManager _mapManager = default!;
@@ -61,6 +62,7 @@ public sealed class NewMapTeleportSystem : SharedTeleportSystem
     }
     private void OnPostGameMapLoad(PostGameMapLoad args)
     {
+        /*
 #if !DEBUG
         var prototypes = _protoMan.EnumeratePrototypes<MapLoaderPrototype>();
         foreach (var prototype in prototypes)
@@ -71,6 +73,7 @@ public sealed class NewMapTeleportSystem : SharedTeleportSystem
             }
         }
 #endif
+*/
 
         UpdateLinks();
         var ev = new MapsLoadedEvent();

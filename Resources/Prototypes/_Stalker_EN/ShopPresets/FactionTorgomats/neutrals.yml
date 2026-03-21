@@ -112,6 +112,7 @@
     priority: 1
     items:
       # Pistols
+      STWeaponPistolM1911: 1200
       WeaponPistolStalkerTT: 75 # T1
       WeaponPistolStalkerPM: 75 # T1
       STWeaponRevolverSWModel325: 500
@@ -142,6 +143,7 @@
       Base545Mag10: 80 #T1
       545Mag20: 260 #T2
       # Other
+      M1911Mag7: 150
       BasePMMag: 12
       BasePPSHMag: 300
       TTMag: 15

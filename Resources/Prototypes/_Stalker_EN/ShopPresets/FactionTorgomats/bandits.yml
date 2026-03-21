@@ -132,6 +132,7 @@
         # Melee
         StalkerBallBat: 50
         # Pistols
+        STWeaponPistolM1911Chrome: 1500
         WeaponPistolStalkerTT: 250
         WeaponPistolStalkerAPS: 500
         STWeaponRevolverSWPC325TR: 700
@@ -167,6 +168,7 @@
         BasePPSHMag: 250
         BizonMag: 1100
           # Other
+        M1911Mag7: 150
         Base556Mag10: 80
         556Mag20: 220
         556Mag30: 400

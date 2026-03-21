@@ -887,6 +887,24 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("integer")
                         .HasColumnName("pref_unavailable");
 
+                    b.Property<string>("STAliasAdjective")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
+                        .HasColumnName("stalias_adjective");
+
+                    b.Property<string>("STAliasColor")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)")
+                        .HasColumnName("stalias_color");
+
+                    b.Property<string>("STAliasNoun")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
+                        .HasColumnName("stalias_noun");
+
                     b.Property<string>("Sex")
                         .IsRequired()
                         .HasColumnType("text")

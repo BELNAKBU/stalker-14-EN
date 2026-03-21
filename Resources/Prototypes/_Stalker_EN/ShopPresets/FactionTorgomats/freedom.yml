@@ -84,6 +84,8 @@
       priority: 1
       items:
         # Pistols
+        STWeaponPistolP99: 600
+        STWeaponPistolM1911: 1000
         STWeaponRevolverRugerRedhawk: 850
         STWeaponRevolverSWPC325TR: 400
         WeaponPistolStalkerGlock: 400
@@ -110,6 +112,8 @@
     - name: shop-category-magazines
       priority: 2
       items:
+        P99Mag15: 180
+        M1911Mag7: 140
         Base556Mag10: 80
         556Mag20: 220
         556Mag30: 400

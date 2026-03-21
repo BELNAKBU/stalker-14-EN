@@ -40,6 +40,8 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Replays;
 using Robust.Shared.Timing;
 using Content.Client._Stalker_EN.CharacterRank; // stalker-changes
+using Content.Shared._Stalker_EN.AnonymousAlias; // stalker-en-changes
+using Content.Shared.IdentityManagement.Components; // stalker-en-changes
 using Robust.Shared.Utility;
 
 
@@ -830,13 +832,34 @@ public sealed partial class ChatUIController : UIController
 
     public void ProcessChatMessage(ChatMessage msg, bool speechBubble = true)
     {
-        // color the name unless it's something like "the old man"
-        if ((msg.Channel == ChatChannel.Local || msg.Channel == ChatChannel.Whisper) && _chatNameColorsEnabled)
+        // stalker-en-changes-start: anonymous alias name color
+        // Emotes included so alias colors appear on emote messages (e.g. "*Scarred Stalker sighs*")
+        if ((msg.Channel == ChatChannel.Local || msg.Channel == ChatChannel.Whisper
+            || msg.Channel == ChatChannel.Emotes) && _chatNameColorsEnabled)
         {
-            var grammar = _ent.GetComponentOrNull<GrammarComponent>(_ent.GetEntity(msg.SenderEntity));
-            if (grammar != null && grammar.ProperNoun == true)
-                msg.WrappedMessage = SharedChatSystem.InjectTagInsideTag(msg, "Name", "color", GetNameColor(SharedChatSystem.GetStringInsideTag(msg, "Name")));
+            var senderEnt = _ent.GetEntity(msg.SenderEntity);
+
+            // Check for alias color when identity is masked
+            if (_ent.TryGetComponent<STAnonymousAliasComponent>(senderEnt, out var aliasComp)
+                && aliasComp.AliasColor != null
+                && !string.IsNullOrEmpty(aliasComp.Alias)
+                && _ent.TryGetComponent<IdentityComponent>(senderEnt, out var identity)
+                && identity.IdentityEntitySlot?.ContainedEntity is { } identEnt
+                && _ent.TryGetComponent<GrammarComponent>(identEnt, out var identGrammar)
+                && identGrammar.ProperNoun == false)
+            {
+                msg.WrappedMessage = SharedChatSystem.InjectTagInsideTag(
+                    msg, "Name", "color", aliasComp.AliasColor.Value.ToHex());
+            }
+            else
+            {
+                // Existing ProperNoun color logic (unchanged)
+                var grammar = _ent.GetComponentOrNull<GrammarComponent>(senderEnt);
+                if (grammar != null && grammar.ProperNoun == true)
+                    msg.WrappedMessage = SharedChatSystem.InjectTagInsideTag(msg, "Name", "color", GetNameColor(SharedChatSystem.GetStringInsideTag(msg, "Name")));
+            }
         }
+        // stalker-en-changes-end
 
         // Color any words chosen by the client.
         foreach (var highlight in _highlights)
