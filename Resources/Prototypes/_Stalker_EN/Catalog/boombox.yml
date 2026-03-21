@@ -23,12 +23,6 @@
     path: /Audio/_Stalker_EN/Music/Shitpost/boombox4.ogg
 
 - type: jukebox
-  id: IS12Boombox4
-  name: "[IS12] Boombox 4"
-  path:
-    path: /Audio/_Stalker_EN/Music/Shitpost/boombox4.ogg
-
-- type: jukebox
   id: IS12Boombox5
   name: "[IS12] Boombox 5"
   path:
