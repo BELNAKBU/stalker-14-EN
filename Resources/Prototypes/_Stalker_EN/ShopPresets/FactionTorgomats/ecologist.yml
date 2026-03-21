@@ -346,3 +346,13 @@
         # Instruments
         CardBin: 100
         PokerCardBin: 150
+    - name: Gardening
+      priority: 14
+      items:
+        RobustHarvestChemistryBottleStalker: 50
+        E-Z-NutrientChemistryBottleStalker: 50
+        CannabisSeedsStalker: 70
+        CarrotSeeds: 70
+        HydroponicsToolMiniHoe: 70
+        Bucket: 60
+        STGoldShovel: 100
