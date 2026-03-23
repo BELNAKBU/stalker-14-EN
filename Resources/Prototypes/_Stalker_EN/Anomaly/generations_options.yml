@@ -27,8 +27,6 @@
       weight: 1
     - protoId: ZoneAnomalyPulse
       weight: 1
-    - protoId: ZoneAnomalyGrabber
-      weight: 2.5
     # Thermal
     - protoId: ZoneAnomalySteam
       weight: 2
