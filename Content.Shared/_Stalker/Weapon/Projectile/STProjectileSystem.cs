@@ -63,7 +63,7 @@ public sealed class STProjectileSystem : EntitySystem
 
             var extraModifier = threshold.IgnoreModifiers ? 1 : ent.Comp.WeaponModifier;
             var minModifier = FixedPoint2.Min(minDamage / totalDamage, 1);
-            args.Damage *= FixedPoint2.Clamp((totalDamage - range * threshold.Falloff * extraModifier) / totalDamage, minModifier, 1);
+            args.Damage *= FixedPoint2.Clamp((totalDamage + range * threshold.Falloff * extraModifier) / totalDamage, minModifier, 1);
         }
     }
 
