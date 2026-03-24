@@ -1837,5 +1837,17 @@
   id: 193
   time: '2026-03-24T21:51:13.299375+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/692
+- author: Roland410
+  changes:
+  - message: Expand's Kesha's bunker into the "illegal bar" that can be used by anyone,
+      mainly those banned from RV and such. This is a GREEN zone.
+    type: Add
+  - message: Adds Kosmos cigarettes to Kesha's shop.
+    type: Add
+  - message: Changes Kesha's prices to more reasonable values.
+    type: Tweak
+  id: 194
+  time: '2026-03-24T23:46:19.666739+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/707
 Name: Stalker
 Order: -1
