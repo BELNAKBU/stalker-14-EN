@@ -292,6 +292,7 @@
       priority: 8
       items:
         CraftSaw: 20000
+        CigPackKosmos: 200
         STCombatKnife: 25
         BoxZiptie: 50
         BoxSafebox: 300
