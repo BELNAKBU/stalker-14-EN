@@ -1,5 +1,5 @@
-using Content.Shared.Clothing.Components;
-using Content.Shared.Clothing.EntitySystems;
+using Content.Shared._Stalker_EN.Clothing;
+using Content.Shared._Stalker_EN.Clothing.Components;
 using Content.Shared.Item;
 using Robust.Client.GameObjects;
 

@@ -8,7 +8,7 @@ using Content.Shared.Inventory;
 using Content.Shared.Nutrition.Components;
 using Content.Shared.Storage;
 using Content.Shared.Weapons.Ranged.Systems;
-using Content.Shared.Clothing.EntitySystems; //stalker-changes
+using Content.Shared._Stalker_EN.Clothing; //stalker-changes
 
 namespace Content.Shared.Nutrition.EntitySystems;
 

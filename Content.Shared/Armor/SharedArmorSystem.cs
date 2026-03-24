@@ -9,7 +9,8 @@ using Robust.Shared.Utility;
 using System.Linq;
 using Robust.Shared.Containers; // stalker-changes
 using Content.Shared.Tag; // stalker-changes
-using Content.Shared.Clothing.EntitySystems; // stalker-changes
+using Content.Shared._Stalker_EN.Clothing;
+using Content.Shared._Stalker_EN.Clothing.Components; // stalker-changes
 
 namespace Content.Shared.Armor;
 

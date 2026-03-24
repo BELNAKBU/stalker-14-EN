@@ -17,8 +17,8 @@ using Robust.Shared.Physics.Systems;
 using Robust.Shared.Random;
 using Content.Shared.Examine;
 using Content.Shared.Localizations;
-using Content.Shared.Clothing.EntitySystems;
-using Content.Shared.Clothing.Components;
+using Content.Shared._Stalker_EN.Clothing;
+using Content.Shared._Stalker_EN.Clothing.Components;
 
 namespace Content.Shared.Weapons.Reflect;
 
