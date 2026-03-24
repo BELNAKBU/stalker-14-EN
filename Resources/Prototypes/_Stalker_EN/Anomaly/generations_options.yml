@@ -2,7 +2,7 @@
 - type: stAnomalyGenerationOptions
   id: STGreatSwampsGenerationOptions
   options:
-    totalCount: 650
+    totalCount: 400
     anomalyEntries:
     # Electrical
     - protoId: ZoneAnomalySource
