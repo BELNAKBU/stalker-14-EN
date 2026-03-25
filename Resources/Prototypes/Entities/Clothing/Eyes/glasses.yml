@@ -228,8 +228,8 @@
   - type: FlashImmunity
   - type: EyeProtection
     protectionTime: 5
-  - type: IdentityBlocker
-    coverage: EYES
+#  - type: IdentityBlocker
+#    coverage: EYES
 
 #Make a scanner category when these actually function and we get the trayson
 - type: entity

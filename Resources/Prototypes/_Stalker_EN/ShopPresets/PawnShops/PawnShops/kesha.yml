@@ -182,7 +182,7 @@
             # Guns
         # 7mm
         STWeaponShotgunSPAS: 3000 # T3
-        STWeaponShotgunBenelliM4Super90: 4000 #i dont think its actually that good
+        STWeaponShotgunBenelliM4Super90: 5500 #i dont think its actually that good
         # Smg
         STWeaponSMGMP5: 2250
         STWeaponSMGPP91: 2750

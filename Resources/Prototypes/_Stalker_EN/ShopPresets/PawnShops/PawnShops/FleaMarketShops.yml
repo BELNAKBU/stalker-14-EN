@@ -1,0 +1,308 @@
+﻿# these need adjusting
+# anyone can add more
+
+# medical
+- type: shopPreset
+  id: STFlea1Preset
+  minSellPrice: 5
+#  itemsForSale:
+#    Entry: 000
+  categories:
+  - name: Medical
+    priority: 1
+    items:
+      STPillboxAntirad: 150
+      STGauze: 25
+      STOintment: 55
+      STBrutepack: 55
+      Bloodpack: 550
+      MedkitAI2: 200
+      AntiRadMedipen: 200
+      STPillboxProbud: 235
+      MedkitMilitary: 250
+      MedkitScience: 30
+      MedkitElite: 500
+      MedkitLAR: 720
+      psyblock: 350
+      STOintmentGood: 400
+      STPillboxShiza: 5500
+  - name: Storage
+    priority: 2
+    items:
+      MedkitCMSStalker: 100
+      MedkitGrizzlyStalker: 550
+
+# cassettes
+- type: shopPreset
+  id: STFlea2Preset
+  minSellPrice: 5
+  #  itemsForSale:
+  #    Entry: 000
+  categories:
+  - name: Electronics
+    priority: 1
+    items:
+      RadioStalkerPlayer: 1500
+  - name: Cassettes
+    priority: 2
+    items:
+      CasseteOneRadio: 500
+      CasseteTwoRadio: 500
+      CasseteThreeRadio: 500
+      CasseteFourRadio: 500
+      CasseteFiveRadio: 500
+      CasseteSixRadio: 1500
+      CasseteSevenRadio: 500
+      CasseteEightRadio: 500
+      CasseteNineRadio: 500
+      CasseteTenRadio: 500
+      CasseteElevenRadio: 500
+      CasseteTwelveRadio: 500
+      CasseteThirteeneRadio: 500
+      CasseteFourteenRadio: 500
+      CasseteFifteenRadio: 500
+      CasseteTwoDonateRadio: 500
+      CasseteThreeDonateRadio: 500
+      CasseteFourDonateRadio: 500
+      CasseteFiveDonateRadio: 500
+      CasseteSixDonateRadio: 500
+      CasseteSevenDonateRadio: 500
+      CasseteEightDonateRadio: 500
+      CasseteNineDonateRadio: 500
+      CasseteTenDonateRadio: 500
+      CasseteElevenDonateRadio: 500
+      CasseteTwelveDonateRadio: 500
+      CasseteThirteenDonateRadio: 500
+      CasseteFourteenDonateRadio: 500
+      CasseteFiveteenDonateRadio: 500
+      CasseteSixteenDonateRadio: 500
+      CasseteSeventeenDonateRadio: 500
+      CasseteEighteenDonateRadio: 500
+      CasseteNineteenDonateRadio: 500
+      CasseteTwentyOneDonateRadio: 500
+      CasseteTwentyTwoDonateRadio: 500
+      CasseteTwentyThreeDonateRadio: 500
+      CasseteTwentyFourDonateRadio: 500
+      CasseteTwentyFiveDonateRadio: 500
+      CasseteTwentyDonateRadio: 500
+      CasseteTwentySixDonateRadio: 500
+      CasseteTwentySevenDonateRadio: 500
+      CasseteTwentyEightDonateRadio: 500
+      CasseteTwentyNineDonateRadio: 500
+      CasseteThirtyOneDonateRadio: 500
+      CasseteThirtyDonateRadio: 500
+      CasseteThirtyTwoDonateRadio: 500
+      CasseteThirtyThreeDonateRadio: 500
+      CasseteThirtyFourDonateRadio: 500
+      CasseteThirtyFiveDonateRadio: 500
+      CasseteThirtySixDonateRadio: 500
+      CasseteThirtySevenDonateRadio: 500
+      CasseteThirtyEightDonateRadio: 500
+      CasseteThirtyNineDonateRadio: 500
+      CasseteFortyDonateRadio: 500
+      CasseteFortyOneDonateRadio: 500
+      CasseteFortyTwoDonateRadio: 500
+      CasseteFortyThreeDonateRadio: 500
+      CasseteFortyFourDonateRadio: 500
+      CasseteFortyFiveDonateRadio: 500
+      CasseteFortySixDonateRadio: 500
+      CasseteFortySevenDonateRadio: 500
+      CasseteFortyEightDonateRadio: 500
+      CasseteFortyNineDonateRadio: 500
+      CasseteFiftyDonateRadio: 500
+      CasseteFiftyOneDonateRadio: 500
+      CasseteFiftyTwoDonateRadio: 500
+      CasseteFiftyThreeDonateRadio: 500
+      CasseteFiftyFourDonateRadio: 500
+      CasseteFiftyFiveDonateRadio: 500
+      CasseteFiftySixDonateRadio: 500
+      CasseteFiftySevenDonateRadio: 500
+      CasseteFiftyEightRadio: 500
+      CassetePremiumOneRadio: 600
+      CassetePremiumTwoRadio: 600
+      CassetePremiumThreeRadio: 600
+      CassetePremiumFourRadio: 600
+      CassetePremiumFiveRadio: 600
+      CassetePremiumSixRadio: 600
+      CassetePremiumSevenRadio: 600
+      CassetePremiumEightRadio: 600
+      CassetePremiumNineRadio: 600
+      CassetePremiumTenRadio: 600
+      CassetePremiumElevenRadio: 600
+      CassetePremiumTwelveRadio: 600
+      CassetePremiumThirteenRadio: 600
+      CassetePremiumFourteenRadio: 600
+      CassetePremiumFifteenRadio: 600
+      CassetePremiumSixteenRadio: 600
+      CassetePremiumSeventeenRadio: 600
+      CassetePremiumEighteenRadio: 600
+      CassetePremiumNineteenRadio: 600
+      CassetePremiumTwentyRadio: 600
+      CassetePremiumTwentyOneRadio: 600
+      CassetePremiumTwentyTwoRadio: 600
+      CassetePremiumTwentyThreeRadio: 600
+      CassetePremiumTwentyFourRadio: 600
+      CassetePremiumTwentyFiveRadio: 600
+      CasseteChinaContributorRadio: 500
+      CasseteUSSRContributorRadio: 500
+      CasseteAction1ContributorRadio: 500
+      CasseteGeneralReleaseContributorRadio: 500
+      CasseteGrooveDealersContributorRadio: 500
+      CasseteInTheHouseInAHeartbeatContributorRadio: 500
+      CasseteAtomicHeartKomarovoContributorRadio: 500
+      CasseteLinkinParkIntheEndContributorRadio: 500
+      CasseteTheWindofFjordsContributorRadio: 500
+      CasseteNapoleonContributorRadio: 500
+      CasseteFDJContributorRadio: 500
+      CasseteCounterStrikeContributorRadio: 500
+      CassetePrussiaGloryContributorRadio: 500
+      CasseteGimnUSSRContributorRadio: 500
+      CasseteBattotaiContributorRadio: 500
+      CasseteAfterDarkContributorRadio: 500
+      CasseteLittleDarkAgeContributorRadio: 500
+      CasseteYaochenustalContributorRadio: 500
+      CasseteFluxxwaveContributorRadio: 500
+      CasseteOtmenyajContributorRadio: 500
+      CasseteOstrovContributorRadio: 500
+      CasseteS1keContributorRadio: 500
+      CasseteSHADOWContributorRadio: 500
+      CasseteTokyoRainContributorRadio: 500
+      CasseteFunkedUpContributorRadio: 500
+      CasseteLoseMyMindInHysteriaContributorRadio: 500
+      CasseteOurBenefactorsContributorRadio: 500
+      CasseteHLCombineContributorRadio: 500
+      CasseteTriageAtDawnContributorRadio: 500
+      CasseteCPViolationContributorRadio: 500
+      CasseteYAuyduContributorRadio: 500
+      CassetePogasliSvechiContributorRadio: 500
+      CasseteMamaPriyezzhayIMenyaZaberiContributorRadio: 500
+      CasseteGSN1ContributorRadio: 500
+      CasseteGSN2ContributorRadio: 500
+      CasseteGeranContributorRadio: 500
+      CasseteIsolationContributorRadio: 500
+      CasseteXDContributorRadio: 500
+      CasseteitaggiahContributorRadio: 500
+      CasseteHorrorContributorRadio: 500
+      Cassete9mmContributorRadio: 500
+      CasseteHelpUserlfContributorRadio: 500
+      CasseteEcstacyContributorRadio: 500
+      CasseteAlliWantIsYouContributorRadio: 500
+      CasseteStayWithMeContributorRadio: 500
+      CasseteInHeatXBloodPopContributorRadio: 500
+      CasseteUntrustUsContributorRadio: 500
+      CasseteFUNKESTRANHOContributorRadio: 500
+      CasseteCUTEDEPRESSEDContributorRadio: 500
+      CasseteCUTEDEPRESSEDLOWEDContributorRadio: 500
+      CasseteParentIssuesContributorRadio: 500
+      CasseteSPEEDISLIFEContributorRadio: 500
+      CassetevietnamContributorRadio: 500
+      CasseteRapGod: 500
+
+# shotguns
+- type: shopPreset
+  id: STFlea3Preset
+  minSellPrice: 5
+  #  itemsForSale:
+  #    Entry: 000
+  categories:
+  - name: Weapons
+    priority: 1
+    items:
+      STWeaponShotgunMP133: 250
+      STWeaponShotgunMossbergM88: 400
+      STWeaponShotgunMP153: 500
+      STWeaponShotgunSPAS: 2000
+      STWeaponShotgunBenelliM4Super90: 4500
+  - name: Storage
+    priority: 2
+    items:
+      ClothingBeltBandolierStalker: 25
+
+# food
+- type: shopPreset
+  id: STFlea4Preset
+  minSellPrice: 5
+  itemsForSale:
+    FoodSTFreshCheese: 75
+    FoodSTRiceCooked: 290
+    FoodSTPancakes: 230
+    FoodSTOnionRings: 90
+    FoodSTFriedEggs: 230
+    FoodSTBorscht: 630
+    FoodSTCabbageSoup: 575
+    FoodSTMeatStew: 930
+    FoodSTFriedFish: 325
+    FoodSTCakePlain: 430
+    FoodSTHrechanyky: 475
+    FoodSTSyrnyky: 745
+    FoodSTDeruny: 430
+    FoodSTKebabMeat: 430
+    FoodSTKebabVeggie: 235
+    FoodSTCakeBerry: 835
+    FoodSTSnorkSoup: 480
+    FoodSTIceCream: 230
+    FoodSTBraid: 500
+    FoodSTAmbrosia: 5500
+    FoodSTFrogLegs: 775
+    FoodSTOracleGumbo: 1400
+    STFoodJarCherriesPickled: 2000
+    STFoodJarJamBerry: 2000
+    STFoodJarKvass: 3500
+    STFoodJarSalo: 500
+    STFoodJarEggs: 550
+    STFoodJarMeatSausage: 775
+    STFoodJarMeatFishFillet: 350
+    STFoodJarMeatFishSteak: 1000
+    STFoodJarMeatEel: 1450
+    STFoodJarWholeEelFermented: 3100
+  categories:
+  - name: Provisions
+    priority: 1
+    items:
+      STFoodMeatSalami: 100
+      FoodSTTomato: 50
+      FoodSTCarrot: 50
+      FoodSTCabbage: 50
+      FoodSTOnion: 50
+      FoodSTCorn: 50
+      FoodSTMilkCarton: 50
+      FoodSTFreshCheese: 300
+      FoodSTSpice: 150
+      FoodSTYeast: 50
+      FoodSTFlour: 150
+      FoodSTSugar: 150
+      FoodSTEgg: 100
+      FoodSTOil: 100
+  - name: Supplies
+    priority: 2
+    items:
+      FoodBowlBig: 200
+      Spoon: 75
+      STDrinkJar: 500
+      BookCookingStalkerGuide: 100
+      BookCookingStalkerHomemade: 450
+
+# clothing
+- type: shopPreset
+  id: STFlea5Preset
+  minSellPrice: 5
+  #  itemsForSale:
+  #    Entry: 000
+  categories:
+  - name: Clothing
+    priority: 1
+    items:
+      ClothingCloakBeige: 500
+      ClothingCloakBlack: 500
+      ClothingCloakBrown: 500
+      ClothingCloakGreen: 500
+      ClothingCloakNavy: 500
+      ClothingEyesGlasses: 50
+      ClothingEyesGlassesSunglasses: 500
+      ClothingEyesGlassesMercenary: 500
+  - name: Storage
+    priority: 2
+    items:
+      ClothingBeltTarzanGreen: 200
+      ClothingBeltTarzanOrange: 200
+      ClothingBeltTarzanBlack: 200

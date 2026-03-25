@@ -40,6 +40,9 @@
   id: MagazineDesertEagleMagnum
 
 - type: Tag
+  id: MagazineP99
+
+- type: Tag
   id: Plate
 
 - type: Tag
