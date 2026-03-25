@@ -9,5 +9,5 @@
       drink:
         maxVol: 30
         reagents:
-        - ReagentId: RobustHarvest
+        - ReagentId: EZNutrient
           Quantity: 30
