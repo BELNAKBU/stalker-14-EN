@@ -43,18 +43,6 @@
     enabled: false
   - type: STWeight
     self: 90
-  - type: Tag
-    tags:
-      - DoorBumpOpener
-  - type: Tool
-    speedModifier: 1.5
-    qualities:
-      - Prying
-  - type: Prying
-    pryPowered: !type:Bool
-        true
-    force: !type:Bool
-        true
   - type: MobThresholds
     thresholds:
       0: Alive
