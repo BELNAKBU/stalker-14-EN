@@ -2,6 +2,7 @@ using Content.Server._Stalker_EN.MiracleMachine.MiracleMachineComponents;
 using Content.Server.Chat.Systems;
 using Content.Shared.Destructible;
 using Content.Shared.GameTicking;
+using Robust.Server.GameObjects;
 using Robust.Shared.Audio;
 using Robust.Shared.Timing;
 
@@ -14,6 +15,7 @@ public sealed class MiracleMachineSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
+    [Dependency] private readonly MapSystem _mapSystem = default!;
 
     private TimeSpan _miracleMachineDisabledTime = TimeSpan.Zero;
 
@@ -76,6 +78,11 @@ public sealed class MiracleMachineSystem : EntitySystem
     /// </summary>
     private void MiracleMachineDisabled(MiracleMachineComponent comp)
     {
+        // Needed just in case maps are paused and stuff doesn't get deleted. Hopefully works
+        foreach (var mapId in _mapSystem.GetAllMapIds())
+        {
+            _mapSystem.SetPaused(mapId, false);
+        }
         var query = EntityQueryEnumerator<MiracleMachineSpawnerComponent>();
         while (query.MoveNext(out var uid, out var spawner))
         {
