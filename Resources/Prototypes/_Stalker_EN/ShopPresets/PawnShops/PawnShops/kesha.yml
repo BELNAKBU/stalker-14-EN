@@ -187,6 +187,7 @@
         STWeaponSMGMP5: 2250
         STWeaponSMGPP91: 2750
         STWeaponSMGStalkerCP2Veresk: 4000
+        STWeaponSMGPP2000OTS: 3500
         # Other
         STWeaponPistolUSP: 4000 # this one is supposed to be rare in the zone so it's expensive.
         STWeaponRifleSaiga739: 1400

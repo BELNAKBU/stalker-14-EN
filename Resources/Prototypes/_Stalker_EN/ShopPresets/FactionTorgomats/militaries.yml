@@ -70,8 +70,9 @@
       STWeaponSniperSVDS: 11000
       # Smg
       STWeaponSMGPP91: 750
-      STWeaponSMGPP19: 1700
+      STWeaponSMGPP19: 2000
       STWeaponSMGPP1901: 1500
+      STWeaponSMGPP2000: 1650
       # Other
       STWeaponRifleAK103: 5000
       STWeaponRifleAK203: 6500
