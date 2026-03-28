@@ -401,3 +401,16 @@
         ClothingShoesBootsMerc: 30
         ClothingShoesSwat: 35
         ClothingShoesBootsCombat: 30
+
+    - name: Smokables #explained using D&D lifestyle expenses
+      priority: 15
+      items:
+        CigPackBub: 250 #comfortable
+        CigPackGreen: 150 #poor
+        CigPackRed: 200 #modest
+        CigPackBlue: 150 #poor
+        CigPackBlack: 200 #modest
+        CigPackSyndicate: 300 #wealthy ## in practice, the omnizine metabolises too slowly to be of any use in extended confrontations
+        CigPackMixed: 250 #comfortable
+        CigPackMarlboro: 200 #modest
+        CigPackKosmos: 100 #squalid
