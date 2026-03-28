@@ -62,6 +62,8 @@
           Male: MaleHumanMonolith
           Female: FemaleHumanMonolith
           Unsexed: MaleHumanMonolith
+      - type: CantUseDetector
+        denialMessage: "This is not in the will of the Monolith."
       - type: PsyVoiceEmote # stalker EN change end
       - type: PsyEffectImmune
 
@@ -129,6 +131,8 @@
         Male: MaleHumanMonolith
         Female: FemaleHumanMonolith
         Unsexed: MaleHumanMonolith
+    - type: CantUseDetector
+      denialMessage: "This is not in the will of the Monolith."
     - type: PsyVoiceEmote # stalker EN change end
     - type: PsyEffectImmune
 

@@ -1,6 +1,9 @@
 # alphabetical please
 
 - type: Tag
+  id: ArtifactShards
+
+- type: Tag
   id: FoldedFlagBand
 
 - type: Tag
