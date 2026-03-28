@@ -86,6 +86,9 @@ public sealed class MiracleMachineSystem : EntitySystem
         var query = EntityQueryEnumerator<MiracleMachineSpawnerComponent>();
         while (query.MoveNext(out var uid, out var spawner))
         {
+            if(!spawner.MiracleMachine)
+                continue;
+
             spawner.Inside.Clear();
             QueueDel(uid);
         }

@@ -31,3 +31,8 @@
     sound:
       path: /Audio/_Stalker_EN/Effects/psi_voices.ogg
   - type: MiracleMachine
+  - type: PointLight
+    radius: 8
+    energy: 3
+    softness: 0.5
+    color: "#fb4747"
