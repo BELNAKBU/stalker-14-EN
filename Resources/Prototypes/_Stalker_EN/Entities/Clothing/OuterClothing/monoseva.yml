@@ -2,7 +2,7 @@
   parent: ClothingOuterArmorSevaMonolith
   id: ClothingOuterArmorSevaMonolithPriest
   name: Monolith "Priest" Seva suit
-  description: Scientific suit, a variant of "CHEVA" produced by the Monoliths. Has been fitted with extra armor and painted red on the visor.
+  description: Scientific suit, a variant of "CHEVA" produced by the Monoliths. Has anomalous properties to divert high velocity impacts away from its self more often then other armors.
   components:
   - type: Armor
     armorClass: 3
@@ -11,10 +11,11 @@
         Radiation: 4
         Caustic: 1
         Psy: 1
+        Piercing: 2
       coefficients:
         Blunt: 0.95
         Slash: 0.95
-        Piercing: 0.80
+        Piercing: 0.95
         Compression: 0.95
         Psy: 0.7
   - type: ToggleableClothing
@@ -47,8 +48,8 @@
         Compression: 0.95
         Psy: 0.7
   - type: Reflect
-    reflectProb: 0.6
+    reflectProb: 0.40
     spread: 360
     reflects:
       - NonEnergy
-    soundOnReflect: /Audio/_Stalker/Effects/sear.ogg
+    soundOnReflect: /Audio/Magic/blink.ogg

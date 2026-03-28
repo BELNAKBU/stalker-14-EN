@@ -695,3 +695,7 @@
     range: 5
     sound:
       path: /Audio/_Stalker_EN/Effects/psi_voices.ogg
+  - type: PointLight
+    radius: 5
+    energy: 3
+    color: "#02DDF9"
