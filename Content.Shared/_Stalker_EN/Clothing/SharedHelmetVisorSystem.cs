@@ -5,6 +5,7 @@ using Content.Shared.Clothing.Components;
 using Content.Shared.Clothing.EntitySystems;
 using Content.Shared.Examine;
 using Content.Shared.Inventory;
+using Content.Shared.Tag;
 using Content.Shared.Verbs;
 using Content.Shared.Weapons.Reflect;
 using Robust.Shared.Audio.Systems;
@@ -20,6 +21,7 @@ public abstract class SharedHelmetVisorSystem : EntitySystem
     [Dependency] protected readonly ClothingSystem Clothing = default!;
     [Dependency] protected readonly SharedAudioSystem Audio = default!;
     [Dependency] protected readonly SharedAppearanceSystem Appearance = default!;
+    [Dependency] private readonly TagSystem _tagSystem = default!;
 
     public override void Initialize()
     {
@@ -153,7 +155,10 @@ public abstract class SharedHelmetVisorSystem : EntitySystem
         if (!comp.IsUp)
             return true;
 
-        return !InventorySystem.TryGetSlotEntity(Transform(uid).ParentUid, "mask", out _);
+        if (InventorySystem.TryGetSlotEntity(Transform(uid).ParentUid, "mask", out var maskItem))
+            if (_tagSystem.HasTag(maskItem.Value, "BlockMask"))
+                return false;
+        return true;
     }
 }
 
