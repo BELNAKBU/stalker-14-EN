@@ -13,4 +13,10 @@ public sealed partial class MiracleMachineSpawnerComponent : Component
 
     [DataField("ghosts"), AutoNetworkedField]
     public List<EntProtoId> Ghosts = new();
+
+    /// <summary>
+    /// If true, this spawner will be removed when the miracle machine is disabled.
+    /// </summary>
+    [DataField("miracleMachine"), AutoNetworkedField]
+    public bool MiracleMachine = true;
 }

@@ -1875,5 +1875,25 @@
   id: 197
   time: '2026-03-26T12:49:26.716319+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/714
+- author: dallaszzz
+  changes:
+  - message: Fixes ambient music on yantar, yantar lab and swamps
+    type: Fix
+  id: 198
+  time: '2026-03-28T01:55:41.015603+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/718
+- author: stickycheZ101
+  changes:
+  - message: added a new variety of cigarettes; the Greyman's Specials
+    type: Add
+  - message: added a new smokables category to most faction vendors, that contains
+      almost every variety of cigarette
+    type: Add
+  - message: added the comedically large blunt, an absolutely massive picket of weed,
+      obtainabloe from your local admin
+    type: Add
+  id: 199
+  time: '2026-03-28T02:01:35.682117+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/693
 Name: Stalker
 Order: -1

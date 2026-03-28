@@ -38,3 +38,11 @@
         - !type:PlaySoundBehavior
           sound:
             collection: MetalGlassBreak
+        - !type:SpawnEntitiesBehavior
+          spawn:
+            STCraftSheetBrassT3:
+              min: 0
+              max: 3
+            STCraftQuartzCrystalT3:
+              min: 0
+              max: 3

@@ -6,6 +6,7 @@ using Content.Shared.Clothing.EntitySystems;
 using Content.Shared.Examine;
 using Content.Shared.Inventory;
 using Content.Shared.Verbs;
+using Content.Shared.Weapons.Reflect;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Timing;
 
@@ -33,6 +34,9 @@ public abstract class SharedHelmetVisorSystem : EntitySystem
     protected virtual void OnInit(EntityUid uid, HelmetVisorComponent comp, ComponentInit args)
     {
         UpdateBlockers(uid, comp);
+
+        if (TryComp<ReflectComponent>(uid, out var reflect))
+            comp.DefaultReflectProb = reflect.ReflectProb;
     }
     private void OnToggle(EntityUid uid, HelmetVisorComponent comp, ToggleHelmetVisorEvent args)
     {
