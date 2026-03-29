@@ -52,9 +52,9 @@ jobs:
       run: |
         $env:DOTNET_gcServer=1
         $env:ROBUST_LAUNCH_HEADLESS=1
-        $env:ROBUST_CLYDE_RENDERER=Null
-        $env:ROBUST_AUDIO=Dummy
-        $env:NUNIT_LITE=true
+        $env:ROBUST_CLYDE_RENDERER="Null"
+        $env:ROBUST_AUDIO="Dummy"
+        $env:NUNIT_LITE="true"
         
         dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj -- 
           NUnit.ConsoleOut=1 
