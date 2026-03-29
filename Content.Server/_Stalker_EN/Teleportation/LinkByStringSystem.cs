@@ -25,17 +25,50 @@ public sealed class LinkByStringSystem : EntitySystem
 
     private void OnStartup(Entity<LinkByStringComponent> ent, ref ComponentStartup args)
     {
-        if (ent.Comp.FallbackId &&
-            ent.Comp.LinkString == null &&
-            MetaData(ent.Owner).EntityPrototype != null)
+        // Don't modify the component data - just use the fallback ID for linking
+        if (ent.Comp.FallbackId && ent.Comp.LinkString == null)
         {
-            ent.Comp.LinkString = MetaData(ent.Owner).EntityPrototype?.ID;
+            var prototypeId = MetaData(ent.Owner).EntityPrototype?.ID;
+            if (prototypeId != null)
+            {
+                TryLinkWithFallback(ent, prototypeId);
+                return;
+            }
         }
         TryLink(ent);
     }
 
+    private void TryLinkWithFallback(Entity<LinkByStringComponent> ent, string fallbackString)
+    {
+        var query = EntityQueryEnumerator<LinkByStringComponent>();
+
+        while (query.MoveNext(out var uid, out var link))
+        {
+            if (ent.Owner == uid)
+                continue;
+
+            var otherString = link.LinkString;
+            if (otherString == null && link.FallbackId)
+                otherString = MetaData(uid).EntityPrototype?.ID;
+
+            if (fallbackString != otherString)
+                continue;
+
+            _link.TryLink(ent.Owner, uid);
+        }
+    }
+
     private void OnHandleState(Entity<LinkByStringComponent> ent, ref ComponentHandleState args)
     {
+        if (ent.Comp.FallbackId && ent.Comp.LinkString == null)
+        {
+            var prototypeId = MetaData(ent.Owner).EntityPrototype?.ID;
+            if (prototypeId != null)
+            {
+                TryLinkWithFallback(ent, prototypeId);
+                return;
+            }
+        }
         TryLink(ent);
     }
 

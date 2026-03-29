@@ -30,7 +30,8 @@ public sealed partial class RevolverAmmoProviderComponent : AmmoProviderComponen
     // Like BallisticAmmoProvider we defer spawning until necessary
     // AmmoSlots is the instantiated ammo and Chambers is the unspawned ammo (that may or may not have been shot).
 
-    // TODO: Using an array would be better but this throws!
+    // Don't initialize here - let prototype values be used directly
+    // These will be initialized in OnInit if not set by prototype
     [DataField("ammoSlots")]
     public List<EntityUid?> AmmoSlots = new();
 

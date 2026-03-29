@@ -30,6 +30,8 @@
       - STCartridge919
       - C96Clip
     proto: null
+    chambers: [null, null, null, null, null, null, null, null, null, null]
+    ammoSlots: [null, null, null, null, null, null, null, null, null, null]
   - type: ContainerContainer
     containers:
       revolver-ammo: !type:Container
@@ -77,6 +79,8 @@
       - STCartridge919
       - C96Clip
     proto: null
+    chambers: [null, null, null, null, null, null, null, null, null, null]
+    ammoSlots: [null, null, null, null, null, null, null, null, null, null]
   - type: ContainerContainer
     containers:
       revolver-ammo: !type:Container

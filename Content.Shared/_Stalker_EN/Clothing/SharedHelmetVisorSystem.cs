@@ -37,8 +37,8 @@ public abstract class SharedHelmetVisorSystem : EntitySystem
     {
         UpdateBlockers(uid, comp);
 
-        if (TryComp<ReflectComponent>(uid, out var reflect))
-            comp.DefaultReflectProb = reflect.ReflectProb;
+        // Don't modify component data - DefaultReflectProb should be set in prototype or left as default
+        // The value is used at runtime from ReflectComponent directly
     }
     private void OnToggle(EntityUid uid, HelmetVisorComponent comp, ToggleHelmetVisorEvent args)
     {
