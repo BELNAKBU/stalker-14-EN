@@ -51,7 +51,16 @@ jobs:
       shell: pwsh
       run: |
         $env:DOTNET_gcServer=1
-        dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj -- NUnit.ConsoleOut=1 NUnit.Workers=1 NUnit.Parallelize.Workers=1
+        $env:ROBUST_LAUNCH_HEADLESS=1
+        $env:ROBUST_CLYDE_RENDERER=Null
+        $env:ROBUST_AUDIO=Dummy
+        $env:NUNIT_LITE=true
+        
+        dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj -- 
+          NUnit.ConsoleOut=1 
+          NUnit.Workers=1 
+          NUnit.Parallelize.Workers=1
+          NUnit.DefaultTimeout=600000
   ci-success:
     name: Build & Test Debug
     needs:
