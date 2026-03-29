@@ -1,28 +1,29 @@
-{
-  "version": 1,
-  "copyright": "Stalker14 CLA",
-  "size": {
-    "x": 64,
-    "y": 64
-  },
-  "states": [
-    {
-      "name": "blinddog"
+﻿{
+    "version": 1,
+    "copyright": "Stalker14 CLA",
+    "size": {
+        "x": 64,
+        "y": 64
     },
-    {
-      "name": "pseudo"
-    },
-    {
-      "name": "pseudodog"
-    },
-    {
-      "name": "sosich"
-    },
-    {
-      "name": "svinota"
-    },
-    {
-      "name": "snork"
-    }
-  ]
+    "states": [
+        {
+            "name": "blinddog"
+        },
+        {
+            "name": "pseudo"
+        },
+        {
+            "name": "pseudodog"
+        },
+        {
+            "name": "sosich"
+        },
+        {
+            "name": "svinota"
+        },
+        {
+            "name": "snork"
+        }
+    ],
+    "license": "CC-BY-SA-3.0"
 }

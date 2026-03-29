@@ -1,4 +1,4 @@
-{
+﻿{
     "version": 1,
     "copyright": "Stalker14 CLA",
     "size": {
@@ -57,5 +57,6 @@
         {
             "name": "tired1"
         }
-    ]
+    ],
+    "license": "CC-BY-SA-3.0"
 }

@@ -1,26 +1,26 @@
-{
-  "version": 1,
-  "license": null,
-  "copyright": "Stalker14 CLA",
-  "size": {
-    "x": 32,
-    "y": 32
-  },
-  "states": [
-    {
-      "name": "pine"
+﻿{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Stalker14 CLA",
+    "size": {
+        "x": 32,
+        "y": 32
     },
-    {
-      "name": "birch"
-    },
-    {
-      "name": "oak"
-    },
-    {
-      "name": "yew"
-    },
-    {
-      "name": "redwood"
-    }
-  ]
+    "states": [
+        {
+            "name": "pine"
+        },
+        {
+            "name": "birch"
+        },
+        {
+            "name": "oak"
+        },
+        {
+            "name": "yew"
+        },
+        {
+            "name": "redwood"
+        }
+    ]
 }

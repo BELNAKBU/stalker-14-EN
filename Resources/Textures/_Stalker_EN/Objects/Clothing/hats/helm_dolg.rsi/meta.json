@@ -1,26 +1,29 @@
-{
-  "version": 1,
-  "license": "Stalker14",
-  "copyright": "man914 оно тебе не надо.",
-  "size": {
-    "x": 32,
-    "y": 32
-  },
-  "states": [
-    {
-      "name": "icon"
+﻿{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "man914 \u043e\u043d\u043e \u0442\u0435\u0431\u0435 \u043d\u0435 \u043d\u0430\u0434\u043e.",
+    "size": {
+        "x": 32,
+        "y": 32
     },
-    {
-      "name": "equipped-HELMET",
-      "directions": 4
-    },
-    {
-      "name": "inhand-left",
-      "directions": 4
-    },
-    {
-      "name": "inhand-right",
-      "directions": 4
-    }
-  ]
+    "states": [
+        {
+            "name": "icon"
+        },
+        {
+            "name": "equipped-HELMET",
+            "directions": 4
+        },
+        {
+            "name": "inhand-left",
+            "directions": 4
+        },
+        {
+            "name": "inhand-right",
+            "directions": 4
+        },
+        {
+            "name": "helm-dolg"
+        }
+    ]
 }

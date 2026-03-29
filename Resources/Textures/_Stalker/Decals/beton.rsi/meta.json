@@ -1,22 +1,23 @@
-{
-  "version": 1,
-  "copyright": "Stalker14 CLA",
-  "size": {
-    "x": 32,
-    "y": 32
-  },
-  "states": [
-    {
-      "name": "beton"
+﻿{
+    "version": 1,
+    "copyright": "Stalker14 CLA",
+    "size": {
+        "x": 32,
+        "y": 32
     },
-    {
-      "name": "beton_2"
-    },
-    {
-      "name": "beton_3"
-    },
-    {
-      "name": "beton_4"
-    }
-  ]
+    "states": [
+        {
+            "name": "beton"
+        },
+        {
+            "name": "beton_2"
+        },
+        {
+            "name": "beton_3"
+        },
+        {
+            "name": "beton_4"
+        }
+    ],
+    "license": "CC-BY-SA-3.0"
 }

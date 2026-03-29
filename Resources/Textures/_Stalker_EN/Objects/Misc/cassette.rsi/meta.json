@@ -1,4 +1,4 @@
-{
+﻿{
     "version": 1,
     "copyright": "Stalker14 CLA, sprites by carousel",
     "size": {
@@ -15,5 +15,6 @@
         {
             "name": "white"
         }
-    ]
+    ],
+    "license": "CC-BY-SA-3.0"
 }

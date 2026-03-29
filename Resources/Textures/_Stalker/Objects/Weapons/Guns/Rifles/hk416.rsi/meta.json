@@ -1,4 +1,4 @@
-{
+﻿{
     "version": 1,
     "copyright": "Stalker14 CLA",
     "size": {
@@ -48,5 +48,6 @@
             "name": "wielded-inhand-right",
             "directions": 4
         }
-    ]
+    ],
+    "license": "CC-BY-SA-3.0"
 }

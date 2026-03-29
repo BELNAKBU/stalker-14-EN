@@ -1,4 +1,4 @@
-{
+﻿{
     "version": 1,
     "copyright": "Created by Viis exclusivly for Stalker14 project",
     "size": {
@@ -12,7 +12,7 @@
         {
             "name": "angle_icon"
         },
-		{
+        {
             "name": "inhand-left",
             "directions": 4
         },
@@ -20,5 +20,6 @@
             "name": "inhand-right",
             "directions": 4
         }
-    ]
+    ],
+    "license": "CC-BY-SA-3.0"
 }

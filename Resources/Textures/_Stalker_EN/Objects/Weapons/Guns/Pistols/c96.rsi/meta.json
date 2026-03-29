@@ -1,4 +1,4 @@
-{
+﻿{
     "version": 1,
     "license": "CC-BY-SA-3.0",
     "copyright": "sprites by Wassuy (Peter Poley)",
@@ -17,6 +17,9 @@
         {
             "name": "inhand-left",
             "directions": 4
+        },
+        {
+            "name": "bolt-open"
         }
     ]
 }

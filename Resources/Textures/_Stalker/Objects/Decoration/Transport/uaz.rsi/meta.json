@@ -1,16 +1,17 @@
-{
-  "version": 1,
-  "copyright": "CC-BY-SA-3.0 Made for Stalker 14 with love",
-  "size": {
-    "x": 128,
-    "y": 78
-  },
-  "states": [
-    {
-      "name": "base"
+﻿{
+    "version": 1,
+    "copyright": "CC-BY-SA-3.0 Made for Stalker 14 with love",
+    "size": {
+        "x": 128,
+        "y": 78
     },
-    {
-      "name": "rusted"
-    }
-  ]
+    "states": [
+        {
+            "name": "base"
+        },
+        {
+            "name": "rusted"
+        }
+    ],
+    "license": "CC-BY-SA-3.0"
 }

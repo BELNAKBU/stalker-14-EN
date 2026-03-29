@@ -1,4 +1,4 @@
-{
+﻿{
     "version": 1,
     "copyright": "Stalker14 CLA",
     "size": {
@@ -13,5 +13,6 @@
         {
             "name": "icon"
         }
-    ]
+    ],
+    "license": "CC-BY-SA-3.0"
 }

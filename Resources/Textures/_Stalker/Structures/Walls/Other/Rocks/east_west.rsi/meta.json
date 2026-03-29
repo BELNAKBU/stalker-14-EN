@@ -1,25 +1,26 @@
-{
-  "version": 1,
-  "copyright": "Stalker14 CLA",
-  "size": {
-    "x": 64,
-    "y": 64
-  },
-  "states": [
-    {
-      "name": "rew1"
+﻿{
+    "version": 1,
+    "copyright": "Stalker14 CLA",
+    "size": {
+        "x": 64,
+        "y": 64
     },
-    {
-      "name": "rew2"
-    },
-    {
-      "name": "rew3"
-    },
-    {
-      "name": "rew4"
-    },
-    {
-      "name": "rew5"
-    }
-  ]
+    "states": [
+        {
+            "name": "rew1"
+        },
+        {
+            "name": "rew2"
+        },
+        {
+            "name": "rew3"
+        },
+        {
+            "name": "rew4"
+        },
+        {
+            "name": "rew5"
+        }
+    ],
+    "license": "CC-BY-SA-3.0"
 }

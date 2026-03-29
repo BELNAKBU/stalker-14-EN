@@ -1,17 +1,20 @@
-{
-  "version": 1,
-  "size": {
-    "x": 32,
-    "y": 32
-  },
-  "license": "CC-BY-SA-3.0",
-  "copyright": "CORVAX STALKER",
-  "states": [
-    {
-      "name": "plate1"
+﻿{
+    "version": 1,
+    "size": {
+        "x": 32,
+        "y": 32
     },
-    {
-      "name": "plate2"
-    }
-  ]
+    "license": "CC-BY-SA-3.0",
+    "copyright": "CORVAX STALKER",
+    "states": [
+        {
+            "name": "plate1"
+        },
+        {
+            "name": "plate2"
+        },
+        {
+            "name": "plate"
+        }
+    ]
 }

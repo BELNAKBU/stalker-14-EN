@@ -1,4 +1,4 @@
-{
+﻿{
     "version": 1,
     "copyright": "Stalker14 CLA",
     "size": {
@@ -93,5 +93,6 @@
         {
             "name": "mushrooms"
         }
-    ]
+    ],
+    "license": "CC-BY-SA-3.0"
 }

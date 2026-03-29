@@ -1,4 +1,4 @@
-{
+﻿{
     "version": 1,
     "copyright": "CC-BY-SA-3.0 Made for Stalker 14 with love",
     "size": {
@@ -14,5 +14,6 @@
             "name": "z2",
             "directions": 4
         }
-    ]
+    ],
+    "license": "CC-BY-SA-3.0"
 }

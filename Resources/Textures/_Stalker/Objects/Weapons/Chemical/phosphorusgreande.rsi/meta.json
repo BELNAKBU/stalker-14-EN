@@ -1,4 +1,4 @@
-{
+﻿{
     "version": 1,
     "copyright": "Stalker14 CLA",
     "size": {
@@ -12,7 +12,6 @@
         {
             "name": "primed"
         }
-    ]
+    ],
+    "license": "CC-BY-SA-3.0"
 }
-
-

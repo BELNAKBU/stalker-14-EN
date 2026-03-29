@@ -1,25 +1,26 @@
-{
-  "version": 1,
-  "copyright": "Stalker14 CLA",
-  "size": {
-    "x": 32,
-    "y": 32
-  },
-  "states": [
-    {
-      "name": "armed"
+﻿{
+    "version": 1,
+    "copyright": "Stalker14 CLA",
+    "size": {
+        "x": 32,
+        "y": 32
     },
-    {
-      "name": "icon-default"
-    },
-    {
-      "name": "overlay"
-    },
-    {
-      "name": "base"
-    },
-    {
-      "name": "unarmed"
-    }
-  ]
+    "states": [
+        {
+            "name": "armed"
+        },
+        {
+            "name": "icon-default"
+        },
+        {
+            "name": "overlay"
+        },
+        {
+            "name": "base"
+        },
+        {
+            "name": "unarmed"
+        }
+    ],
+    "license": "CC-BY-SA-3.0"
 }

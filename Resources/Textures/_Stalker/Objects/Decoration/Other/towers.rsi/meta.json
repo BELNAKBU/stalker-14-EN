@@ -1,13 +1,14 @@
-{
-  "version": 1,
-  "copyright": "Stalker14 CLA",
-  "size": {
-    "x": 128,
-    "y": 192
-  },
-  "states": [
-    {
-      "name": "t1"
-    }
-  ]
+﻿{
+    "version": 1,
+    "copyright": "Stalker14 CLA",
+    "size": {
+        "x": 128,
+        "y": 192
+    },
+    "states": [
+        {
+            "name": "t1"
+        }
+    ],
+    "license": "CC-BY-SA-3.0"
 }

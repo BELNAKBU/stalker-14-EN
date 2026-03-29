@@ -1,35 +1,36 @@
-{
-  "version": 1,
-  "copyright": "Stalker14 CLA",
-  "size": {
-    "x": 32,
-    "y": 32
-  },
-  "states": [
-    {
-      "name": "icon_straight"
+﻿{
+    "version": 1,
+    "copyright": "Stalker14 CLA",
+    "size": {
+        "x": 32,
+        "y": 32
     },
-    {
-      "name": "icon_end"
-    },
-    {
-      "name": "icon_broken"
-    },
-    {
-      "name": "straight",
-      "directions": 4
-    },
-    {
-      "name": "end",
-      "directions": 4
-    },
-    {
-      "name": "corner",
-      "directions": 4
-    },
-    {
-      "name": "straight_broken",
-      "directions": 4
-    }
-  ]
+    "states": [
+        {
+            "name": "icon_straight"
+        },
+        {
+            "name": "icon_end"
+        },
+        {
+            "name": "icon_broken"
+        },
+        {
+            "name": "straight",
+            "directions": 4
+        },
+        {
+            "name": "end",
+            "directions": 4
+        },
+        {
+            "name": "corner",
+            "directions": 4
+        },
+        {
+            "name": "straight_broken",
+            "directions": 4
+        }
+    ],
+    "license": "CC-BY-SA-3.0"
 }

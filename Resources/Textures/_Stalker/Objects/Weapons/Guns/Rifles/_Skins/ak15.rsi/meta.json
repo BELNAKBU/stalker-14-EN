@@ -1,53 +1,53 @@
-{
-  "version": 1,
-  "license": "Stalker License 14",
-  "copyright": "by fago_s (discord) из спрайтеров for corvax stalker",
-  "size": {
-    "x": 48,
-    "y": 48
-  },
-  "states": [
-    {
-      "name": "base"
+﻿{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "by fago_s (discord) \u0438\u0437 \u0441\u043f\u0440\u0430\u0439\u0442\u0435\u0440\u043e\u0432 for corvax stalker",
+    "size": {
+        "x": 48,
+        "y": 48
     },
-    {
-      "name": "bolt-open"
-    },
-    {
-      "name": "equipped-BACKPACK",
-      "directions": 4
-    },
-    {
-      "name": "equipped-SUITSTORAGE",
-      "directions": 4
-    },
-    {
-      "name": "icon"
-    },
-    {
-      "name": "inhand-left",
-      "directions": 4
-    },
-    {
-      "name": "inhand-right",
-      "directions": 4
-    },
-    {
-      "name": "mag-0"
-    },
-    {
-      "name": "base-scope"
-    },
-    {
-      "name": "muzzle"
-    },
-    {
-      "name": "wielded-inhand-left",
-      "directions": 4
-    },
-    {
-      "name": "wielded-inhand-right",
-      "directions": 4
-    }
-  ]
+    "states": [
+        {
+            "name": "base"
+        },
+        {
+            "name": "bolt-open"
+        },
+        {
+            "name": "equipped-BACKPACK",
+            "directions": 4
+        },
+        {
+            "name": "equipped-SUITSTORAGE",
+            "directions": 4
+        },
+        {
+            "name": "icon"
+        },
+        {
+            "name": "inhand-left",
+            "directions": 4
+        },
+        {
+            "name": "inhand-right",
+            "directions": 4
+        },
+        {
+            "name": "mag-0"
+        },
+        {
+            "name": "base-scope"
+        },
+        {
+            "name": "muzzle"
+        },
+        {
+            "name": "wielded-inhand-left",
+            "directions": 4
+        },
+        {
+            "name": "wielded-inhand-right",
+            "directions": 4
+        }
+    ]
 }
