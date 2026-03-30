@@ -1,4 +1,11 @@
-﻿name: Build & Test Map Renderer
+﻿﻿name: Build & Test Map Renderer
+
+on:
+  push:
+    branches: [ master, staging, stable ]
+  pull_request:
+    types: [ opened, reopened, synchronize, ready_for_review ]
+    branches: [ master, staging, stable ]
 
 jobs:
   build:
