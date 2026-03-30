@@ -29,11 +29,14 @@ namespace Content.IntegrationTests.Tests.Chemistry
             // First, initialize the IoC context on this thread
             IoCManager.InitThread();
 
-            // Then build the graph and register dependencies
-            IoCManager.BuildGraph();
+            // Register dependencies BEFORE building the graph
             IoCManager.Register<IReflectionManager, ReflectionManager>();
             IoCManager.Register<ISerializationManager, SerializationManager>();
 
+            // Build the object graph with all registered dependencies
+            IoCManager.BuildGraph();
+
+            // Now resolve the dependencies
             _reflection = IoCManager.Resolve<IReflectionManager>();
             _serialization = IoCManager.Resolve<ISerializationManager>();
 
@@ -43,6 +46,7 @@ namespace Content.IntegrationTests.Tests.Chemistry
                 typeof(FixedPoint2SerializationTest).Assembly
             });
 
+            // Initialize serialization manager
             _serialization.Initialize();
         }
 
