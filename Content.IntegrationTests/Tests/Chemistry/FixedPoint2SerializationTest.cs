@@ -1,8 +1,5 @@
 ﻿using Content.Shared.FixedPoint;
 using NUnit.Framework;
-using Robust.Shared.IoC;
-using Robust.Shared.Reflection;
-using Robust.Shared.Serialization.Manager;
 using Robust.Shared.Serialization.Manager.Attributes;
 using Robust.Shared.Serialization.Markdown.Mapping;
 using Robust.Shared.Serialization.Markdown.Value;
@@ -17,79 +14,67 @@ namespace Content.IntegrationTests.Tests.Chemistry
     [NonParallelizable]
     public sealed class FixedPoint2SerializationTest
     {
-        private ISerializationManager _serialization = null!;
-        private IReflectionManager _reflection = null!;
-
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
-        {
-            // Initialize IoC manually to avoid dependency on RobustUnitTest base class
-            // This ensures the test works consistently in both VS Test Explorer and dotnet test CLI
-
-            // First, initialize the IoC context on this thread
-            IoCManager.InitThread();
-
-            // Register dependencies BEFORE building the graph
-            // Use regular ReflectionManager instead of ReflectionManagerTest (which requires INetManager)
-            IoCManager.Register<IReflectionManager, ReflectionManager>();
-            IoCManager.Register<ISerializationManager, SerializationManager>();
-
-            // Build the object graph with all registered dependencies
-            IoCManager.BuildGraph();
-
-            // Now resolve the dependencies
-            _reflection = IoCManager.Resolve<IReflectionManager>();
-            _serialization = IoCManager.Resolve<ISerializationManager>();
-
-            // Load assemblies containing FixedPoint2 and test types
-            _reflection.LoadAssemblies(new[] {
-                typeof(FixedPoint2).Assembly,
-                typeof(FixedPoint2SerializationTest).Assembly
-            });
-
-            // Initialize serialization manager
-            _serialization.Initialize();
-        }
-
-        [OneTimeTearDown]
-        public void OneTimeTearDown()
-        {
-            IoCManager.Clear();
-        }
-
         [Test]
-        public void DeserializeNullTest()
+        public async Task DeserializeNullTest()
         {
+            await using var pair = await PoolManager.GetServerClient();
+            var server = pair.Server;
+
+            var serialization = server.ResolveDependency<Robust.Shared.Serialization.Manager.ISerializationManager>();
+
             var node = ValueDataNode.Null();
-            var unit = _serialization.Read<FixedPoint2?>(node);
+            var unit = serialization.Read<FixedPoint2?>(node);
 
             Assert.That(unit, Is.Null);
+
+            await pair.CleanReturnAsync();
         }
 
         [Test]
-        public void SerializeNullTest()
+        public async Task SerializeNullTest()
         {
-            var node = _serialization.WriteValue<FixedPoint2?>(null);
+            await using var pair = await PoolManager.GetServerClient();
+            var server = pair.Server;
+
+            var serialization = server.ResolveDependency<Robust.Shared.Serialization.Manager.ISerializationManager>();
+
+            var node = serialization.WriteValue<FixedPoint2?>(null);
             Assert.That(node.IsNull);
+
+            await pair.CleanReturnAsync();
         }
 
         [Test]
-        public void SerializeNullableValueTest()
+        public async Task SerializeNullableValueTest()
         {
-            var node = _serialization.WriteValue<FixedPoint2?>(FixedPoint2.New(2.5f));
+            await using var pair = await PoolManager.GetServerClient();
+            var server = pair.Server;
+
+            var serialization = server.ResolveDependency<Robust.Shared.Serialization.Manager.ISerializationManager>();
+
+            var node = serialization.WriteValue<FixedPoint2?>(FixedPoint2.New(2.5f));
 #pragma warning disable NUnit2045 // Interdependent assertions
             Assert.That(node is ValueDataNode);
             Assert.That(((ValueDataNode)node).Value, Is.EqualTo("2.5"));
 #pragma warning restore NUnit2045
+
+            await pair.CleanReturnAsync();
         }
 
         [Test]
-        public void DeserializeNullDefinitionTest()
+        public async Task DeserializeNullDefinitionTest()
         {
+            await using var pair = await PoolManager.GetServerClient();
+            var server = pair.Server;
+
+            var serialization = server.ResolveDependency<Robust.Shared.Serialization.Manager.ISerializationManager>();
+
             var node = new MappingDataNode().Add("unit", ValueDataNode.Null());
-            var definition = _serialization.Read<FixedPoint2TestDefinition>(node);
+            var definition = serialization.Read<FixedPoint2TestDefinition>(node);
 
             Assert.That(definition.Unit, Is.Null);
+
+            await pair.CleanReturnAsync();
         }
     }
 
