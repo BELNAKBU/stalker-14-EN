@@ -25,9 +25,12 @@ namespace Content.IntegrationTests.Tests.Chemistry
         {
             // Initialize IoC manually to avoid dependency on RobustUnitTest base class
             // This ensures the test works consistently in both VS Test Explorer and dotnet test CLI
-            IoCManager.BuildGraph();
 
-            // Register only the dependencies required for serialization tests
+            // First, initialize the IoC context on this thread
+            IoCManager.InitThread();
+
+            // Then build the graph and register dependencies
+            IoCManager.BuildGraph();
             IoCManager.Register<IReflectionManager, ReflectionManager>();
             IoCManager.Register<ISerializationManager, SerializationManager>();
 
