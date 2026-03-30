@@ -41,6 +41,7 @@
     739HEBox: 10
     8mmRepulseBox: 10
     ClothingOuterArmorExoskeletMonolith: 5
+    NitrogenTankFilled: 1000
 
 - type: entity
   parent: BaseItem
