@@ -82,7 +82,6 @@ jobs:
           NUnit.NumberOfTestWorkers=1 `
           NUnit.ConsoleOut=1 `
           '--logger:console;verbosity=detailed' `
-          --exclude "FixedPoint2SerializationTest"
 
     - name: Cleanup swap space
       if: always()
