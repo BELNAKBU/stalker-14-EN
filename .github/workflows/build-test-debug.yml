@@ -49,36 +49,42 @@ jobs:
 
     - name: Create swap space (memory overflow protection)
       run: |
-        echo "=== Setting up swap space for memory overflow protection ==="
 
-        # Отключить существующий swap если есть
         if [ -f /swapfile ]; then
           echo "Disabling existing swap..."
           sudo swapoff /swapfile || true
           sudo rm /swapfile
         fi
 
-        # Создать новый swap файл
-        echo "Creating 15GB swap file..."
-        sudo fallocate -l 15G /swapfile
+        echo "Creating 10GB swap file..."
+        sudo fallocate -l 10G /swapfile
 
-        # Установить правильные права
         sudo chmod 600 /swapfile
 
-        # Инициализировать swap
         sudo mkswap /swapfile
 
-        # Включить swap
         sudo swapon /swapfile
 
-        # Показать результат
         echo ""
         echo "Swap file created successfully:"
         free -h
         echo ""
-        echo "Available memory increased from 7GB to ~22GB!"
+        echo "Available memory increased from 14GB to ~24GB!"
 
-    - name: Cleanup swap space (after tests complete)
+
+    - name: Run Content.IntegrationTests
+      timeout-minutes: 30
+      shell: pwsh
+      run: |
+        $env:DOTNET_gcServer=1
+        dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj -- `
+          NUnit.MapWarningTo=Failed `
+          NUnit.NumberOfTestWorkers=1 `
+          NUnit.ConsoleOut=1 `
+          '--logger:console;verbosity=detailed' `
+          --exclude "FixedPoint2SerializationTest"
+
+    - name: Cleanup swap space
       if: always()
       run: |
         echo "=== Cleaning up swap space ==="
@@ -90,50 +96,6 @@ jobs:
         else
           echo "No swap file found, nothing to clean"
         fi
-        free -h
-
-    - name: Run Content.IntegrationTests (with swap protection)
-      timeout-minutes: 30
-      shell: pwsh
-      run: |
-        Write-Host "=== Running Integration Tests ===" -ForegroundColor Cyan
-        Write-Host "Memory protection: 15GB swap file enabled" -ForegroundColor Green
-        Write-Host ""
-
-        $env:DOTNET_gcServer=1
-
-        # Запустить тесты с немедленным выводом каждого теста
-        # Ключ --labels=All показывает имя теста перед выполнением
-        # Ключ --trace=Info показывает прогресс
-        dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj -- `
-          NUnit.MapWarningTo=Failed `
-          NUnit.NumberOfTestWorkers=1 `
-          NUnit.ConsoleOut=1 `
-          NUnit.ShowLabels=All `
-          NUnit.ShowTestCaseOutput=1 `
-          '--logger:console;verbosity=detailed' `
-          --exclude "SpawnAndDeleteAllEntitiesInTheSameSpot" `
-          --exclude "SpawnAndDeleteAllEntitiesOnDifferentMaps" `
-          --exclude "SpawnAndDeleteEntityCountTest" `
-          --exclude "SpawnAndDirtyAllEntities" `
-          --exclude "TestAllConcurrent" `
-          --exclude "FixedPoint2SerializationTest"
-
-    - name: Summary
-      if: always()
-      run: |
-        echo "=== Test Execution Summary ==="
-        echo "Integration Tests completed with swap file protection!"
-        echo ""
-        echo "Excluded tests (known OOM causes):"
-        echo "  - SpawnAndDelete* (spawn thousands of entities)"
-        echo "  - TestAllConcurrent (too many parallel entities)"
-        echo "  - FixedPoint2SerializationTest (IoC issues)"
-        echo ""
-        echo "Memory protection:"
-        echo "  - 15GB swap file"
-        echo "  - NumberOfTestWorkers=1 (sequential execution)"
-        echo ""
         free -h
 
   ci-success:
