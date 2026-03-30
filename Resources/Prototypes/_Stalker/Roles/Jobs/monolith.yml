@@ -45,7 +45,6 @@
         pullingItemTag: PliersStalker
         teethCount: 3
         initialTeeth: 3
-      - type: STAnomalyTipsViewing
       - type: AutoImplant
         implants:
         - STMonoBombImplant # Stalker EN change start
@@ -114,7 +113,6 @@
       pullingItemTag: PliersStalker
       teethCount: 3
       initialTeeth: 3
-    - type: STAnomalyTipsViewing
     - type: AutoImplant
       implants:
       - STMonoBombImplant # Stalker EN change start
