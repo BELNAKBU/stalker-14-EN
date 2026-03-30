@@ -25,16 +25,14 @@ namespace Content.IntegrationTests.Tests.Chemistry
         {
             // Initialize IoC manually to avoid dependency on RobustUnitTest base class
             // This ensures the test works consistently in both VS Test Explorer and dotnet test CLI
-            var deps = IoCManager.BuildGraph();
+            IoCManager.BuildGraph();
 
             // Register only the dependencies required for serialization tests
-            deps.Register<IReflectionManager, ReflectionManager>();
-            deps.Register<ISerializationManager, SerializationManager>();
+            IoCManager.Register<IReflectionManager, ReflectionManager>();
+            IoCManager.Register<ISerializationManager, SerializationManager>();
 
-            var container = deps.BuildContainer();
-
-            _reflection = container.Resolve<IReflectionManager>();
-            _serialization = container.Resolve<ISerializationManager>();
+            _reflection = IoCManager.Resolve<IReflectionManager>();
+            _serialization = IoCManager.Resolve<ISerializationManager>();
 
             // Load assemblies containing FixedPoint2 and test types
             _reflection.LoadAssemblies(new[] {
