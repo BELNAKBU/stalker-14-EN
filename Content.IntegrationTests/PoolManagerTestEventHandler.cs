@@ -1,54 +1,35 @@
-﻿using System.Threading;
-
 namespace Content.IntegrationTests;
 
 [SetUpFixture]
 public sealed class PoolManagerTestEventHandler
 {
-    // Increased significantly for CI environments.
-    // Local runs: ~3-5 minutes
-    // GitHub Actions: can be 10x slower due to slower disk/CPU
-    private static TimeSpan MaximumTotalTestingTimeLimit => TimeSpan.FromMinutes(90);
-    private static TimeSpan HardStopTimeLimit => MaximumTotalTestingTimeLimit.Add(TimeSpan.FromMinutes(10));
-
-    // Use Timer instead of Task.Delay to avoid ThreadPool starvation issues
-    private static Timer? _softTimeoutTimer;
-    private static Timer? _hardTimeoutTimer;
+    // This value is completely arbitrary.
+    private static TimeSpan MaximumTotalTestingTimeLimit => TimeSpan.FromMinutes(30);
+    private static TimeSpan HardStopTimeLimit => MaximumTotalTestingTimeLimit.Add(TimeSpan.FromMinutes(3));
 
     [OneTimeSetUp]
     public void Setup()
     {
-        TestContext.Out.WriteLine($"[{DateTime.Now:O}] PoolManagerTestEventHandler.Setup() started");
         PoolManager.Startup();
-        TestContext.Out.WriteLine($"[{DateTime.Now:O}] PoolManager.Startup() completed");
+        // If the tests seem to be stuck, we try to end it semi-nicely
+        _ = Task.Delay(MaximumTotalTestingTimeLimit).ContinueWith(_ =>
+        {
+            // This can and probably will cause server/client pairs to shut down MID test, and will lead to really confusing test failures.
+            TestContext.Error.WriteLine($"\n\n{nameof(PoolManagerTestEventHandler)}: ERROR: Tests are taking too long. Shutting down all tests. This may lead to weird failures/exceptions.\n\n");
+            PoolManager.Shutdown();
+        });
 
-        // Use Timer with dedicated threads to avoid ThreadPool starvation
-        // These will fire even if the ThreadPool is completely blocked
-        TestContext.Out.WriteLine($"[{DateTime.Now:O}] Setting up timeout timers (soft={MaximumTotalTestingTimeLimit.TotalMinutes}min, hard={HardStopTimeLimit.TotalMinutes}min)");
-        _softTimeoutTimer = new Timer(SoftTimeoutCallback, null, MaximumTotalTestingTimeLimit, Timeout.InfiniteTimeSpan);
-        _hardTimeoutTimer = new Timer(HardTimeoutCallback, null, HardStopTimeLimit, Timeout.InfiniteTimeSpan);
-        TestContext.Out.WriteLine($"[{DateTime.Now:O}] PoolManagerTestEventHandler.Setup() completed");
-    }
-
-    private static void SoftTimeoutCallback(object? state)
-    {
-        // This can and probably will cause server/client pairs to shut down MID test, and will lead to really confusing test failures.
-        TestContext.Error.WriteLine($"\n\n{nameof(PoolManagerTestEventHandler)}: ERROR: Tests are taking too long (>{MaximumTotalTestingTimeLimit.TotalMinutes} min). Shutting down all tests. This may lead to weird failures/exceptions.\n\n");
-        TestContext.Error.WriteLine($"Death Report:\n{PoolManager.DeathReport()}");
-        PoolManager.Shutdown();
-    }
-
-    private static void HardTimeoutCallback(object? state)
-    {
-        var deathReport = PoolManager.DeathReport();
-        Environment.FailFast($"Tests took way too long (>{HardStopTimeLimit.TotalMinutes} min);\n Death Report:\n{deathReport}");
+        // If ending it nicely doesn't work within a minute, we do something a bit meaner.
+        _ = Task.Delay(HardStopTimeLimit).ContinueWith(_ =>
+        {
+            var deathReport = PoolManager.DeathReport();
+            Environment.FailFast($"Tests took way too ;\n Death Report:\n{deathReport}");
+        });
     }
 
     [OneTimeTearDown]
     public void TearDown()
     {
-        _softTimeoutTimer?.Dispose();
-        _hardTimeoutTimer?.Dispose();
         PoolManager.Shutdown();
     }
 }
