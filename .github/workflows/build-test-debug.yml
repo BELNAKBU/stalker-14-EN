@@ -80,8 +80,7 @@ jobs:
         dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj -- `
           NUnit.MapWarningTo=Failed `
           NUnit.NumberOfTestWorkers=1 `
-          NUnit.ConsoleOut=1 `
-          '--logger:console;verbosity=detailed' `
+          NUnit.ConsoleOut=0 `
 
     - name: Cleanup swap space
       if: always()
