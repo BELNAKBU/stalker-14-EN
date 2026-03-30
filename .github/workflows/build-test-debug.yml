@@ -78,8 +78,6 @@ jobs:
           --exclude "FixedPoint2SerializationTest" `
           --filter "FullyQualifiedName!~Tests.Administration&FullyQualifiedName!~Tests.Ghost&FullyQualifiedName!~Tests.Maps"
 
-      name: Run Content.IntegrationTests (Part 1 of 3)
-
     - name: Force garbage collection between test parts
       run: |
         echo "Forcing garbage collection to free memory..."
