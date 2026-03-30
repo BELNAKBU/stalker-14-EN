@@ -87,10 +87,16 @@ jobs:
         Write-Host ""
 
         $env:DOTNET_gcServer=1
+
+        # Запустить тесты с немедленным выводом каждого теста
+        # Ключ --labels=All показывает имя теста перед выполнением
+        # Ключ --trace=Info показывает прогресс
         dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj -- `
           NUnit.MapWarningTo=Failed `
           NUnit.NumberOfTestWorkers=1 `
-          NUnit.InternalConsoleOut=1 `
+          NUnit.ConsoleOut=1 `
+          NUnit.ShowLabels=All `
+          NUnit.ShowTestCaseOutput=1 `
           '--logger:console;verbosity=detailed' `
           --exclude "SpawnAndDeleteAllEntitiesInTheSameSpot" `
           --exclude "SpawnAndDeleteAllEntitiesOnDifferentMaps" `
