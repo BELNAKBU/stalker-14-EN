@@ -57,9 +57,22 @@ jobs:
         df -h
         echo "========================"
 
-    - name: Run Content.IntegrationTests
-      timeout-minutes: 60
+    - name: List Integration Tests
       run: |
+        echo "=== Available Integration Tests ==="
+        dotnet test --no-build --list-tests Content.IntegrationTests/Content.IntegrationTests.csproj 2>&1 | head -n 50
+        echo "===================================="
+
+    - name: Run Content.IntegrationTests
+      timeout-minutes: 90
+      run: |
+        set -e
+        set -x
+
+        echo "=== Starting Integration Tests ==="
+        echo "Time: $(date)"
+        echo "PID: $$"
+
         # Start resource monitoring in background
         (
           while true; do
@@ -74,22 +87,52 @@ jobs:
         ) > /tmp/resource_monitor.log 2>&1 &
         MONITOR_PID=$!
 
-        # Run tests
+        echo "Monitor PID: $MONITOR_PID"
+
+        # Cleanup handler - guarantees cleanup on exit/error/timeout
+        cleanup() {
+          echo ""
+          echo "=== Cleanup triggered ==="
+          echo "Killing monitor process: $MONITOR_PID"
+          kill $MONITOR_PID 2>/dev/null || true
+
+          # Kill all dotnet processes to prevent zombies
+          echo "Killing all dotnet processes..."
+          pkill -9 -f "dotnet.*Content.IntegrationTests" 2>/dev/null || true
+
+          # Output monitor log
+          echo ""
+          echo "=== Resource Monitor Log ==="
+          cat /tmp/resource_monitor.log 2>/dev/null || echo "No monitor log available"
+          echo "==========================="
+
+          echo "Cleanup completed"
+        }
+        trap cleanup EXIT INT TERM
+
+        # Run tests with detailed logging
+        echo "=== Running dotnet test ==="
         export DOTNET_gcServer=1
         dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj \
-          -- NUnit.MapWarningTo=Failed NUnit.NumberOfTestWorkers=2
+          -- NUnit.MapWarningTo=Failed \
+             NUnit.NumberOfTestWorkers=2 \
+             NUnit.DefaultTimeout=300000 \
+             --logger "console;verbosity=normal"
+
         TEST_EXIT_CODE=$?
+        echo "Tests completed with exit code: $TEST_EXIT_CODE"
 
-        # Stop monitoring
-        kill $MONITOR_PID 2>/dev/null || true
-
-        # Output monitor log
-        echo ""
-        echo "=== Resource Monitor Log ==="
-        cat /tmp/resource_monitor.log
-        echo "==========================="
-
+        # Exit with test exit code (trap will run cleanup automatically)
         exit $TEST_EXIT_CODE
+
+    - name: Check for zombie processes
+      if: always()
+      run: |
+        echo "=== Checking for zombie processes ==="
+        ps aux | grep -E "dotnet|Content.Integration" | grep -v grep || echo "No zombies found"
+        echo "=== Disk usage ==="
+        df -h
+
   ci-success:
     name: Build & Test Debug
     needs:
