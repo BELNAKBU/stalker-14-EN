@@ -8,6 +8,15 @@
     linkString: EcoBunker
 
 - type: entity
+  parent: LocalTeleportBase
+  id: LocalTeleportEcoYantar
+  suffix: Ecologist
+  name: Yantar Eco Bunker
+  components:
+  - type: LinkByString
+    linkString: EcoYantar
+
+- type: entity
   parent: LocalTeleportBaseUncollide
   id: YantarLabLadderUncollide
   suffix: Yantar
