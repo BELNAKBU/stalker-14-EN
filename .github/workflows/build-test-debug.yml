@@ -49,21 +49,43 @@ jobs:
 
     - name: Create swap space (memory overflow protection)
       run: |
-        echo "Creating 15GB swap file for memory overflow protection..."
+        echo "=== Setting up swap space for memory overflow protection ==="
+
+        # Отключить существующий swap если есть
+        if [ -f /swapfile ]; then
+          echo "Disabling existing swap..."
+          sudo swapoff /swapfile || true
+          sudo rm /swapfile
+        fi
+
+        # Создать новый swap файл
+        echo "Creating 15GB swap file..."
         sudo fallocate -l 15G /swapfile
+
+        # Установить правильные права
         sudo chmod 600 /swapfile
+
+        # Инициализировать swap
         sudo mkswap /swapfile
+
+        # Включить swap
         sudo swapon /swapfile
+
+        # Показать результат
+        echo ""
         echo "Swap file created successfully:"
         free -h
         echo ""
-        echo "Available memory increased significantly!"
+        echo "Available memory increased from 7GB to ~22GB!"
 
-    - name: Run Content.IntegrationTests (Part 1 of 3)
+    - name: Run Content.IntegrationTests (with swap protection)
       timeout-minutes: 30
       shell: pwsh
       run: |
-        Write-Host "=== Running Integration Tests - Part 1 of 3 ===" -ForegroundColor Cyan
+        Write-Host "=== Running Integration Tests ===" -ForegroundColor Cyan
+        Write-Host "Memory protection: 15GB swap file enabled" -ForegroundColor Green
+        Write-Host ""
+
         $env:DOTNET_gcServer=1
         dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj -- `
           NUnit.MapWarningTo=Failed `
@@ -75,73 +97,22 @@ jobs:
           --exclude "SpawnAndDeleteEntityCountTest" `
           --exclude "SpawnAndDirtyAllEntities" `
           --exclude "TestAllConcurrent" `
-          --exclude "FixedPoint2SerializationTest" `
-          --filter "FullyQualifiedName!~Tests.Administration&FullyQualifiedName!~Tests.Ghost&FullyQualifiedName!~Tests.Maps"
-
-    - name: Force garbage collection between test parts
-      run: |
-        echo "Forcing garbage collection to free memory..."
-        sync
-        echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null
-        echo "Cache cleared. Current memory status:"
-        free -h
-
-    - name: Run Content.IntegrationTests (Part 2 of 3)
-      timeout-minutes: 30
-      shell: pwsh
-      run: |
-        Write-Host "=== Running Integration Tests - Part 2 of 3 ===" -ForegroundColor Cyan
-        $env:DOTNET_gcServer=1
-        dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj -- `
-          NUnit.MapWarningTo=Failed `
-          NUnit.NumberOfTestWorkers=1 `
-          NUnit.InternalConsoleOut=1 `
-          '--logger:console;verbosity=detailed' `
-          --exclude "SpawnAndDeleteAllEntitiesInTheSameSpot" `
-          --exclude "SpawnAndDeleteAllEntitiesOnDifferentMaps" `
-          --exclude "SpawnAndDeleteEntityCountTest" `
-          --exclude "SpawnAndDirtyAllEntities" `
-          --exclude "TestAllConcurrent" `
-          --exclude "FixedPoint2SerializationTest" `
-          --filter "FullyQualifiedName~Tests.Administration|FullyQualifiedName~Tests.Ghost"
-
-    - name: Force garbage collection between test parts
-      run: |
-        echo "Forcing garbage collection to free memory..."
-        sync
-        echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null
-        echo "Cache cleared. Current memory status:"
-        free -h
-
-    - name: Run Content.IntegrationTests (Part 3 of 3)
-      timeout-minutes: 30
-      shell: pwsh
-      run: |
-        Write-Host "=== Running Integration Tests - Part 3 of 3 ===" -ForegroundColor Cyan
-        $env:DOTNET_gcServer=1
-        dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj -- `
-          NUnit.MapWarningTo=Failed `
-          NUnit.NumberOfTestWorkers=1 `
-          NUnit.InternalConsoleOut=1 `
-          '--logger:console;verbosity=detailed' `
-          --exclude "SpawnAndDeleteAllEntitiesInTheSameSpot" `
-          --exclude "SpawnAndDeleteAllEntitiesOnDifferentMaps" `
-          --exclude "SpawnAndDeleteEntityCountTest" `
-          --exclude "SpawnAndDirtyAllEntities" `
-          --exclude "TestAllConcurrent" `
-          --exclude "FixedPoint2SerializationTest" `
-          --filter "FullyQualifiedName~Tests.Maps"
+          --exclude "FixedPoint2SerializationTest"
 
     - name: Summary
       if: always()
       run: |
         echo "=== Test Execution Summary ==="
-        echo "All three parts of Integration Tests completed!"
+        echo "Integration Tests completed with swap file protection!"
         echo ""
-        echo "Memory protection used:"
-        echo "  - 15GB swap file created"
-        echo "  - Garbage collection forced between parts"
-        echo "  - Cache cleared between parts"
+        echo "Excluded tests (known OOM causes):"
+        echo "  - SpawnAndDelete* (spawn thousands of entities)"
+        echo "  - TestAllConcurrent (too many parallel entities)"
+        echo "  - FixedPoint2SerializationTest (IoC issues)"
+        echo ""
+        echo "Memory protection:"
+        echo "  - 15GB swap file"
+        echo "  - NumberOfTestWorkers=1 (sequential execution)"
         echo ""
         free -h
 
