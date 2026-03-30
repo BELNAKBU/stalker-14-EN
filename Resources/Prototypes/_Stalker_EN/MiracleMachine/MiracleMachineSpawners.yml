@@ -1,8 +1,8 @@
 - type: entity
   id: MiracleMachinePsyField
   parent: MarkerBase
-  name: Psy Field
-  description: A psy field caused by the miracle machine that spawns ghosts.
+  name: Miracle Machine Psy Field
+  description: A psy field caused by the Miracle Machine that spawns ghosts.
   suffix: Stalker, Psy, Miracle Machine
   components:
     - type: Physics
@@ -31,6 +31,22 @@
       - MobMutantApparitionBoar
       - MobMutantApparitionSnork
       - MobMutantApparitionSucker
+
+- type: entity
+  id: PsyField
+  parent: MiracleMachinePsyField
+  name: Psy Field
+  description: A psy field that spawns ghosts in the surrounding area.
+  suffix: Stalker, Psy
+  components:
+  - type: MiracleMachineSpawner
+    ghosts:
+    - MobMutantApparitionBase
+    - MobMutantApparitionDog
+    - MobMutantApparitionBoar
+    - MobMutantApparitionSnork
+    - MobMutantApparitionSucker
+    miracleMachine: false
 
 - type: entity
   id: MiracleMachineTeleporterSpawnerBase

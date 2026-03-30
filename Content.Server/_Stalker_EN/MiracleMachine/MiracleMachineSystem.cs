@@ -1,9 +1,13 @@
+using System.Linq;
 using Content.Server._Stalker_EN.MiracleMachine.MiracleMachineComponents;
 using Content.Server.Chat.Systems;
+using Content.Server.Radio.EntitySystems;
 using Content.Shared.Destructible;
 using Content.Shared.GameTicking;
+using Content.Shared.Radio.Components;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio;
+using Robust.Shared.Physics;
 using Robust.Shared.Timing;
 
 namespace Content.Server._Stalker_EN.MiracleMachine;
@@ -13,10 +17,10 @@ namespace Content.Server._Stalker_EN.MiracleMachine;
 /// </summary>
 public sealed class MiracleMachineSystem : EntitySystem
 {
-    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IGameTiming _timingSystem = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly MapSystem _mapSystem = default!;
-
+    [Dependency] private readonly RadioSystem _radioSystem = default!;
     private TimeSpan _miracleMachineDisabledTime = TimeSpan.Zero;
 
     private bool _miracleMachineAnnounced = false;
@@ -39,7 +43,7 @@ public sealed class MiracleMachineSystem : EntitySystem
         if (_miracleMachineDisabledTime == TimeSpan.Zero)
             return;
 
-        if (_miracleMachineDisabledTime <= _timing.CurTime)
+        if (_miracleMachineDisabledTime <= _timingSystem.CurTime)
         {
             _miracleMachineAnnounced = true;
             _chatSystem.DispatchGlobalAnnouncement("The Miracle Machine has been disabled and additional routes have opened up.", "Stalker Network", true, _soundSpecifier);
@@ -62,7 +66,15 @@ public sealed class MiracleMachineSystem : EntitySystem
         var query = EntityQueryEnumerator<MiracleMachineComponent>();
         while (query.MoveNext(out var _, out var machine))
         {
-            machine.Batteries.Remove(uid);
+            if (machine.Batteries.Contains(uid))
+            {
+                machine.Batteries.Remove(uid);
+                if (TryComp<IntrinsicRadioTransmitterComponent>(uid, out var radio))
+                {
+                    _radioSystem.SendRadioMessage(uid, "A Psy-Battery has been destroyed!", radio.Channels.FirstOrDefault(), uid);
+                }
+            }
+
 
             if (machine.Batteries.Count <= 0 && !_miracleMachineDisabled)
             {
@@ -86,6 +98,9 @@ public sealed class MiracleMachineSystem : EntitySystem
         var query = EntityQueryEnumerator<MiracleMachineSpawnerComponent>();
         while (query.MoveNext(out var uid, out var spawner))
         {
+            if(!spawner.MiracleMachine)
+                continue;
+
             spawner.Inside.Clear();
             QueueDel(uid);
         }
@@ -102,7 +117,7 @@ public sealed class MiracleMachineSystem : EntitySystem
         {
             QueueDel(uid3);
         }
-        _miracleMachineDisabledTime = _timing.CurTime + TimeSpan.FromMinutes(10);
+        _miracleMachineDisabledTime = _timingSystem.CurTime + TimeSpan.FromMinutes(10);
         Spawn("MiracleMachineOff", Transform(comp.Owner).Coordinates);
         QueueDel(comp.Owner);
     }

@@ -20,7 +20,7 @@
     sprite: _Stalker/Objects/Decoration/Other/sculptures.rsi
     state: ws5
   - type: AmbientSound
-    volume: -7
+    volume: -20
     range: 10
     sound:
       path: /Audio/_Stalker/Effects/CircusMask.ogg

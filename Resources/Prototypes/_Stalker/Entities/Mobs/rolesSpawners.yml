@@ -448,7 +448,7 @@
     - type: ActiveRadio
       channels:
       - Monolith
-      GlobalReceive: true # Stalker EN change end
+      # Stalker EN change end
     - type: PsyEffectImmune
 
 - type: entity

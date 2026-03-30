@@ -6,7 +6,7 @@
   name: Great Swamps - Cordon1
   components:
   - type: Portal
-    cooldown: 30
+    cooldown: 5
 
 - type: entity
   parent: MapTeleportBase
@@ -14,7 +14,7 @@
   name: Great Swamps - Cordon2
   components:
   - type: Portal
-    cooldown: 30
+    cooldown: 5
 
 - type: entity
   parent: MapTeleportBase
@@ -22,7 +22,7 @@
   name: Great Swamps - Agroprom
   components:
   - type: Portal
-    cooldown: 30
+    cooldown: 5
 
 - type: entity
   parent: MapTeleportBase
@@ -30,7 +30,7 @@
   name: Agroprom - Rostok
   components:
   - type: Portal
-    cooldown: 30
+    cooldown: 5
 
 - type: entity
   parent: MapTeleportBase
@@ -38,7 +38,7 @@
   name: RedForest - Oasis
   components:
   - type: Portal
-    cooldown: 30
+    cooldown: 5
 
 # Military
 
@@ -48,7 +48,7 @@
   name: MilitaryBase-RedForest
   components:
   - type: Portal
-    cooldown: 30
+    cooldown: 5
   - type: AccessReader
     access: [["MilitaryStalker"]]
 
@@ -81,7 +81,7 @@
   name: RedForest-Limansk
   components:
   - type: Portal
-    cooldown: 30
+    cooldown: 5
 
 - type: entity
   parent: MapTeleportBase
@@ -89,7 +89,7 @@
   name: RedForest-Limansk2
   components:
   - type: Portal
-    cooldown: 30
+    cooldown: 5
 
 - type: entity
   parent: MapTeleportBase
@@ -97,7 +97,7 @@
   name: RedForest-Limansk3
   components:
   - type: Portal
-    cooldown: 30
+    cooldown: 5
 
 - type: entity
   parent: MapTeleportBase
@@ -133,7 +133,7 @@
   name: Yantar Warp
   components:
   - type: Portal
-    cooldown: 30
+    cooldown: 5
 
 - type: entity
   parent: MapTeleportBase
@@ -141,7 +141,7 @@
   name: Yantar Tunnel
   components:
   - type: Portal
-    cooldown: 15
+    cooldown: 5
 
 - type: entity
   parent: MapTeleportBase
@@ -154,7 +154,7 @@
   name: Yantar Upstairs
   components:
   - type: Portal
-    cooldown: 15
+    cooldown: 5
 
 - type: entity
   parent: MapTeleportBase
@@ -162,7 +162,7 @@
   name: Yantar-Lab
   components:
   - type: Portal
-    cooldown: 15
+    cooldown: 5
 
 - type: entity
   parent: MapTeleportBase

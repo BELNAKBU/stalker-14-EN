@@ -80,8 +80,9 @@
       STWeaponSniperSVDS: 11000
       # Smg
       STWeaponSMGPP91: 750
-      STWeaponSMGPP19: 1700
+      STWeaponSMGPP19: 2000
       STWeaponSMGPP1901: 1500
+      STWeaponSMGPP2000: 1650
       # Other
       STWeaponRifleAK103: 5000
       STWeaponRifleAK203: 6500
@@ -354,6 +355,18 @@
       ClothingTorsoTurtlenecksGorka6B: 50
       ClothingTorsoTurtlenecksKhakiTurtleneck: 50
       ClothingTorsoTurtlenecksMatrosska: 50
+
+  - name: Smokables #explained using D&D lifestyle expenses
+    priority: 13
+    items:
+      CigPackBub: 250 #comfortable
+      CigPackGreen: 150 #poor
+      CigPackRed: 200 #modest
+      CigPackBlue: 150 #poor
+      CigPackBlack: 200 #modest
+      CigPackMixed: 250 #comfortable
+      CigPackMarlboro: 200 #modest
+      CigPackKosmos: 100 #squalid
 
 - type: shopPreset
   id: OKSOPShopPresetEN # OKSOP REWORK IN-PROGRESS

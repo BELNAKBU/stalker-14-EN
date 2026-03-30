@@ -146,6 +146,7 @@
       StalkerBallBat: 50
       STThrowingknifeYellow: 300
       # Pistols
+      STWeaponPistolHiPower: 400
       STWeaponPistolP99: 500
       STWeaponPistolM1911Chrome: 1000
       STWeaponPistolUSP: 1700
@@ -165,7 +166,7 @@
       # Rifles
       STWeaponRifleL85Forecaster: 2100
       STWeaponRifleFAL: 1500
-      STWeaponRifleM16: 3100
+      STWeaponRifleM4: 2800
       STWeaponRifleM14: 3750
       STWeaponRifleAKS74: 3500
       STWeaponRifleAKM: 3500
@@ -199,6 +200,7 @@
       BizonMag: 750
       BizonMag919: 800
       # Other
+      HiPowerMag13: 120
       P99Mag15: 140
       M1911Mag7: 120
       USPMag12: 200
@@ -523,3 +525,15 @@
     items:
       DetectorVelesBlueprint: 6500
       DetectorSvarogBlueprint: 20000
+
+  - name: Smokables #explained using D&D lifestyle expenses
+    priority: 14
+    items:
+      CigPackBub: 250 #comfortable
+      CigPackGreen: 150 #poor
+      CigPackRed: 200 #modest
+      CigPackBlue: 150 #poor
+      CigPackBlack: 200 #modest
+      CigPackMixed: 250 #comfortable
+      CigPackMarlboro: 200 #modest
+      CigPackKosmos: 100 #squalid

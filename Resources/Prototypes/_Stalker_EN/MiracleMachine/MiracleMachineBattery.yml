@@ -13,6 +13,9 @@
       - state: overlay-unshaded
         shader: unshaded
         visible: true
+    - type: IntrinsicRadioTransmitter
+      channels:
+      - Monolith
     - type: Explosive
       explosionType: Default
       maxIntensity: 100
@@ -38,3 +41,11 @@
         - !type:PlaySoundBehavior
           sound:
             collection: MetalGlassBreak
+        - !type:SpawnEntitiesBehavior
+          spawn:
+            STCraftSheetBrassT3:
+              min: 0
+              max: 3
+            STCraftQuartzCrystalT3:
+              min: 0
+              max: 3

@@ -1,6 +1,9 @@
 # alphabetical please
 
 - type: Tag
+  id: ArtifactShards
+
+- type: Tag
   id: FoldedFlagBand
 
 - type: Tag
@@ -70,7 +73,19 @@
   id: STElasticRubberBlue
 
 - type: Tag
-  id: Cartridge357Magnum
+  id: LightSource
+
+- type: Tag
+  id: MagazineM1911
+
+- type: Tag
+  id: MagazineUSP
+
+- type: Tag
+  id: MagazineHipower
+
+- type: Tag
+  id: C96Clip
 
 - type: Tag
   id: SpeedLoader357Magnum
