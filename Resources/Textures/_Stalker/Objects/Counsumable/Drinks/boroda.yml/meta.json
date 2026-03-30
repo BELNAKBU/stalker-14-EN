@@ -1,10 +1,10 @@
-{
+﻿{
     "version": 1,
     "size": {
         "x": 32,
         "y": 32
     },
-    "license": "CC-BY-SA-3.0",
+    "license": "CC-BY-NC-SA-3.0",
     "copyright": "Stalker14 CLA, author: https://github.com/discordia-space/CEV-Eris/raw/f7aa28fd4b4d0386c3393d829681ebca526f1d2d/icons/obj/drinks.dmi, icon, icon_empty, & icon_open modified from waterbottle.rsi by Prole0 (GitHub)",
     "states": [
         {
