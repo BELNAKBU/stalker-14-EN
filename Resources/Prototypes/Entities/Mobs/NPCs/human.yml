@@ -20,6 +20,8 @@
     - type: NpcFactionMember
       factions:
         - Syndicate
+    - type: Loadout
+      prototypes: []
     - type: InputMover
     - type: MobMover
     - type: HTN
