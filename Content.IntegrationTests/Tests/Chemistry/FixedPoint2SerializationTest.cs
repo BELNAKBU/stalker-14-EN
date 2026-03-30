@@ -6,6 +6,7 @@ using Robust.Shared.Serialization.Manager;
 using Robust.Shared.Serialization.Manager.Attributes;
 using Robust.Shared.Serialization.Markdown.Mapping;
 using Robust.Shared.Serialization.Markdown.Value;
+using Robust.UnitTesting.Shared.Reflection;
 
 namespace Content.IntegrationTests.Tests.Chemistry
 {
@@ -30,7 +31,8 @@ namespace Content.IntegrationTests.Tests.Chemistry
             IoCManager.InitThread();
 
             // Register dependencies BEFORE building the graph
-            IoCManager.Register<IReflectionManager, ReflectionManager>();
+            // Use ReflectionManagerTest for testing purposes
+            IoCManager.Register<IReflectionManager, ReflectionManagerTest>();
             IoCManager.Register<ISerializationManager, SerializationManager>();
 
             // Build the object graph with all registered dependencies
