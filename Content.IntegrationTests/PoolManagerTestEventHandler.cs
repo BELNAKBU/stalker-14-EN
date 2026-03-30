@@ -5,10 +5,11 @@ namespace Content.IntegrationTests;
 [SetUpFixture]
 public sealed class PoolManagerTestEventHandler
 {
-    // This value is completely arbitrary.
-    // Increased for CI environments which are slower than local development machines.
-    private static TimeSpan MaximumTotalTestingTimeLimit => TimeSpan.FromMinutes(45);
-    private static TimeSpan HardStopTimeLimit => MaximumTotalTestingTimeLimit.Add(TimeSpan.FromMinutes(5));
+    // Increased significantly for CI environments.
+    // Local runs: ~3-5 minutes
+    // GitHub Actions: can be 10x slower due to slower disk/CPU
+    private static TimeSpan MaximumTotalTestingTimeLimit => TimeSpan.FromMinutes(90);
+    private static TimeSpan HardStopTimeLimit => MaximumTotalTestingTimeLimit.Add(TimeSpan.FromMinutes(10));
 
     // Use Timer instead of Task.Delay to avoid ThreadPool starvation issues
     private static Timer? _softTimeoutTimer;

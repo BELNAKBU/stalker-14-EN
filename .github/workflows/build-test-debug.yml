@@ -47,14 +47,52 @@ jobs:
     - name: Run Content.Tests
       run: dotnet test --no-build --configuration DebugOpt Content.Tests/Content.Tests.csproj -- NUnit.ConsoleOut=0
 
+    - name: Check available resources
+      run: |
+        echo "=== System Resources ==="
+        echo "CPU cores: $(nproc)"
+        echo "Memory:"
+        free -h
+        echo "Disk space:"
+        df -h
+        echo "========================"
+
     - name: Run Content.IntegrationTests
+      timeout-minutes: 60
       shell: pwsh
       run: |
         $env:DOTNET_gcServer=1
-        # Enable verbose output to see which test is running
-        # ConsoleOut=1 shows test output, MapWarningTo=Failed treats warnings as failures
-        dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj `
-          -- NUnit.ConsoleOut=1 NUnit.MapWarningTo=Failed --logger "console;verbosity=detailed"
+
+        # Start resource monitoring in background
+        $monitorScript = {
+          param($logFile)
+          while ($true) {
+            $timestamp = Get-Date -Format 'o'
+            $mem = free -m 2>$null | Out-String
+            $cpu = top -bn1 2>$null | head -n 5 | Out-String
+            "$timestamp`n$mem`n$cpu`n---" | Out-File -Append -FilePath $logFile
+            Start-Sleep -Seconds 30
+          }
+        }
+
+        $logFile = "/tmp/resource_monitor.log"
+        $monitorJob = Start-Job -ScriptBlock $monitorScript -ArgumentList $logFile
+
+        try {
+          dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj `
+            -- NUnit.MapWarningTo=Failed NUnit.NumberOfTestWorkers=2
+        } finally {
+          # Stop monitoring
+          Stop-Job $monitorJob -ErrorAction SilentlyContinue
+          Remove-Job $monitorJob -ErrorAction SilentlyContinue
+
+          # Output last part of monitor log
+          if (Test-Path $logFile) {
+            Write-Host "=== Resource Monitor Log (last 50 lines) ==="
+            Get-Content $logFile | Select-Object -Last 50
+            Write-Host "============================================"
+          }
+        }
   ci-success:
     name: Build & Test Debug
     needs:
