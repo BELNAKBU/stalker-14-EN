@@ -2009,5 +2009,26 @@
   id: 212
   time: '2026-03-30T21:46:00.044155+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/738
+- author: stickycheZ101
+  changes:
+  - message: added the stalker forestry rig, a special bag useful for hauling mass
+      quantities of lumber
+    type: Add
+  - message: added fine variants of all the obtainable wood types, useful only for
+      selling to sido
+    type: Add
+  - message: made trees roughly 1/3 weaker in hitpoints so you're not chopping a single
+      tree for half an hour
+    type: Tweak
+  - message: made the hatchet autoswing, to hopefully prevent carpal tunnel
+    type: Tweak
+  - message: MAJOR refactor to the tree prototypes (they were designed horribly)
+    type: Tweak
+  - message: cvarzi now sells for way more at sido's, to make taking salo back home
+      worth it
+    type: Tweak
+  id: 213
+  time: '2026-03-31T02:01:45.048411+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/671
 Name: Stalker
 Order: -1
