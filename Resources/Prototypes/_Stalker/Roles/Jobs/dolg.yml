@@ -9,6 +9,10 @@
     # - !type:RoleTimeRequirement
     #   role: JobDolg
     #   time: 1
+    - !type:SpeciesRequirement
+      species:
+      - Human
+      - Dwarf
   startingGear: DolgGear
   supervisors: job-dolg-supervisor
   canBeAntag: false
@@ -49,6 +53,10 @@
     # - !type:RoleTimeRequirement
     #   role: JobHeadDolg
     #   time: 1
+    - !type:SpeciesRequirement
+      species:
+      - Human
+      - Dwarf
   startingGear: DolgGearHead # EN
   supervisors: job-head-dolg-supervisor
   canBeAntag: false

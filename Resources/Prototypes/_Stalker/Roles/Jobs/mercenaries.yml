@@ -9,6 +9,10 @@
     # - !type:RoleTimeRequirement
     #   role: JobStalkerMercenary
     #   time: 1
+    - !type:SpeciesRequirement
+      species:
+      - Human
+      - Dwarf
   startingGear: StalkerMercenaryGear
   supervisors: job-mercenary-supervisor
   canBeAntag: false
@@ -56,6 +60,10 @@
     # - !type:RoleTimeRequirement
     #   role: JobStalkerHeadMercenary
     #   time: 1
+    - !type:SpeciesRequirement
+      species:
+      - Human
+      - Dwarf
   startingGear: StalkerHeadMercenaryGear
   supervisors: job-head-mercenary-supervisor
   canBeAntag: false

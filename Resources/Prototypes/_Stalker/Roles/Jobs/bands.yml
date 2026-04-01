@@ -9,6 +9,10 @@
     # - !type:RoleTimeRequirement
     #   role: JobBandit
     #   time: 1
+    - !type:SpeciesRequirement
+      species:
+      - Human
+      - Dwarf
   startingGear: BandGear
   supervisors: job-bandit-supervisor
   canBeAntag: false
@@ -51,6 +55,10 @@
     # - !type:RoleTimeRequirement
     #   role: JobHeadBandit
     #   time: 1
+    - !type:SpeciesRequirement
+      species:
+      - Human
+      - Dwarf
   startingGear: BandHeadGear
   supervisors: job-bandit-supervisor
   canBeAntag: false

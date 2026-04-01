@@ -12,6 +12,12 @@
   playTimeTracker: JobStalkerRookie
   whitelisted: false
   requirements:
+    - !type:SpeciesRequirement
+      species:
+      - Human
+      - Dwarf
+      - Gingerbread
+      - HumanFat
     - !type:OverallPlaytimeRequirement
       time: 10h
       inverted: true
