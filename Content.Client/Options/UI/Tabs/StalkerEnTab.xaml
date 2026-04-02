@@ -10,6 +10,8 @@
                           Text="{Loc 'ui-options-simple-emission'}"/>
                 <CheckBox Name="PdaNotificationsCheckbox"
                           Text="{Loc 'ui-options-pda-notifications'}"/>
+                <CheckBox Name="PdaNotificationPngIconsCheckbox"
+                          Text="{Loc 'ui-options-pda-notification-png-icons'}"/>
             </BoxContainer>
         </ScrollContainer>
         <ui:OptionsTabControlRow Name="Control"

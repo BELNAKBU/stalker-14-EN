@@ -84,6 +84,13 @@ public sealed partial class CCCCVars
     public static readonly CVarDef<bool> PdaNotificationsEnabled =
         CVarDef.Create("stalker.pda_notifications_enabled", true, CVar.CLIENTONLY);
 
+    /// <summary>
+    /// Use PNG faction icons in PDA notifications instead of sprite icons.
+    /// Client-side preference, saved between sessions.
+    /// </summary>
+    public static readonly CVarDef<bool> PdaNotificationPngIcons =
+        CVarDef.Create("stalker.pda_notification_png_icons", true, CVar.CLIENTONLY);
+
     /*
     * Stalker OpenRouter KEY
     */

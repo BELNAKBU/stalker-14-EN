@@ -12,13 +12,18 @@ public sealed class PdaGeneralMessageEvent : EntityEventArgs
     public readonly string Title;
     public readonly string Content;
     public readonly string Sender;
-    public readonly string? BandId; // Band ID for faction icon
 
-    public PdaGeneralMessageEvent(string title, string content, string sender, string? bandId = null)
+    /// <summary>
+    /// Band icon name (e.g. "stalker", "freedom", "Dolg", "band").
+    /// Used to determine which faction PNG texture to display.
+    /// </summary>
+    public readonly string? BandIcon;
+
+    public PdaGeneralMessageEvent(string title, string content, string sender, string? bandIcon = null)
     {
         Title = title;
         Content = content;
         Sender = sender;
-        BandId = bandId;
+        BandIcon = bandIcon;
     }
 }

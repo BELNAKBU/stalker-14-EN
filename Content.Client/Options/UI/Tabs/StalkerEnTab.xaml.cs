@@ -15,6 +15,7 @@ public sealed partial class StalkerEnTab : Control
 
         Control.AddOptionCheckBox(STCCVars.EmissionSimpleVisuals, EmissionSimpleVisualsCheckbox);
         Control.AddOptionCheckBox(CCCCVars.PdaNotificationsEnabled, PdaNotificationsCheckbox);
+        Control.AddOptionCheckBox(CCCCVars.PdaNotificationPngIcons, PdaNotificationPngIconsCheckbox);
 
         Control.Initialize();
     }

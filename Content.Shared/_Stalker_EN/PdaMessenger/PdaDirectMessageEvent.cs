@@ -20,14 +20,14 @@ public sealed class PdaDirectMessageEvent : EntityEventArgs
     public readonly string Content;
 
     /// <summary>
-    /// Band ID for faction icon (null if no band).
+    /// Band icon name (e.g. "stalker", "freedom", "Dolg").
     /// </summary>
-    public readonly string? BandId;
+    public readonly string? BandIcon;
 
-    public PdaDirectMessageEvent(string sender, string content, string? bandId = null)
+    public PdaDirectMessageEvent(string sender, string content, string? bandIcon = null)
     {
         Sender = sender;
         Content = content;
-        BandId = bandId;
+        BandIcon = bandIcon;
     }
 }

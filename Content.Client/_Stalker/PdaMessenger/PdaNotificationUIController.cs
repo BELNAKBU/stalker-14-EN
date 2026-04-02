@@ -115,7 +115,7 @@ public sealed class PdaNotificationUIController : UIController
         if (!_notificationsEnabled || _notificationContainer == null)
             return;
 
-        AddNotification(ev.Title, ev.Content, ev.Sender, ev.BandId);
+        AddNotification(ev.Title, ev.Content, ev.Sender, ev.BandIcon);
     }
 
     private void OnDirectMessage(PdaDirectMessageEvent ev, EntitySessionEventArgs args)
@@ -123,7 +123,7 @@ public sealed class PdaNotificationUIController : UIController
         if (!_notificationsEnabled)
             return;
 
-        AddNotification("Direct Message", ev.Content, ev.Sender, ev.BandId);
+        AddNotification("Direct Message", ev.Content, ev.Sender, ev.BandIcon);
     }
 
     /// <summary>
@@ -180,18 +180,28 @@ public sealed class PdaNotificationUIController : UIController
     /// <summary>
     /// Enforces notification limits by removing oldest notifications if needed.
     /// </summary>
-    private void EnforceLimits()
+    /// <param name="updateCache">If true, updates the cached hotbar height (used when hotbar changes).</param>
+    private void EnforceLimits(bool updateCache = false)
     {
+        if (_activeNotifications.Count == 0)
+            return;
+
         var hotbarHeight = GetHotbarHeight();
 
         // Remove oldest notifications until we fit within limits
-        while (_activeNotifications.Count > 0 &&
-               (_activeNotifications.Count > MaxNotifications || GetTotalHeight() + hotbarHeight > MaxTotalHeight))
+        while (_activeNotifications.Count > MaxNotifications || GetTotalHeight() + hotbarHeight > MaxTotalHeight)
         {
             var oldest = _activeNotifications.First();
             oldest.Panel.Orphan();
             _activeNotifications.RemoveAt(0);
+
+            if (_activeNotifications.Count == 0)
+                break;
         }
+
+        // Update cached hotbar height only when explicitly requested (hotbar changed)
+        if (updateCache)
+            _lastHotbarHeight = hotbarHeight;
     }
 
     /// <summary>
@@ -270,10 +280,8 @@ public sealed class PdaNotificationUIController : UIController
 
         if (Math.Abs(hotbarHeight - _lastHotbarHeight) > 1f)
         {
-            _lastHotbarHeight = hotbarHeight;
-
-            // Enforce limits after hotbar height change
-            EnforceLimits();
+            // Enforce limits after hotbar height change (also updates _lastHotbarHeight)
+            EnforceLimits(updateCache: true);
 
             return true;
         }

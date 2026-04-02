@@ -9,7 +9,7 @@
     MaxWidth="650"
     MaxHeight="300">
 
-    <BoxContainer Orientation="Horizontal" Margin="8 6" HorizontalExpand="False">
+    <BoxContainer Orientation="Horizontal" Margin="8 6">
         <!-- Faction icon on the left -->
         <TextureRect Name="FactionIcon"
                       Access="Public"
@@ -24,17 +24,15 @@
         <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="6 0 0 0">
             <!-- Title (sender name) -->
             <controls:Label Name="TitleLabel"
-                   StyleClasses="LabelSmall"
-                   MinSize="550 0"
-                   ClipText="True"
-                   Text="Sender Name"/>
+                            StyleClasses="LabelSmall"
+                            ClipText="True"
+                            Text="Sender Name"/>
 
             <!-- Message content - RichTextLabel supports word wrap! -->
             <controls:RichTextLabel Name="ContentLabel"
-                   Access="Public"
-                   StyleClasses="LabelSmall"
-                   MinSize="550 0"
-                   Text="Message content" />
+                                    Access="Public"
+                                    StyleClasses="LabelSmall"
+                                    Text="Message content" />
         </BoxContainer>
     </BoxContainer>
 

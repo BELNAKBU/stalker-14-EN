@@ -442,7 +442,8 @@ public sealed partial class STMessengerSystem : EntitySystem
             }
 
             // Send pop-up notification to DM recipient
-            var dmEvent = new PdaDirectMessageEvent(senderName, content, ResolveContactFaction(senderKey));
+            var bandIcon = GetBandIcon(server);
+            var dmEvent = new PdaDirectMessageEvent(senderName, content, bandIcon);
             if (_playerManager.TryGetSessionById(new NetUserId(contactKey.UserId), out var recipientSession))
             {
                 RaiseNetworkEvent(dmEvent, recipientSession);
@@ -462,12 +463,12 @@ public sealed partial class STMessengerSystem : EntitySystem
             // Send pop-up notification for General channel (if not muted)
             if (channelProto.ID == "STGeneral")
             {
-                var bandId = GetBandId(server);
+                var bandIcon = GetBandIcon(server);
 
                 // Check if recipient has General channel muted
                 if (!server.MutedChannels.Contains(channelProto.ID))
                 {
-                    var generalEvent = new PdaGeneralMessageEvent(displayName, content, displayName, bandId);
+                    var generalEvent = new PdaGeneralMessageEvent(displayName, content, displayName, bandIcon);
                     RaiseNetworkEvent(generalEvent);
                 }
             }
@@ -477,27 +478,60 @@ public sealed partial class STMessengerSystem : EntitySystem
     }
 
     /// <summary>
-    /// Gets the band ID for a player based on their band/faction.
+    /// Gets the band icon name for a player based on their band/faction.
+    /// Uses the mob holding the PDA (not the PDA entity itself).
+    /// Falls back to OwnerBand if mob is not available.
     /// </summary>
-    private string? GetBandId(STMessengerServerComponent server)
+    private string? GetBandIcon(STMessengerServerComponent server)
     {
-        if (!TryComp<BandsComponent>(server.Owner, out var bands))
+        // Try 1: Get bandIcon from the mob holding the PDA
+        if (TryComp<TransformComponent>(server.Owner, out var xform))
         {
-            if (server.OwnerBand.HasValue)
-                return server.OwnerBand.Value.Id;
-
-            return null;
+            var holder = xform.ParentUid;
+            if (holder.IsValid() && TryComp<BandsComponent>(holder, out var bands))
+            {
+                if (!string.IsNullOrEmpty(bands.BandStatusIcon))
+                    return bands.BandStatusIcon;
+            }
         }
 
-        if (bands.BandProto is not { } bandProtoId)
+        // Try 2: Fallback to OwnerBand and map to bandIcon
+        if (server.OwnerBand.HasValue)
         {
-            if (server.OwnerBand.HasValue)
-                return server.OwnerBand.Value.Id;
-
-            return null;
+            return GetBandIconForBandProto(server.OwnerBand.Value);
         }
 
-        return bandProtoId.Id;
+        return null;
+    }
+
+    /// <summary>
+    /// Maps band prototype ID to bandIcon name.
+    /// </summary>
+    private static string? GetBandIconForBandProto(ProtoId<STBandPrototype> bandProtoId)
+    {
+        return bandProtoId.Id switch
+        {
+            "STFreedomBand" => "freedom",
+            "STDolgBand" => "Dolg",
+            "STBanditsBand" => "band",
+            "STRenegatsBand" => "rene",
+            "STMonolithBand" => "monolith",
+            "STClearSkyBand" => "cn",
+            "STStalkerBand" => "stalker",
+            "STMercenariesBand" => "merc",
+            "STMilitaryBand" => "army",
+            "STSciBand" => "sci",
+            "STMilitiaBand" => "militia",
+            "STAnomalistsBand" => "ecologists",
+            "STSeraphimsBand" => "seraphim",
+            "STCovenantBand" => "zavet",
+            "STGrehBand" => "greh",
+            "STSsuBand" => "sbu",
+            "STUNBand" => "un",
+            "STProjectBand" => "project-1",
+            "STToadsBand" => "jaba",
+            _ => "stalker" // Default
+        };
     }
 
     private string? FindReplySnippet(string chatId, bool isDm, STMessengerServerComponent server, uint replyId)
