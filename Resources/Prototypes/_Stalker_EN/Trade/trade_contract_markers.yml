@@ -1,0 +1,118 @@
+# Markers for contract spawn zones and delivery points.
+
+- type: entity
+  id: MarkerTradeContractBounty
+  parent: MarkerBase
+  name: контракт, охота
+  suffix: ST, КВЕСТЫ
+  components:
+  - type: Tag
+    tags:
+    - TradeContractHuntSpawn
+
+- type: entity
+  id: MarkerContractDeliveryBolotoEasy
+  parent: MarkerBase
+  name: контракт, доставка, болото легкий
+  suffix: ST, КВЕСТЫ
+  components:
+  - type: Tag
+    tags:
+    - TradeContractDeliveryBolotoEasy
+
+- type: entity
+  id: MarkerContractHuntBoarLair
+  parent: MarkerBase
+  name: контракт, охота, логово кабанов, болото средний
+  suffix: ST, КВЕСТЫ
+  components:
+  - type: Tag
+    tags:
+    - TradeContractHuntBoarLair
+
+- type: entity
+  id: MarkerContractHuntPseudodog
+  parent: MarkerBase
+  name: контракт, охота, логово псевдособак, болото средний
+  suffix: ST, КВЕСТЫ
+  components:
+  - type: Tag
+    tags:
+    - TradeContractHuntPseudodog
+
+- type: entity
+  id: MarkerContractHuntMobMutantLeshiy
+  parent: MarkerBase
+  name: контракт, охота, Леший, болото средний
+  suffix: ST, КВЕСТЫ
+  components:
+  - type: Tag
+    tags:
+    - TradeContractHuntMobMutantLeshiy
+
+- type: entity
+  id: MarkerContractHuntSTMobMutantBearT2Common
+  parent: MarkerBase
+  name: контракт, охота, Медвэдь, болото средний
+  suffix: ST, КВЕСТЫ
+  components:
+  - type: Tag
+    tags:
+    - TradeContractHuntSTMobMutantBearT2Common
+
+- type: entity
+  id: MarkerContractHuntMobMutantPoltergeistIce
+  parent: MarkerBase
+  name: контракт, охота, Полтейргест, болото тяжелый
+  suffix: ST, КВЕСТЫ
+  components:
+  - type: Tag
+    tags:
+    - TradeContractHuntMobMutantPoltergeistIce
+
+- type: entity
+  id: MarkerContractHuntSTMobMutantBloodsuckerUncommon
+  parent: MarkerBase
+  name: контракт, охота, Кровосос, болото тяжелый
+  suffix: ST, КВЕСТЫ
+  components:
+  - type: Tag
+    tags:
+    - TradeContractHuntSTMobMutantBloodsuckerUncommon
+
+- type: entity
+  id: MarkerContractHuntSTMobMutantBearPsiUncommon
+  parent: MarkerBase
+  name: контракт, охота, Медвэдь, болото тяжелый
+  suffix: ST, КВЕСТЫ
+  components:
+  - type: Tag
+    tags:
+    - TradeContractHuntSTMobMutantBearPsiUncommon
+
+- type: Tag
+  id: TradeContractDeliveryBolotoEasy
+
+- type: Tag
+  id: TradeContractHuntBoarLair
+
+- type: Tag
+  id: TradeContractHuntPseudodog
+
+- type: Tag
+  id: TradeContractHuntSpawn
+
+- type: Tag
+  id: TradeContractHuntMobMutantLeshiy
+
+- type: Tag
+  id: TradeContractHuntSTMobMutantBearT2Common
+
+- type: Tag
+  id: TradeContractHuntSTMobMutantBearPsiUncommon
+
+- type: Tag
+  id: TradeContractHuntSTMobMutantBloodsuckerUncommon
+
+- type: Tag
+  id: TradeContractHuntMobMutantPoltergeistIce

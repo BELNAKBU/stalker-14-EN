@@ -1,0 +1,16 @@
+﻿- type: entity
+  id: TradeContractBoardCity
+  parent: Trademachine
+  name: доска контрактов
+  description: доска с заказами на поставки, охоту, ремонт и особые цели
+  suffix: ST, КВЕСТЫ
+  components:
+  - type: Sprite
+    drawdepth: WallMountedItems
+    sprite: Structures/Wallmounts/noticeboard.rsi
+    layers:
+    - state: noticeboard
+  - type: NcStore
+    contractPresets:
+    - TradeContractsCityPreset
+
