@@ -2081,5 +2081,12 @@
   id: 220
   time: '2026-04-03T12:25:38.197112+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/749
+- author: stickycheZ101
+  changes:
+  - message: fixed bonfires being uncraftable
+    type: Fix
+  id: 221
+  time: '2026-04-03T16:26:44.153218+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/752
 Name: Stalker
 Order: -1
