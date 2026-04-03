@@ -49,7 +49,8 @@ public sealed class NcStoreInventorySystem : EntitySystem
     {
         base.Initialize();
         _protos.PrototypesReloaded += OnPrototypesReloaded;
-        SubscribeLocalEvent<EntityTerminatingEvent>(OnEntityTerminating);
+        // TEMP(binary-search): Test 1 isolate SpawnAndDeleteEntityCountTest leak.
+        // SubscribeLocalEvent<EntityTerminatingEvent>(OnEntityTerminating);
     }
 
     public override void Shutdown()
