@@ -2147,5 +2147,32 @@
   id: 228
   time: '2026-04-05T19:08:15.342472+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/761
+- author: Roland410
+  changes:
+  - message: Removes the teleporter between military base and Agroprom, meaning military
+      have to walk there on foot (the horrors).
+    type: Remove
+  - message: Changed all Agroprom base doors to be military access, only the bunker
+      elevator and downstairs are scientist locked.
+    type: Tweak
+  - message: Moved Ecologists to Yantar bunker, and gave it a small underside, compared
+      to what they had in Agroprom.
+    type: Tweak
+  - message: Ecologist bunker and base given a roof, a proper kitchen, and some hydroponic
+      trays.
+    type: Tweak
+  - message: Unifies the two Ecologist vendor NPCs.
+    type: Tweak
+  - message: Makes the Ecologist leader able to access their office again.
+    type: Fix
+  - message: Military can sell the same things to their vendor, that they could to
+      Sidorovich to compensate for their loss of ease of access to a vendor, that
+      buys parts and artis.
+    type: Add
+  - message: Adds a clone of the military vendor to Agroprom.
+    type: Add
+  id: 229
+  time: '2026-04-05T22:34:32.534801+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/703
 Name: Stalker
 Order: -1
