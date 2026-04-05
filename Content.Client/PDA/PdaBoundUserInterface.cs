@@ -88,10 +88,7 @@ namespace Content.Client.PDA
                 SendMessage(new STPdaPasswordOpenSettingsMessage());
             };
 
-            _menu.OnProgramItemPressed += ActivateCartridge;
-            _menu.OnInstallButtonPressed += InstallCartridge;
-            _menu.OnUninstallButtonPressed += UninstallCartridge;
-            _menu.ProgramCloseButton.OnPressed += _ => DeactivateActiveCartridge();
+            _menu.OnProgramDeactivated += DeactivateActiveCartridge;
 
             var borderColorComponent = GetBorderColorComponent();
             if (borderColorComponent == null)
@@ -136,14 +133,22 @@ namespace Content.Client.PDA
             if (_menu is null)
                 return;
 
-            _menu.ToHomeScreen();
-            _menu.HideProgramHeader();
+            // Only go to home screen if we're NOT on Settings view AND there's no active program
+            // Don't switch to home when:
+            // - switching between programs (hasActiveProgram = true)
+            // - we're on Settings view (user intentionally went to Settings)
+            var currentView = _menu.GetCurrentView();
+            var hasActiveProgram = _menu.GetActiveProgram().HasValue;
+
+            if (currentView != PdaMenu.SettingsView && !hasActiveProgram)
+                _menu.ToHomeScreen();
+
             _menu.ProgramView.RemoveChild(cartridgeUIFragment);
         }
 
         protected override void UpdateAvailablePrograms(List<(EntityUid, CartridgeComponent)> programs)
         {
-            _menu?.UpdateAvailablePrograms(programs);
+            _menu?.UpdateAvailablePrograms(programs, ActivateCartridge, InstallCartridge, UninstallCartridge);
         }
 
         private PdaBorderColorComponent? GetBorderColorComponent()

@@ -9,6 +9,7 @@ using Robust.Client.Graphics;
 using Robust.Client.UserInterface.XAML;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Timing;
+using System.Numerics;
 
 namespace Content.Client.PDA
 {
@@ -21,9 +22,8 @@ namespace Content.Client.PDA
         private readonly ClientGameTicker _gameTicker;
 
         public const int HomeView = 0;
-        public const int ProgramListView = 1;
-        public const int SettingsView = 2;
-        public const int ProgramContentView = 3;
+        public const int SettingsView = 1;
+        public const int ProgramContentView = 2;
 
 
         private string _pdaOwner = Loc.GetString("comp-pda-ui-unknown");
@@ -36,9 +36,7 @@ namespace Content.Client.PDA
 
         private int _currentView;
 
-        public event Action<EntityUid>? OnProgramItemPressed;
-        public event Action<EntityUid>? OnUninstallButtonPressed;
-        public event Action<EntityUid>? OnInstallButtonPressed;
+        public event Action? OnProgramDeactivated;
         public PdaMenu()
         {
             IoCManager.InjectDependencies(this);
@@ -52,46 +50,18 @@ namespace Content.Client.PDA
             EjectPenButton.IconTexture = new SpriteSpecifier.Texture(new("/Textures/Interface/pencil.png"));
             EjectIdButton.IconTexture = new SpriteSpecifier.Texture(new("/Textures/Interface/eject.png"));
             EjectPaiButton.IconTexture = new SpriteSpecifier.Texture(new("/Textures/Interface/pai.png"));
-            ProgramCloseButton.IconTexture = new SpriteSpecifier.Texture(new("/Textures/Interface/Nano/cross.svg.png"));
 
 
             HomeButton.OnPressed += _ => ToHomeScreen();
 
-            ProgramListButton.OnPressed += _ =>
-            {
-                HomeButton.IsCurrent = false;
-                ProgramListButton.IsCurrent = true;
-                SettingsButton.IsCurrent = false;
-                ProgramTitle.IsCurrent = false;
-
-                ChangeView(ProgramListView);
-            };
-
-
             SettingsButton.OnPressed += _ =>
             {
                 HomeButton.IsCurrent = false;
-                ProgramListButton.IsCurrent = false;
                 SettingsButton.IsCurrent = true;
-                ProgramTitle.IsCurrent = false;
 
+                // Switch to settings view first, then deactivate program
                 ChangeView(SettingsView);
-            };
-
-            ProgramTitle.OnPressed += _ =>
-            {
-                HomeButton.IsCurrent = false;
-                ProgramListButton.IsCurrent = false;
-                SettingsButton.IsCurrent = false;
-                ProgramTitle.IsCurrent = true;
-
-                ChangeView(ProgramContentView);
-            };
-
-            ProgramCloseButton.OnPressed += _ =>
-            {
-                HideProgramHeader();
-                ToHomeScreen();
+                DeactivateActiveProgram();
             };
 
             PdaOwnerButton.OnPressed += _ =>
@@ -208,13 +178,15 @@ namespace Content.Client.PDA
             // stalker-en-changes-end
         }
 
-        public void UpdateAvailablePrograms(List<(EntityUid, CartridgeComponent)> programs)
+        private EntityUid? _activeProgram;
+
+        public void UpdateAvailablePrograms(List<(EntityUid, CartridgeComponent)> programs, Action<EntityUid> onActivate, Action<EntityUid> onInstall, Action<EntityUid> onUninstall)
         {
-            ProgramList.RemoveAllChildren();
+            ProgramBarContent.RemoveAllChildren();
 
             if (programs.Count == 0)
             {
-                ProgramList.AddChild(new Label()
+                ProgramBarContent.AddChild(new Label()
                 {
                     Text = Loc.GetString("comp-pda-io-no-programs-available"),
                     HorizontalAlignment = HAlignment.Center,
@@ -225,43 +197,40 @@ namespace Content.Client.PDA
                 return;
             }
 
-            var row = CreateProgramListRow();
-            var itemCount = 1;
-            ProgramList.AddChild(row);
-
             foreach (var (uid, component) in programs)
             {
-                //Create a new row every second program item starting from the first
-                if (itemCount % 2 != 0)
-                {
-                    row = CreateProgramListRow();
-                    ProgramList.AddChild(row);
-                }
-
                 var item = new PdaProgramItem();
+                item.ProgramTitle = Loc.GetString(component.ProgramName);
 
                 if (component.Icon is not null)
                     item.Icon.SetFromSpriteSpecifier(component.Icon);
 
-                item.OnPressed += _ => OnProgramItemPressed?.Invoke(uid);
+                // Highlight if this is the active program
+                if (_activeProgram == uid)
+                    item.BackgroundColor = Color.FromHex("#316dca");
+
+                item.OnPressed += _ =>
+                {
+                    if (_activeProgram.HasValue && _activeProgram.Value != uid)
+                        OnProgramDeactivated?.Invoke();
+                    _activeProgram = uid;
+                    onActivate(uid);
+                };
 
                 switch (component.InstallationStatus)
                 {
                     case InstallationStatus.Cartridge:
                         item.InstallButton.Visible = true;
                         item.InstallButton.Text = Loc.GetString("cartridge-bound-user-interface-install-button");
-                        item.InstallButton.OnPressed += _ => OnInstallButtonPressed?.Invoke(uid);
+                        item.InstallButton.OnPressed += _ => onInstall(uid);
                         break;
                     case InstallationStatus.Installed:
                         item.InstallButton.Visible = true;
                         item.InstallButton.Text = Loc.GetString("cartridge-bound-user-interface-uninstall-button");
-                        item.InstallButton.OnPressed += _ => OnUninstallButtonPressed?.Invoke(uid);
+                        item.InstallButton.OnPressed += _ => onUninstall(uid);
                         break;
                 }
 
-                item.ProgramName.Text = Loc.GetString(component.ProgramName);
-
-                // stalker-changes: notification badge
                 item.NotificationDot.Visible = component.HasNotification;
                 if (component.HasNotification)
                 {
@@ -271,60 +240,56 @@ namespace Content.Client.PDA
                     };
                 }
 
-                item.SetHeight = 20;
-                row.AddChild(item);
-
-                itemCount++;
+                ProgramBarContent.AddChild(item);
             }
-
-            //Add a filler item to the last row when it only contains one item
-            if (itemCount % 2 == 0)
-                row.AddChild(new Control() { HorizontalExpand = true });
         }
 
         /// <summary>
-        /// Changes the current view to the home screen (view 0) and sets the tabs `IsCurrent` flag accordingly
+        /// Changes the current view to the home screen and deactivates any active program
         /// </summary>
         public void ToHomeScreen()
         {
             HomeButton.IsCurrent = true;
-            ProgramListButton.IsCurrent = false;
             SettingsButton.IsCurrent = false;
-            ProgramTitle.IsCurrent = false;
 
+            DeactivateActiveProgram();
             ChangeView(HomeView);
         }
 
         /// <summary>
-        /// Hides the program title and close button.
+        /// Deactivates the currently active program and triggers the deactivation event
         /// </summary>
-        public void HideProgramHeader()
+        public void DeactivateActiveProgram()
         {
-            ProgramTitle.IsCurrent = false;
-            ProgramTitle.Visible = false;
-            ProgramCloseButton.Visible = false;
-            ProgramListButton.Visible = true;
-            SettingsButton.Visible = true;
+            if (_activeProgram.HasValue)
+            {
+                _activeProgram = null;
+                OnProgramDeactivated?.Invoke();
+                // Refresh program bar to remove highlight
+                // Note: The caller should call UpdateAvailablePrograms again to refresh visuals
+            }
         }
 
         /// <summary>
-        /// Changes the current view to the program content view (view 3), sets the program title and sets the tabs `IsCurrent` flag accordingly
+        /// Changes the current view to the program content view
         /// </summary>
         public void ToProgramView(string title)
         {
             HomeButton.IsCurrent = false;
-            ProgramListButton.IsCurrent = false;
             SettingsButton.IsCurrent = false;
-            ProgramTitle.IsCurrent = false;
-            ProgramTitle.IsCurrent = true;
-            ProgramTitle.Visible = true;
-            ProgramCloseButton.Visible = true;
-            ProgramListButton.Visible = false;
-            SettingsButton.Visible = false;
 
-            ProgramTitle.LabelText = title;
             ChangeView(ProgramContentView);
         }
+
+        /// <summary>
+        /// Gets the currently active program entity, if any
+        /// </summary>
+        public EntityUid? GetActiveProgram() => _activeProgram;
+
+        /// <summary>
+        /// Gets the currently active view number
+        /// </summary>
+        public int GetCurrentView() => _currentView;
 
 
         /// <summary>
@@ -338,15 +303,6 @@ namespace Content.Client.PDA
             ViewContainer.GetChild(_currentView).Visible = false;
             ViewContainer.GetChild(view).Visible = true;
             _currentView = view;
-        }
-
-        private static BoxContainer CreateProgramListRow()
-        {
-            return new BoxContainer()
-            {
-                Orientation = BoxContainer.LayoutOrientation.Horizontal,
-                HorizontalExpand = true
-            };
         }
 
         private void HideAllViews()
