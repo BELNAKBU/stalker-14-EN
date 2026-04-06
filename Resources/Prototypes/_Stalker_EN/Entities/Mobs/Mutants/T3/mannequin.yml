@@ -1,4 +1,4 @@
-#Silent Hill Mannequin made for special events for now
+#Silent Hill Mannequin made for special events by Nahuel
 - type: entity
   parent: BaseMobMutant
   id: STMobMutantMannequin
