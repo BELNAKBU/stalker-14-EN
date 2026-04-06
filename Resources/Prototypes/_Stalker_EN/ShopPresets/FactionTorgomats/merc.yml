@@ -132,9 +132,8 @@
         P99Mag15: 120
         BaseMP5Mag: 260
         BaseTEC9Mag: 120
-        BaseGlockMag10: 100
-        GlockMag24: 200
-        GlockMag33: 300
+        GlockMag17: 150
+        GlockMag33: 600
         # 7.51
         Base751Mag10: 200
         751Mag20: 400
@@ -312,6 +311,7 @@
         STModuleSilencerSMGT1: 600
         STModuleSniperSightT1: 600
         STModuleSilencerSniperT1: 600
+        STModuleGlockSwitch: 200
 
     - name: shop-category-paperwork
       priority: 12

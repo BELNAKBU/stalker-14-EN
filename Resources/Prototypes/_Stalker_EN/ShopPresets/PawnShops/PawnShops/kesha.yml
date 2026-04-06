@@ -140,7 +140,7 @@
     #9x18 9x19
     STWeaponPistolC96: 300
     STWeaponPistolHiPower: 300
-    STWeaponPistolP99: 300 
+    STWeaponPistolP99: 300
     WeaponPistolStalkerGlock: 100
     WeaponStalkerPistolTec9: 100
     WeaponPistolStalkerAPS: 350
@@ -211,12 +211,14 @@
         BasePPSHMag: 350
         VityazMag: 400
           # Other
-        STSTC96ClipEmpty: 300  
+        STSTC96ClipEmpty: 300
         USPMag12: 500
         TTMag: 100
         STSpeedLoader45ACPEmpty: 300
         STSpeedLoader357MagnumEmpty: 330
         BaseAPSMag: 100
+        GlockMag17: 75
+        GlockMag33: 500
     - name: shop-category-ammunition
       priority: 3
       items:
@@ -362,3 +364,4 @@
         STModuleSilencerRiflesT2Nato: 4600
         STModuleSilencerSniperT2: 4600
         STModuleSilencerSMGT2: 4800
+        STModuleGlockSwitch: 200

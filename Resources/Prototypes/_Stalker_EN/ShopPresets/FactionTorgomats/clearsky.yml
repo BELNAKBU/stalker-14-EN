@@ -194,8 +194,8 @@
       P99Mag15: 140
       M1911Mag7: 120
       USPMag12: 200
-      BaseGlockMag10: 100
-      GlockMag17: 200
+      GlockMag17: 150
+      GlockMag33: 600
       TTMag: 75
       BaseAPSMag: 100
       STSpeedLoader45ACPEmpty: 120
@@ -427,6 +427,7 @@
       STModuleSilencerRiflesT2Nato: 2800
       STModuleSilencerSniperT2: 2800
       STModuleSilencerSMGT2: 2800
+      STModuleGlockSwitch: 200
 
   - name: shop-category-customization
     priority: 12

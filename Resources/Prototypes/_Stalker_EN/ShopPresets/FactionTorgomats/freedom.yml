@@ -118,9 +118,8 @@
         556Mag20: 220
         556Mag30: 400
         BaseMP5Mag: 260
-        BaseGlockMag10: 100
-        GlockMag24: 350
-        GlockMag33: 950
+        GlockMag17: 150
+        GlockMag33: 600
         STSpeedLoader45ACPEmpty: 100
         Base751Mag10: 200
         751Mag20: 400
@@ -321,6 +320,7 @@
         STModuleSilencerSMGT1: 600
         STModuleSniperSightT1: 600
         STModuleSilencerSniperT1: 600
+        STModuleGlockSwitch: 200
 
     - name: shop-category-grenades
       priority: 12
