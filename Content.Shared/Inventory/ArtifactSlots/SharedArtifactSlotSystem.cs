@@ -24,6 +24,10 @@ public sealed class SharedArtifactSlotSystem : EntitySystem
 
     private void OnEquipped(Entity<GrantsArtifactSlotsComponent> ent, ref GotEquippedEvent args)
     {
+        // Skip if the entity is being deleted
+        if (Terminating(args.Equipee))
+            return;
+
         if (!TryComp<InventoryComponent>(args.Equipee, out var inv))
             return;
 
@@ -32,6 +36,10 @@ public sealed class SharedArtifactSlotSystem : EntitySystem
 
     private void OnUnequipped(Entity<GrantsArtifactSlotsComponent> ent, ref GotUnequippedEvent args)
     {
+        // Skip if the entity is being deleted to avoid adding components to a terminating entity
+        if (Terminating(args.Equipee))
+            return;
+
         if (!TryComp<InventoryComponent>(args.Equipee, out var inv))
             return;
 
