@@ -90,10 +90,32 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
             return;
         }
 
+        // Stalker-EN-Change: Preserve custom colors from YAML before loading profile
+        var preservedSkinColor = humanoid.SkinColor;
+        var preservedEyeColor = humanoid.EyeColor;
+        var hasCustomSkinColor = humanoid.HasCustomSkinColor;
+        var hasCustomEyeColor = humanoid.HasCustomEyeColor;
+
         if (string.IsNullOrEmpty(humanoid.Initial)
             || !_proto.Resolve(humanoid.Initial, out HumanoidProfilePrototype? startingSet))
         {
             LoadProfile(uid, HumanoidCharacterProfile.DefaultWithSpecies(humanoid.Species), humanoid);
+
+            // Stalker-EN-Change: Restore custom colors if they were set in YAML
+            if (hasCustomSkinColor)
+            {
+                humanoid.SkinColor = preservedSkinColor;
+            }
+            if (hasCustomEyeColor)
+            {
+                humanoid.EyeColor = preservedEyeColor;
+            }
+
+            if (hasCustomSkinColor || hasCustomEyeColor)
+            {
+                Dirty(uid, humanoid);
+            }
+            // Stalker-EN-Change end
             return;
         }
 
@@ -104,6 +126,22 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
         }
 
         LoadProfile(uid, startingSet.Profile, humanoid);
+
+        // Stalker-EN-Change: Restore custom colors if they were set in YAML
+        if (hasCustomSkinColor)
+        {
+            humanoid.SkinColor = preservedSkinColor;
+        }
+        if (hasCustomEyeColor)
+        {
+            humanoid.EyeColor = preservedEyeColor;
+        }
+
+        if (hasCustomSkinColor || hasCustomEyeColor)
+        {
+            Dirty(uid, humanoid);
+        }
+        // Stalker-EN-Change end
     }
 
     private void OnExamined(EntityUid uid, HumanoidAppearanceComponent component, ExaminedEvent args)
