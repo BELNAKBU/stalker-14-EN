@@ -1,6 +1,6 @@
 using Content.Shared.Chat;
 using Content.Shared.CombatMode.Pacification;
-using Robust.Shared.Localization;
+using Content.Shared.Popups;
 using Robust.Shared.Timing;
 
 namespace Content.Shared._Stalker_EN.Surrender;
@@ -8,7 +8,7 @@ namespace Content.Shared._Stalker_EN.Surrender;
 public sealed class SharedSurrenderSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly SharedChatSystem _chat = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
 
     private static readonly TimeSpan SurrenderDuration = TimeSpan.FromSeconds(6);
     private static readonly string EmoteId = "SurrenderEmote";
@@ -36,8 +36,10 @@ public sealed class SharedSurrenderSystem : EntitySystem
 
         _surrenderRemovals[ent.Owner] = (_timing.CurTime + SurrenderDuration, wasPacified);
 
-        // Send IC message visible to nearby players
-        _chat.TrySendInGameICMessage(ent.Owner, Loc.GetString("surrender-chat-message"), InGameICChatType.Emote, ChatTransmitRange.Normal, hideLog: true);
+        // Show floating text above entity with name
+        var name = ent.Comp.EntityName;
+        var message = $"{name} {Loc.GetString("surrender-chat-message")}";
+        _popup.PopupEntity(message, ent, ent);
     }
 
     public override void Update(float frameTime)
