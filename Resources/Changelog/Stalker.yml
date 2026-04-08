@@ -2232,5 +2232,12 @@
   id: 236
   time: '2026-04-08T15:21:55.836311+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/773
+- author: dallaszzz & @TheOverwatchVoice
+  changes:
+  - message: A new map that can be accessed somewhere in Red Forest.
+    type: Add
+  id: 237
+  time: '2026-04-08T23:25:25.739543+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/779
 Name: Stalker
 Order: -1
