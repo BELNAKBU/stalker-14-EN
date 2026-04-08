@@ -4,8 +4,8 @@ meta:
   engineVersion: 268.0.0
   forkId: ""
   forkVersion: ""
-  time: 04/08/2026 14:20:24
-  entityCount: 11297
+  time: 04/08/2026 23:48:15
+  entityCount: 11299
 maps:
 - 2
 grids:
@@ -74140,6 +74140,24 @@ entities:
     components:
     - type: Transform
       pos: 78.5,-71.5
+      parent: 2
+- proto: WarpPoint
+  entities:
+  - uid: 11298
+    components:
+    - type: MetaData
+      name: Jupiter - Red Forest Entrance
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 108.5,-153.5
+      parent: 2
+  - uid: 11299
+    components:
+    - type: MetaData
+      name: Jupiter - Road to Pripyat
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 39.5,-50.5
       parent: 2
 - proto: WoodenBox1a2
   entities:
