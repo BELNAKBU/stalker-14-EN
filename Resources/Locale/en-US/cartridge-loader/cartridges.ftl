@@ -5,6 +5,18 @@ notekeeper-program-name = Notekeeper
 nano-task-program-name = Task Tracker
 news-read-program-name = Station news
 
+st-leaderboard-program-name = Leaderboard
+st-leaderboard-title = Leaderboard
+st-leaderboard-refresh = Refresh
+st-leaderboard-empty = No stalkers found.
+st-leaderboard-col-rank = #
+st-leaderboard-col-name = Name
+st-leaderboard-col-faction = Faction
+st-leaderboard-col-rank-tier = Rank
+st-leaderboard-faction-label = Faction:
+st-leaderboard-rank-label = Rank:
+st-leaderboard-nodata = —
+
 crew-manifest-program-name = Crew manifest
 crew-manifest-cartridge-loading = Loading ...
 

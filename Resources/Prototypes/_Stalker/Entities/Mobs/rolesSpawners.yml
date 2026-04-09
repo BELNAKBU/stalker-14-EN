@@ -550,7 +550,10 @@
   - type: Damageable
     damageContainer: Biological
     damageModifierSet: Monolith
+  - type: Speech
+    speechSounds: ZombieScreams
   - type: PsyEffectImmune
+  - type: StutteringAccent
 
 - type: startingGear
   id: StalkerGearT4

@@ -15,3 +15,22 @@
       sprite: _Stalker_EN/Interface/Cartridges/faction_relations.rsi
       state: icon
   - type: STFactionRelationsCartridge
+
+- type: entity
+  parent: BasePDACartridge
+  id: STLeaderboardCartridge
+  name: st-leaderboard-cartridge
+  description: "A program that shows a leaderboard of stalkers with their faction and rank."
+  components:
+  - type: Sprite
+    sprite: Objects/Devices/cartridge.rsi
+    state: cart
+  - type: UIFragment
+    ui: !type:STLeaderboardUi
+  - type: Cartridge
+    programName: st-leaderboard-program-name
+    icon:
+      sprite: _Stalker_EN/Interface/Cartridges/leaderboard.rsi
+      state: icon
+  - type: STLeaderboardCartridge
+

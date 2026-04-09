@@ -2,6 +2,19 @@ device-pda-slot-component-slot-name-cartridge = Картридж
 default-program-name = Программа
 notekeeper-program-name = Заметки
 news-read-program-name = Новости станции
+
+st-leaderboard-program-name = Таблица сталкеров
+st-leaderboard-title = Таблица сталкеров
+st-leaderboard-refresh = Обновить
+st-leaderboard-empty = Сталкеры не найдены.
+st-leaderboard-col-rank = #
+st-leaderboard-col-name = Имя
+st-leaderboard-col-faction = Фракция
+st-leaderboard-col-rank-tier = Ранг
+st-leaderboard-faction-label = Фракция:
+st-leaderboard-rank-label = Ранг:
+st-leaderboard-nodata = —
+
 crew-manifest-program-name = Манифест экипажа
 crew-manifest-cartridge-loading = Загрузка...
 net-probe-program-name = Зонд сетей

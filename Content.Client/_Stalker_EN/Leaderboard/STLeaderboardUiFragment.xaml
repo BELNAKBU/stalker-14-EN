@@ -1,0 +1,13 @@
+<leaderboard:STLeaderboardUiFragment xmlns:leaderboard="clr-namespace:Content.Client._Stalker_EN.Leaderboard"
+                                   xmlns="https://spacestation14.io"
+                                   Orientation="Vertical"
+                                   VerticalExpand="True"
+                                   HorizontalExpand="True"
+                                   Margin="0">
+    <Label Name="Title" Text="{Loc 'st-leaderboard-title'}" Align="Center" FontColorOverride="#DAA520" StyleClasses="LabelBig"/>
+    <Button Name="RefreshButton" Text="{Loc 'st-leaderboard-refresh'}" HorizontalAlignment="Center" Margin="0 4 0 4"/>
+    <PanelContainer StyleClasses="LowDivider"/>
+    <ScrollContainer HorizontalExpand="True" VerticalExpand="True" HScrollEnabled="False">
+        <BoxContainer Name="EntriesList" Orientation="Vertical" HorizontalExpand="True"/>
+    </ScrollContainer>
+</leaderboard:STLeaderboardUiFragment>
