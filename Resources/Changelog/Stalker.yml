@@ -2284,5 +2284,14 @@
   id: 243
   time: '2026-04-10T21:57:57.808064+00:00'
   url: https://github.com/stalker-14-EN/stalker-14-EN/pull/793
+- author: dallaszzz
+  changes:
+  - message: New area on the new map
+    type: Add
+  - message: Fixes things on the new map
+    type: Fix
+  id: 244
+  time: '2026-04-10T23:47:51.141024+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/790
 Name: Stalker
 Order: -1
