@@ -2277,5 +2277,12 @@
   id: 242
   time: '2026-04-10T07:44:53.029827+00:00'
   url: https://github.com/stalker-14-EN/stalker-14-EN/pull/788
+- author: stickycheZ101
+  changes:
+  - message: hides are now 2x2
+    type: Add
+  id: 243
+  time: '2026-04-10T21:57:57.808064+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/793
 Name: Stalker
 Order: -1
