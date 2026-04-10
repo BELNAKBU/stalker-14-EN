@@ -5,6 +5,7 @@ using Content.Shared._Stalker.Bands;
 using Content.Shared._Stalker_EN.CharacterRank;
 using Content.Shared._Stalker_EN.Leaderboard;
 using Content.Shared.CartridgeLoader;
+using Content.Shared.Containers;
 using Content.Shared.Ghost;
 using Content.Shared.NPC.Components;
 using Content.Shared.NPC.Prototypes;
@@ -17,12 +18,6 @@ using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server._Stalker_EN.Leaderboard;
-
-/// <summary>
-/// Unique key for a player character in the leaderboard.
-/// Allows one user to have multiple characters listed.
-/// </summary>
-public readonly record struct StalkerKey(NetUserId UserId, string CharacterName);
 
 /// <summary>
 /// Server-side system that manages the Stalker Leaderboard cartridge.
@@ -40,8 +35,9 @@ public sealed partial class STLeaderboardSystem : EntitySystem
 
     /// <summary>
     /// Cache of all known stalkers. Key includes both UserId and CharacterName.
+    /// Stats are read live from PlayerStatsComponent, not cached.
     /// </summary>
-    private readonly Dictionary<StalkerKey, (string Name, string? Band, string? BandIcon, string? FactionId, int RankIndex, string? RankName)> _knownStalkers = new();
+    private readonly Dictionary<StalkerKey, (string Name, string? Band, string? BandIcon, string? FactionId, int RankIndex, string? RankName, EntityUid Mob)> _knownStalkers = new();
 
     public override void Initialize()
     {
@@ -49,11 +45,8 @@ public sealed partial class STLeaderboardSystem : EntitySystem
 
         SubscribeLocalEvent<STLeaderboardCartridgeComponent, CartridgeMessageEvent>(OnUiMessage);
         SubscribeLocalEvent<STLeaderboardCartridgeComponent, CartridgeUiReadyEvent>(OnUiReady);
-
-        // Track player connections to automatically update the leaderboard
         SubscribeLocalEvent<PlayerAttachedEvent>(OnPlayerAttached);
 
-        // Register admin console commands
         _consoleHost.RegisterCommand("leaderboard-clear",
             "Clears all entries from the stalker leaderboard.",
             "Usage: leaderboard-clear",
@@ -74,10 +67,7 @@ public sealed partial class STLeaderboardSystem : EntitySystem
     /// Returns true if the entity is a real player MobHuman.
     /// All doll/NPC prototypes use different IDs, so this strictly filters real players.
     /// </summary>
-    private bool IsPlayerMob(EntityUid mob)
-    {
-        return MetaData(mob).EntityPrototype?.ID == "MobHuman";
-    }
+    private bool IsPlayerMob(EntityUid mob) => MetaData(mob).EntityPrototype?.ID == "MobHuman";
 
     private void OnPlayerAttached(PlayerAttachedEvent args)
     {
@@ -106,14 +96,11 @@ public sealed partial class STLeaderboardSystem : EntitySystem
     /// </summary>
     private void OnUiMessage(EntityUid uid, STLeaderboardCartridgeComponent component, CartridgeMessageEvent args)
     {
-        if (args is not STLeaderboardUiMessage msg)
+        if (args is not STLeaderboardUiMessage msg || msg.Action != STLeaderboardUiAction.Refresh)
             return;
 
-        if (msg.Action == STLeaderboardUiAction.Refresh)
-        {
-            CollectOnlineEntries();
-            BroadcastUiState();
-        }
+        CollectOnlineEntries();
+        BroadcastUiState();
     }
 
     /// <summary>
@@ -178,7 +165,7 @@ public sealed partial class STLeaderboardSystem : EntitySystem
             rankIndex = rankComp.RankIndex;
         }
 
-        _knownStalkers[key] = (characterName, bandName, bandIcon, factionId, rankIndex, rankName);
+        _knownStalkers[key] = (characterName, bandName, bandIcon, factionId, rankIndex, rankName, mob);
     }
 
     /// <summary>
@@ -236,14 +223,10 @@ public sealed partial class STLeaderboardSystem : EntitySystem
             return STLeaderboardFactionRelation.War;
 
         // One-way hostile → orange (Hostile)
-        // We check raw prototype lists because IsFactionHostile is symmetric
         if (_proto.TryIndex<NpcFactionPrototype>(viewerFaction, out var vProto) &&
             _proto.TryIndex<NpcFactionPrototype>(targetFaction, out var tProto))
         {
-            bool viewerHatesTarget = vProto.Hostile.Contains(targetFaction);
-            bool targetHatesViewer = tProto.Hostile.Contains(viewerFaction);
-
-            if (viewerHatesTarget || targetHatesViewer)
+            if (vProto.Hostile.Contains(targetFaction) || tProto.Hostile.Contains(viewerFaction))
                 return STLeaderboardFactionRelation.Hostile;
         }
 
@@ -257,13 +240,19 @@ public sealed partial class STLeaderboardSystem : EntitySystem
     /// </summary>
     private void BroadcastUiState()
     {
-        // Build map: loaderUid (PDA entity) → viewer session
         var viewerMap = new Dictionary<EntityUid, ICommonSession>();
 
         foreach (var session in _playerManager.Sessions)
         {
             if (session.AttachedEntity is not { } mob)
                 continue;
+
+            // Check if mob itself is the loader (PDA attached directly)
+            if (TryComp<CartridgeLoaderComponent>(mob, out var loader) &&
+                TryComp<STLeaderboardCartridgeComponent>(loader.ActiveProgram, out _))
+            {
+                viewerMap[mob] = session;
+            }
 
             // Check PDAs in the mob's containers (hands, belt, pockets, etc.)
             if (TryComp<ContainerManagerComponent>(mob, out var contMan))
@@ -296,22 +285,41 @@ public sealed partial class STLeaderboardSystem : EntitySystem
     /// <summary>
     /// Sends a personalized leaderboard state via the cartridge UI.
     /// Colors are computed relative to the viewer's faction.
+    /// The viewer's own entry is marked with IsMe=true for client-side pinning.
     /// </summary>
     private void SendUiState(EntityUid loaderUid, ICommonSession? viewerSession = null)
     {
         string? viewerFaction = null;
+        string? viewerName = null;
+
         if (viewerSession?.AttachedEntity is { } viewerMob)
         {
             viewerFaction = GetPrimaryFaction(viewerMob);
+            viewerName = MetaData(viewerMob).EntityName;
         }
 
         var entries = _knownStalkers.Values
-            .Select(v => new STLeaderboardEntry(
-                v.Name,
-                v.Band,
-                v.RankIndex,
-                v.RankName,
-                GetRelation(viewerFaction, v.FactionId)))
+            .Where(v => v.Mob.IsValid())
+            .Select(v =>
+            {
+                int kills = 0;
+                int arts = 0;
+                if (TryComp<PlayerStatsComponent>(v.Mob, out var stats))
+                {
+                    kills = stats.MutantsKilled;
+                    arts = stats.ArtifactsFound;
+                }
+
+                return new STLeaderboardEntry(
+                    v.Name,
+                    v.Band,
+                    v.RankIndex,
+                    v.RankName,
+                    GetRelation(viewerFaction, v.FactionId),
+                    IsMe: viewerName != null && v.Name == viewerName,
+                    MutantsKilled: kills,
+                    ArtifactsFound: arts);
+            })
             .OrderByDescending(e => e.RankIndex)
             .ThenBy(e => e.CharacterName)
             .ToList();

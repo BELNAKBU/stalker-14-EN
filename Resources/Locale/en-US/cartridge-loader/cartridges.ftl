@@ -16,6 +16,10 @@ st-leaderboard-col-rank-tier = Rank
 st-leaderboard-faction-label = Faction:
 st-leaderboard-rank-label = Rank:
 st-leaderboard-nodata = —
+st-leaderboard-stats-title = STATISTICS
+st-leaderboard-stats-kills-label = Mutants Killed:
+st-leaderboard-stats-arts-label = Artifacts Found:
+st-leaderboard-refresh-cooldown = Refresh...
 
 crew-manifest-program-name = Crew manifest
 crew-manifest-cartridge-loading = Loading ...

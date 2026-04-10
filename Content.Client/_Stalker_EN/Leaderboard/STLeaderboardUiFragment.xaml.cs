@@ -7,6 +7,7 @@ using Robust.Client.Graphics;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
+using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 
 namespace Content.Client._Stalker_EN.Leaderboard;
@@ -15,47 +16,93 @@ namespace Content.Client._Stalker_EN.Leaderboard;
 public sealed partial class STLeaderboardUiFragment : BoxContainer
 {
     private SpriteSystem? _spriteSystem;
+    private IGameTiming? _timing;
 
     private SpriteSystem SpriteSystem => _spriteSystem ??= IoCManager.Resolve<IEntitySystemManager>().GetEntitySystem<SpriteSystem>();
 
     public Action? OnRefresh;
 
+    private TimeSpan _nextRefreshTime;
+    private static readonly TimeSpan RefreshCooldown = TimeSpan.FromSeconds(30);
+
     public STLeaderboardUiFragment()
     {
         RobustXamlLoader.Load(this);
-        RefreshButton.OnPressed += _ => OnRefresh?.Invoke();
+        _timing = IoCManager.Resolve<IGameTiming>();
+        _nextRefreshTime = _timing.CurTime;
+
+        RefreshButton.OnPressed += _ =>
+        {
+            if (_timing!.CurTime < _nextRefreshTime)
+                return;
+
+            _nextRefreshTime = _timing.CurTime + RefreshCooldown;
+            RefreshButton.Disabled = true;
+            RefreshButton.Text = Loc.GetString("st-leaderboard-refresh-cooldown");
+
+            Timer.Spawn(RefreshCooldown, () =>
+            {
+                if (RefreshButton != null)
+                {
+                    RefreshButton.Disabled = false;
+                    RefreshButton.Text = Loc.GetString("st-leaderboard-refresh");
+                }
+            });
+
+            OnRefresh?.Invoke();
+        };
     }
 
     public void UpdateState(List<STLeaderboardEntry> entries)
     {
         EntriesList.RemoveAllChildren();
 
-        if (entries.Count == 0)
+        STLeaderboardEntry? myStats = null;
+        foreach (var entry in entries)
         {
-            var emptyLabel = new Label
+            if (entry.IsMe)
             {
-                Text = Loc.GetString("st-leaderboard-empty"),
-                Align = Label.AlignMode.Center,
-                FontColorOverride = Color.Gray,
-            };
-            EntriesList.AddChild(emptyLabel);
-            return;
+                myStats = entry;
+                break;
+            }
         }
 
-        var position = 1;
+        var killsCount = myStats?.MutantsKilled ?? 0;
+        var artsCount = myStats?.ArtifactsFound ?? 0;
+
+        var killsMsg = new FormattedMessage();
+        killsMsg.AddMarkupOrThrow($"[b]{Loc.GetString("st-leaderboard-stats-kills-label")}[/b] {killsCount}");
+        StatsKills.SetMessage(killsMsg);
+
+        var artsMsg = new FormattedMessage();
+        artsMsg.AddMarkupOrThrow($"[b]{Loc.GetString("st-leaderboard-stats-arts-label")}[/b] {artsCount}");
+        StatsArts.SetMessage(artsMsg);
+
+        STLeaderboardEntry? pinnedEntry = null;
+        int position = 1;
+
         foreach (var entry in entries)
         {
             var row = _makeEntry(position, entry);
             EntriesList.AddChild(row);
 
+            if (entry.IsMe)
+                pinnedEntry = entry;
+
+            position++;
+        }
+
+        if (pinnedEntry.HasValue)
+        {
             var separator = new PanelContainer
             {
                 StyleClasses = { "LowDivider" },
-                Margin = new Thickness(0, 2),
+                Margin = new Thickness(8, 6),
             };
             EntriesList.AddChild(separator);
 
-            position++;
+            var pinnedRow = _makeEntry(pinnedEntry.Value.RankIndex + 1, pinnedEntry.Value);
+            EntriesList.AddChild(pinnedRow);
         }
     }
 
@@ -68,7 +115,6 @@ public sealed partial class STLeaderboardUiFragment : BoxContainer
             HorizontalExpand = true,
         };
 
-        // Left: faction icon placeholder (64x64)
         var iconPanel = new PanelContainer
         {
             MinSize = new Vector2(64, 64),
@@ -79,12 +125,9 @@ public sealed partial class STLeaderboardUiFragment : BoxContainer
             },
         };
 
-        var factionIcon = _getBandIconTexture(entry.BandName);
-        iconPanel.AddChild(factionIcon);
-
+        iconPanel.AddChild(_getBandIconTexture(entry.BandName));
         container.AddChild(iconPanel);
 
-        // Right: info block
         var infoBlock = new BoxContainer
         {
             Orientation = LayoutOrientation.Vertical,
@@ -92,14 +135,12 @@ public sealed partial class STLeaderboardUiFragment : BoxContainer
             HorizontalExpand = true,
         };
 
-        // Name line: "#. Name"
         var nameLine = new RichTextLabel { HorizontalExpand = true, Margin = new Thickness(0, 0, 0, 2) };
         var nameMsg = new FormattedMessage();
         nameMsg.AddMarkupOrThrow($"[b]{position}. {FormattedMessage.EscapeText(entry.CharacterName)}[/b]");
         nameLine.SetMessage(nameMsg);
         infoBlock.AddChild(nameLine);
 
-        // Faction line with relation-based color
         var factionDisplay = entry.BandName ?? Loc.GetString("st-leaderboard-nodata");
         var factionColor = _getRelationColor(entry.BandRelation);
         var factionLine = new RichTextLabel { HorizontalExpand = true, Margin = new Thickness(0, 0, 0, 2) };
@@ -110,11 +151,10 @@ public sealed partial class STLeaderboardUiFragment : BoxContainer
         factionLine.SetMessage(factionMsg);
         infoBlock.AddChild(factionLine);
 
-        // Rank line
         var rankDisplay = entry.RankName != null ? Loc.GetString(entry.RankName) : Loc.GetString("st-leaderboard-nodata");
         var rankLine = new RichTextLabel { HorizontalExpand = true };
         var rankMsg = new FormattedMessage();
-        rankMsg.AddText($"{Loc.GetString("st-leaderboard-rank-label")} {rankDisplay} {entry.RankIndex}");
+        rankMsg.AddText($"{Loc.GetString("st-leaderboard-rank-label")} {rankDisplay} ({entry.RankIndex + 1})");
         rankLine.SetMessage(rankMsg);
         infoBlock.AddChild(rankLine);
 
@@ -124,11 +164,11 @@ public sealed partial class STLeaderboardUiFragment : BoxContainer
 
     private static Color _getRelationColor(STLeaderboardFactionRelation relation) => relation switch
     {
-        STLeaderboardFactionRelation.Same => Color.FromHex("#33CC33"),    // green
-        STLeaderboardFactionRelation.Alliance => Color.FromHex("#33CC33"), // green
-        STLeaderboardFactionRelation.Neutral => Color.FromHex("#FFD700"),  // yellow
-        STLeaderboardFactionRelation.Hostile => Color.FromHex("#FF8800"),  // orange
-        STLeaderboardFactionRelation.War => Color.FromHex("#FF4444"),      // red
+        STLeaderboardFactionRelation.Same => Color.FromHex("#33CC33"),
+        STLeaderboardFactionRelation.Alliance => Color.FromHex("#33CC33"),
+        STLeaderboardFactionRelation.Neutral => Color.FromHex("#FFD700"),
+        STLeaderboardFactionRelation.Hostile => Color.FromHex("#FF8800"),
+        STLeaderboardFactionRelation.War => Color.FromHex("#FF4444"),
         _ => Color.FromHex("#CCCCCC"),
     };
 
@@ -147,20 +187,25 @@ public sealed partial class STLeaderboardUiFragment : BoxContainer
             var patchKey = bandName switch
             {
                 "Stalker" or "Loner" => "Loners",
+                "Freedom" => "Freedom",
                 "Bandit" => "Bandits",
-                "Dolg" => "Duty",
+                "Dolg" or "Duty" => "Duty",
                 "Sci" or "Scientist" or "Ecologist" => "Ecologist",
+                "Merc" or "Mercenary" => "Mercenaries",
+                "Military" or "Army" => "Military",
+                "Monolith" => "Monolith",
+                "ClearSky" or "CN" => "ClearSky",
+                "Renegade" => "Renegades",
+                "Rookie" => "Rookies",
+                "Journalist" => "Journalists",
+                "UN" => "UN",
+                "Militia" => "Neutrals",
                 _ => bandName,
             };
 
-            if (STFactionPatchIcons.PatchStates.TryGetValue(patchKey, out var patch))
-            {
-                specifier = new SpriteSpecifier.Rsi(patch.Rsi, patch.State);
-            }
-            else
-            {
-                specifier = new SpriteSpecifier.Rsi(LeaderboardRsiPath, "nodata");
-            }
+            specifier = STFactionPatchIcons.PatchStates.TryGetValue(patchKey, out var patch)
+                ? new SpriteSpecifier.Rsi(patch.Rsi, patch.State)
+                : new SpriteSpecifier.Rsi(LeaderboardRsiPath, "nodata");
         }
 
         var texture = SpriteSystem.Frame0(specifier);

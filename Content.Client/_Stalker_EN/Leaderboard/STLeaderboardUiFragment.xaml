@@ -5,7 +5,17 @@
                                    HorizontalExpand="True"
                                    Margin="0">
     <Label Name="Title" Text="{Loc 'st-leaderboard-title'}" Align="Center" FontColorOverride="#DAA520" StyleClasses="LabelBig"/>
-    <Button Name="RefreshButton" Text="{Loc 'st-leaderboard-refresh'}" HorizontalAlignment="Center" Margin="0 4 0 4"/>
+
+    <!-- Stats Block -->
+    <BoxContainer Name="StatsContainer" Orientation="Vertical" Margin="8,4,8,0">
+        <Label Name="StatsTitle" Text="{Loc 'st-leaderboard-stats-title'}" Align="Center" FontColorOverride="#DAA520" StyleClasses="LabelBig"/>
+        <PanelContainer StyleClasses="LowDivider"/>
+        <RichTextLabel Name="StatsKills" HorizontalExpand="True" Margin="0,2"/>
+        <RichTextLabel Name="StatsArts" HorizontalExpand="True" Margin="0,2"/>
+    </BoxContainer>
+
+    <PanelContainer StyleClasses="LowDivider" Margin="0,6"/>
+    <Button Name="RefreshButton" Text="{Loc 'st-leaderboard-refresh'}" HorizontalAlignment="Center" Margin="0 0 0 4"/>
     <PanelContainer StyleClasses="LowDivider"/>
     <ScrollContainer HorizontalExpand="True" VerticalExpand="True" HScrollEnabled="False">
         <BoxContainer Name="EntriesList" Orientation="Vertical" HorizontalExpand="True"/>

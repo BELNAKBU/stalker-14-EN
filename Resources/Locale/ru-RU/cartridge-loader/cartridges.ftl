@@ -14,6 +14,10 @@ st-leaderboard-col-rank-tier = Ранг
 st-leaderboard-faction-label = Фракция:
 st-leaderboard-rank-label = Ранг:
 st-leaderboard-nodata = —
+st-leaderboard-stats-title = СТАТИСТИКА
+st-leaderboard-stats-kills-label = Мутантов убито:
+st-leaderboard-stats-arts-label = Артефактов найдено:
+st-leaderboard-refresh-cooldown = Обновление...
 
 crew-manifest-program-name = Манифест экипажа
 crew-manifest-cartridge-loading = Загрузка...
