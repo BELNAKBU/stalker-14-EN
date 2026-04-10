@@ -97,10 +97,9 @@
         STWeaponSMGMP5: 1800 # T3
         STWeaponSMGThompson: 3800
         # Nato Rifles
-        STWeaponRifleL85: 2100 # T2
+        STWeaponRifleM16: 2500 # T2
+        STWeaponRifleM16M203: 3500 # T2
         STWeaponRifleSCARH: 6000 # T3
-        STWeaponRifleM16: 4000 # T2
-        STWeaponRifleM16M203: 5000 # T2
         STWeaponRifleFAL: 1750 # T3
         STWeaponRifleFALo: 8000 # T3
         STWeaponRifleGalil: 7000 # T3
