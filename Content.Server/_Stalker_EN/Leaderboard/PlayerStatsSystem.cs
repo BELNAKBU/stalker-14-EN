@@ -1,14 +1,9 @@
 using System.Linq;
 using Content.Server.KillTracking;
 using Content.Shared._Stalker.ZoneArtifact.Components;
-using Content.Server._Stalker.ZoneArtifact.Components.Detector;
-using Content.Shared._Stalker.ZoneAnomaly.Components;
+using Content.Shared._Stalker.ZoneArtifact.Events;
 using Content.Shared._Stalker_EN.Leaderboard;
-using Content.Shared.Interaction;
-using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
-using Content.Shared.Mobs.Systems;
-using Content.Shared.Tag;
 using Robust.Server.Player;
 using Robust.Shared.Containers;
 using Robust.Shared.Player;
@@ -23,8 +18,6 @@ namespace Content.Server._Stalker_EN.Leaderboard;
 public sealed class PlayerStatsSystem : EntitySystem
 {
     [Dependency] private readonly IPlayerManager _playerManager = default!;
-    [Dependency] private readonly MobStateSystem _mobState = default!;
-    [Dependency] private readonly TagSystem _tag = default!;
 
     /// <summary>
     /// Prototype IDs that identify mutant mobs.
@@ -41,10 +34,10 @@ public sealed class PlayerStatsSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<PlayerAttachedEvent>(OnPlayerAttached);
-        SubscribeLocalEvent<ZoneArtifactComponent, InteractUsingEvent>(OnArtifactDetected);
+        SubscribeLocalEvent<ZoneArtifactComponent, ZoneArtifactActivatedEvent>(OnArtifactDetected);
         SubscribeLocalEvent<STFoundArtifactComponent, EntGotInsertedIntoContainerMessage>(OnArtifactInserted);
         SubscribeLocalEvent<KillTrackerComponent, KillReportedEvent>(OnKillReported);
-        SubscribeLocalEvent<MobStateComponent, ComponentInit>(OnMobInit);
+        SubscribeLocalEvent<MobStateComponent, MapInitEvent>(OnMobMapInit);
     }
 
     private void OnPlayerAttached(PlayerAttachedEvent args)
@@ -53,7 +46,7 @@ public sealed class PlayerStatsSystem : EntitySystem
             EnsureComp<PlayerStatsComponent>(mob);
     }
 
-    private void OnMobInit(Entity<MobStateComponent> ent, ref ComponentInit args)
+    private void OnMobMapInit(Entity<MobStateComponent> ent, ref MapInitEvent args)
     {
         if (IsMutant(ent.Owner))
             EnsureComp<KillTrackerComponent>(ent.Owner);
@@ -80,20 +73,8 @@ public sealed class PlayerStatsSystem : EntitySystem
         }
     }
 
-    private void OnArtifactDetected(Entity<ZoneArtifactComponent> artifact, ref InteractUsingEvent args)
+    private void OnArtifactDetected(Entity<ZoneArtifactComponent> artifact, ref ZoneArtifactActivatedEvent args)
     {
-        if (!HasComp<ZoneAnomalyDetectorComponent>(args.Used))
-            return;
-
-        if (!TryComp<ZoneArtifactDetectorTargetComponent>(artifact, out var target) || !target.Detectable)
-            return;
-
-        if (!TryComp<ZoneAnomalyDetectorArtifactActivatorComponent>(args.Used, out var activator))
-            return;
-
-        if (target.DetectedLevel > activator.Level)
-            return;
-
         if (!HasComp<STFoundArtifactComponent>(artifact))
             AddComp<STFoundArtifactComponent>(artifact);
     }
@@ -130,6 +111,6 @@ public sealed class PlayerStatsSystem : EntitySystem
                 return true;
         }
 
-        return _tag.HasTag(uid, "Mutant") || _tag.HasTag(uid, "Mutated");
+        return false;
     }
 }

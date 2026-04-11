@@ -17,7 +17,12 @@
     <PanelContainer StyleClasses="LowDivider" Margin="0,6"/>
     <Button Name="RefreshButton" Text="{Loc 'st-leaderboard-refresh'}" HorizontalAlignment="Center" Margin="0 0 0 4"/>
     <PanelContainer StyleClasses="LowDivider"/>
-    <ScrollContainer HorizontalExpand="True" VerticalExpand="True" HScrollEnabled="False">
+    <ScrollContainer Name="EntriesScroll" HorizontalExpand="True" VerticalExpand="True" HScrollEnabled="False">
         <BoxContainer Name="EntriesList" Orientation="Vertical" HorizontalExpand="True"/>
     </ScrollContainer>
+    <!-- Pinned player entry — always visible, outside scroll -->
+    <BoxContainer Name="PinnedContainer" Orientation="Vertical" Visible="False" Margin="0,4,0,0">
+        <PanelContainer StyleClasses="LowDivider" Margin="8,6"/>
+        <BoxContainer Name="PinnedEntry" Orientation="Horizontal" Margin="8,4" HorizontalExpand="True"/>
+    </BoxContainer>
 </leaderboard:STLeaderboardUiFragment>

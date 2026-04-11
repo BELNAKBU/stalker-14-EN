@@ -78,7 +78,8 @@ public sealed partial class STLeaderboardUiFragment : BoxContainer
         artsMsg.AddMarkupOrThrow($"[b]{Loc.GetString("st-leaderboard-stats-arts-label")}[/b] {artsCount}");
         StatsArts.SetMessage(artsMsg);
 
-        STLeaderboardEntry? pinnedEntry = null;
+        STLeaderboardEntry? myEntry = null;
+        int myPosition = -1;
         int position = 1;
 
         foreach (var entry in entries)
@@ -87,22 +88,21 @@ public sealed partial class STLeaderboardUiFragment : BoxContainer
             EntriesList.AddChild(row);
 
             if (entry.IsMe)
-                pinnedEntry = entry;
+            {
+                myEntry = entry;
+                myPosition = position;
+            }
 
             position++;
         }
 
-        if (pinnedEntry.HasValue)
+        // Show pinned entry below the scroll area — always visible, same position as in list
+        PinnedContainer.Visible = myEntry.HasValue;
+        PinnedEntry.RemoveAllChildren();
+        if (myEntry.HasValue && myPosition > 0)
         {
-            var separator = new PanelContainer
-            {
-                StyleClasses = { "LowDivider" },
-                Margin = new Thickness(8, 6),
-            };
-            EntriesList.AddChild(separator);
-
-            var pinnedRow = _makeEntry(pinnedEntry.Value.RankIndex + 1, pinnedEntry.Value);
-            EntriesList.AddChild(pinnedRow);
+            var pinnedRow = _makeEntry(myPosition, myEntry.Value);
+            PinnedEntry.AddChild(pinnedRow);
         }
     }
 
@@ -154,7 +154,7 @@ public sealed partial class STLeaderboardUiFragment : BoxContainer
         var rankDisplay = entry.RankName != null ? Loc.GetString(entry.RankName) : Loc.GetString("st-leaderboard-nodata");
         var rankLine = new RichTextLabel { HorizontalExpand = true };
         var rankMsg = new FormattedMessage();
-        rankMsg.AddText($"{Loc.GetString("st-leaderboard-rank-label")} {rankDisplay} ({entry.RankIndex + 1})");
+        rankMsg.AddText($"{Loc.GetString("st-leaderboard-rank-label")} {rankDisplay}");
         rankLine.SetMessage(rankMsg);
         infoBlock.AddChild(rankLine);
 

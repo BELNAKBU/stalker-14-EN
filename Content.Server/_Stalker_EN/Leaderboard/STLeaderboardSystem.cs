@@ -1,19 +1,17 @@
 using System.Linq;
+using Content.Server._Stalker_EN.FactionRelations;
 using Content.Server.Administration.Managers;
 using Content.Server.CartridgeLoader;
 using Content.Shared._Stalker.Bands;
 using Content.Shared._Stalker_EN.CharacterRank;
+using Content.Shared._Stalker_EN.FactionRelations;
 using Content.Shared._Stalker_EN.Leaderboard;
 using Content.Shared.CartridgeLoader;
 using Content.Shared.Containers;
 using Content.Shared.Ghost;
-using Content.Shared.NPC.Components;
-using Content.Shared.NPC.Prototypes;
-using Content.Shared.NPC.Systems;
 using Robust.Server.Player;
 using Robust.Shared.Console;
 using Robust.Shared.Containers;
-using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 
@@ -21,7 +19,7 @@ namespace Content.Server._Stalker_EN.Leaderboard;
 
 /// <summary>
 /// Server-side system that manages the Stalker Leaderboard cartridge.
-/// Uses BandsComponent for faction display, NpcFactionSystem for relations.
+/// Uses BandsComponent for faction display, STFactionRelationsCartridgeSystem for relations.
 /// Supports multiple characters per player (keyed by UserId + CharacterName).
 /// </summary>
 public sealed partial class STLeaderboardSystem : EntitySystem
@@ -29,7 +27,8 @@ public sealed partial class STLeaderboardSystem : EntitySystem
     [Dependency] private readonly CartridgeLoaderSystem _cartridgeLoader = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly IAdminManager _adminManager = default!;
-    [Dependency] private readonly NpcFactionSystem _npcFaction = default!;
+    [Dependency] private readonly SharedSTFactionResolutionSystem _factionResolution = default!;
+    [Dependency] private readonly STFactionRelationsCartridgeSystem _factionRelations = default!;
     [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly IConsoleHost _consoleHost = default!;
 
@@ -113,25 +112,44 @@ public sealed partial class STLeaderboardSystem : EntitySystem
     }
 
     /// <summary>
-    /// Gets the primary NpcFaction ID for relation checks.
-    /// Prefers specific factions over generic tags like Mutated/Hostile.
+    /// Gets the faction ID for relation checks based on the player's band prototype.
+    /// Maps factionId to the canonical faction names used in defaults.yml.
     /// </summary>
-    private string? GetPrimaryFaction(EntityUid mob)
+    private string? GetPlayerFaction(EntityUid mob)
     {
-        if (!TryComp<NpcFactionMemberComponent>(mob, out var factionComp) || factionComp.Factions.Count == 0)
+        if (!TryComp<BandsComponent>(mob, out var bands))
             return null;
 
-        foreach (var f in factionComp.Factions)
+        string? rawFactionId = null;
+
+        // Get factionId from BandProto
+        if (bands.BandProto.HasValue && _proto.TryIndex(bands.BandProto.Value, out STBandPrototype? bandProto))
         {
-            if (SpecificFactions.Contains(f))
-                return f;
+            rawFactionId = bandProto.FactionId;
+        }
+        // Fallback: resolve band name via mapping
+        else if (!string.IsNullOrEmpty(bands.BandName))
+        {
+            rawFactionId = _factionResolution.GetBandFactionName(bands.BandName);
         }
 
-        return factionComp.Factions.FirstOrDefault();
+        if (string.IsNullOrEmpty(rawFactionId))
+            return null;
+
+        // Map factionId to canonical names used in defaults.yml relations
+        return rawFactionId switch
+        {
+            "Bandit" => "Bandits",
+            "Dolg" => "Duty",
+            "Scientists" => "Ecologist",
+            "Loner" => "Loners",
+            _ => rawFactionId,
+        };
     }
 
     /// <summary>
     /// Updates or creates a leaderboard entry for a specific player using their band and faction data.
+    /// Uses BandProto to get the correct band name (e.g. "Bandits") instead of the generic BandName field.
     /// </summary>
     private void UpdateStalkerEntry(ICommonSession session)
     {
@@ -144,17 +162,26 @@ public sealed partial class STLeaderboardSystem : EntitySystem
 
         var key = new StalkerKey(session.UserId, characterName);
 
-        // Get band (faction) from BandsComponent
+        // Get band name and icon from BandsComponent
         string? bandName = null;
         string? bandIcon = null;
         if (TryComp<BandsComponent>(mob, out var bands))
         {
-            bandName = bands.BandName;
+            // Use BandProto to get the actual band name from the prototype (e.g. "Bandits" not "Stalker")
+            if (bands.BandProto != null && _proto.TryIndex(bands.BandProto.Value, out STBandPrototype? bandProto))
+            {
+                bandName = bandProto.Name;
+            }
+            else
+            {
+                // Fallback to BandName if no prototype
+                bandName = string.IsNullOrEmpty(bands.BandName) ? null : bands.BandName;
+            }
             bandIcon = bands.BandStatusIcon;
         }
 
-        // Get the primary NpcFaction for relation checks
-        var factionId = GetPrimaryFaction(mob);
+        // Get faction from band via band→faction mapping
+        var factionId = GetPlayerFaction(mob);
 
         // Get rank
         string? rankName = null;
@@ -169,17 +196,6 @@ public sealed partial class STLeaderboardSystem : EntitySystem
     }
 
     /// <summary>
-    /// Faction IDs that represent specific, displayable factions (not generic behavior tags).
-    /// </summary>
-    private static readonly HashSet<string> SpecificFactions = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "Stalker", "Sci", "Military", "Bandit", "Seraphims", "Freedom", "Duty",
-        "MilitaryStalker", "Evolvers", "ClearSky", "Police", "Dolg", "Mercenaries",
-        "Sin", "Deserters", "Traders", "Scientists", "SSU", "Project", "Pilgrims",
-        "Covenant", "Poisk", "Monolith", "MutatedHunter",
-    };
-
-    /// <summary>
     /// Collects entries from all currently connected valid players.
     /// </summary>
     private void CollectOnlineEntries()
@@ -187,51 +203,49 @@ public sealed partial class STLeaderboardSystem : EntitySystem
         foreach (var session in _playerManager.Sessions)
         {
             // Skip admins
-            if (_adminManager.GetAdminData(session) != null)
-                continue;
+           // if (_adminManager.GetAdminData(session) != null)
+           //     continue;
 
-            if (session.AttachedEntity is not { } mob)
-                continue;
+           // if (session.AttachedEntity is not { } mob)
+          //      continue;
 
-            if (HasComp<GhostComponent>(mob))
-                continue;
+          //  if (HasComp<GhostComponent>(mob))
+           //     continue;
 
-            if (!IsPlayerMob(mob))
-                continue;
+          //  if (!IsPlayerMob(mob))
+          //      continue;
 
             UpdateStalkerEntry(session);
         }
     }
 
     /// <summary>
-    /// Computes the relation type. Distinguishes mutual hostility (War) from one-way hostility (Hostile).
+    /// Computes the relation type between two factions using the band→faction mapping.
+    /// Resolves aliases (e.g. Bandit → Bandits) before checking relations.
     /// </summary>
     private STLeaderboardFactionRelation GetRelation(string? viewerFaction, string? targetFaction)
     {
         if (string.IsNullOrEmpty(viewerFaction) || string.IsNullOrEmpty(targetFaction))
             return STLeaderboardFactionRelation.Neutral;
 
+        // Resolve aliases (e.g. "Bandit" → "Bandits") before checking relations
+        viewerFaction = _factionRelations.ResolvePrimary(viewerFaction);
+        targetFaction = _factionRelations.ResolvePrimary(targetFaction);
+
         if (viewerFaction == targetFaction)
             return STLeaderboardFactionRelation.Same;
 
-        // Mutual friendly → green
-        if (_npcFaction.IsFactionFriendly(viewerFaction, targetFaction))
-            return STLeaderboardFactionRelation.Alliance;
+        // Use the faction relations system to get the actual relation type
+        var relationType = _factionRelations.GetRelation(viewerFaction, targetFaction);
 
-        // Mutual hostile → red (War)
-        if (_npcFaction.IsFactionHostile(viewerFaction, targetFaction))
-            return STLeaderboardFactionRelation.War;
-
-        // One-way hostile → orange (Hostile)
-        if (_proto.TryIndex<NpcFactionPrototype>(viewerFaction, out var vProto) &&
-            _proto.TryIndex<NpcFactionPrototype>(targetFaction, out var tProto))
+        return relationType switch
         {
-            if (vProto.Hostile.Contains(targetFaction) || tProto.Hostile.Contains(viewerFaction))
-                return STLeaderboardFactionRelation.Hostile;
-        }
-
-        // Default → yellow
-        return STLeaderboardFactionRelation.Neutral;
+            STFactionRelationType.Alliance => STLeaderboardFactionRelation.Alliance,
+            STFactionRelationType.Neutral => STLeaderboardFactionRelation.Neutral,
+            STFactionRelationType.Hostile => STLeaderboardFactionRelation.Hostile,
+            STFactionRelationType.War => STLeaderboardFactionRelation.War,
+            _ => STLeaderboardFactionRelation.Neutral,
+        };
     }
 
     /// <summary>
@@ -294,7 +308,7 @@ public sealed partial class STLeaderboardSystem : EntitySystem
 
         if (viewerSession?.AttachedEntity is { } viewerMob)
         {
-            viewerFaction = GetPrimaryFaction(viewerMob);
+            viewerFaction = GetPlayerFaction(viewerMob);
             viewerName = MetaData(viewerMob).EntityName;
         }
 
