@@ -16,7 +16,10 @@
         <pda:PdaNavigationButton Name="EjectPaiButton" Access="Public" SetWidth="32"/>
     </BoxContainer>
     <ScrollContainer Name="ProgramBar" Access="Public" HorizontalExpand="True" SetHeight="80" HScrollEnabled="True" VScrollEnabled="False" Margin="1 0 3 0">
-        <PanelContainer Name="ProgramBarBorder">
+        <PanelContainer Name="ProgramBarBorder" Access="Public">
+            <PanelContainer.StyleOverride>
+                <StyleBoxFlat BorderColor="#5a5a5a" BorderThickness="1" BackgroundColor="#1a1a1e"/>
+            </PanelContainer.StyleOverride>
             <BoxContainer Name="ProgramBarContent" Orientation="Horizontal" HorizontalExpand="True" VerticalAlignment="Center" Margin="6 8"/>
         </PanelContainer>
     </ScrollContainer>
