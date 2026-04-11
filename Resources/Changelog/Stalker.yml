@@ -2302,5 +2302,14 @@
   id: 245
   time: '2026-04-11T01:38:11.736916+00:00'
   url: https://github.com/stalker-14-EN/stalker-14-EN/pull/783
+- author: Nox38
+  changes:
+  - message: Added cross armband and medic gloves to all civilized faction's merchants
+    type: Add
+  - message: Rubber bands now cost only 1r
+    type: Tweak
+  id: 246
+  time: '2026-04-11T01:39:35.826052+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/795
 Name: Stalker
 Order: -1
