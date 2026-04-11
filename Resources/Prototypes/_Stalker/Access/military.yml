@@ -73,6 +73,7 @@
   tags:
     - Military
     - SciBase
+    - SciHead # stalker-en change, will most likely cause issues if bands get touched by upstream, as Rector would be the leader role
 
 - type: accessGroup
   id: Sci_rector

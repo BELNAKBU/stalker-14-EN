@@ -343,9 +343,10 @@
       ClothingOuterCoatAugust: 2500
       ClothingOuterCoatAugustM: 3000
       # Gasmasks
-      ClothingMaskGasChN: 100 # T1
-      ClothingMaskGasM40: 400 # T2
-      ClothingMaskGP21: 1000 # T3
+      ClothingMaskGasChN: 500 # T1
+      ClothingMaskGasM40: 1500 # T2
+      ClothingMaskM50: 3800 # T3
+      ClothingMaskGP21: 7500 # T4
 
   - name: shop-category-research-equipment
     priority: 9
@@ -398,9 +399,9 @@
       CasseteSevenRadio: 500
       ClothingHeatBagStalker: 100
       ClothingNeckDogtagLoner: 250
-      STElasticRubberRed: 50
-      STElasticRubberGreen: 50
-      STElasticRubberBlue: 50
+      STElasticRubberRed: 1
+      STElasticRubberGreen: 1
+      STElasticRubberBlue: 1
       FoldedFlagCS: 250
       # Cameras
       STCamera: 750
@@ -448,6 +449,7 @@
       ClothingMaskNeckBalaklava2: 10
       ClothingMaskNeckBalaklava3: 10
       # NECK
+      ClothingBandageStalkerKrest: 10
       ClothingNeckScarfBrown: 100
       ClothingNeckScarfGray: 100
       # faction

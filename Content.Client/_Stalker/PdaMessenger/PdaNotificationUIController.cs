@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Content.Client.Gameplay;
 using Content.Client.UserInterface.Systems.Gameplay;
 using Content.Client.UserInterface.Systems.Hotbar.Widgets;
 using Content.Shared._Stalker.PdaMessenger;
@@ -11,10 +12,7 @@ using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controllers;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Configuration;
-using Robust.Shared.Log;
-using Robust.Shared.Maths;
 using Robust.Shared.Timing;
-using Vector2 = System.Numerics.Vector2;
 
 namespace Content.Client._Stalker.PdaMessenger;
 
@@ -22,7 +20,7 @@ namespace Content.Client._Stalker.PdaMessenger;
 /// UI controller for displaying PDA General channel notifications in the bottom-left corner.
 /// Notifications are visible for 7 seconds, then fade out over 3 seconds.
 /// </summary>
-public sealed class PdaNotificationUIController : UIController
+public sealed class PdaNotificationUIController : UIController, IOnStateEntered<GameplayState>
 {
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IConfigurationManager _configurationManager = default!;
@@ -65,9 +63,6 @@ public sealed class PdaNotificationUIController : UIController
         SubscribeNetworkEvent<PdaGeneralMessageEvent>(OnGeneralMessage);
         SubscribeNetworkEvent<PdaDirectMessageEvent>(OnDirectMessage);
 
-        var gameplayStateLoad = UIManager.GetUIController<GameplayStateLoadController>();
-        gameplayStateLoad.OnScreenLoad += OnScreenLoad;
-        gameplayStateLoad.OnScreenUnload += OnScreenUnload;
     }
 
     private void OnNotificationsEnabledChanged(bool enabled)
@@ -75,39 +70,35 @@ public sealed class PdaNotificationUIController : UIController
         _notificationsEnabled = enabled;
     }
 
-    private void OnScreenLoad()
+    /// <summary>
+    /// Ensures the notification container is attached to the current active screen.
+    /// Recreates it if it was detached (fixes the "missing popups until relog" bug).
+    /// </summary>
+    private void EnsureContainerAttached()
     {
-        if (_notificationContainer != null)
-            return;
-
-        _notificationContainer = new LayoutContainer
+        if (_notificationContainer == null || !_notificationContainer.IsInsideTree)
         {
-            Name = "PdaNotificationContainer",
-            HorizontalExpand = true,
-            VerticalExpand = true
-        };
+            _notificationContainer?.Orphan();
+            _notificationContainer = new LayoutContainer
+            {
+                Name = "PdaNotificationContainer",
+                HorizontalExpand = true,
+                VerticalExpand = true
+            };
 
-        var viewportContainer = UIManager.ActiveScreen?.FindControl<Control>("ViewportContainer");
+            var viewportContainer = UIManager.ActiveScreen?.FindControl<Control>("ViewportContainer");
+            if (viewportContainer != null)
+            {
+                viewportContainer.AddChild(_notificationContainer);
+                _notificationContainer.SetPositionLast();
+            }
+            else if (UIManager.ActiveScreen != null)
+            {
+                UIManager.ActiveScreen.AddChild(_notificationContainer);
+            }
 
-        if (viewportContainer != null)
-        {
-            viewportContainer.AddChild(_notificationContainer);
-            _notificationContainer.SetPositionLast();
+            _lastHotbarHeight = GetHotbarHeight();
         }
-        else if (UIManager.ActiveScreen != null)
-        {
-            UIManager.ActiveScreen.AddChild(_notificationContainer);
-        }
-
-        // Initialize with actual hotbar height to prevent false positive on first check
-        _lastHotbarHeight = GetHotbarHeight();
-    }
-
-    private void OnScreenUnload()
-    {
-        _notificationContainer?.Orphan();
-        _notificationContainer = null;
-        _activeNotifications.Clear();
     }
 
     private void OnGeneralMessage(PdaGeneralMessageEvent ev, EntitySessionEventArgs args)
@@ -131,6 +122,8 @@ public sealed class PdaNotificationUIController : UIController
     /// </summary>
     public void AddNotification(string title, string content, string sender, string? factionIcon = null)
     {
+        EnsureContainerAttached();
+
         if (_notificationContainer == null)
             return;
 
@@ -343,4 +336,10 @@ public sealed class PdaNotificationUIController : UIController
     }
 
     private readonly record struct NotificationEntry(PdaNotificationPanel Panel, TimeSpan StartTime);
+
+    public void OnStateEntered(GameplayState state)
+    {
+        // Force initialization of this controller when entering the game
+        EnsureContainerAttached();
+    }
 }

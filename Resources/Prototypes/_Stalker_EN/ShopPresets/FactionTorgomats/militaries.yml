@@ -42,8 +42,14 @@
       ClothingBackpackDuffelOliveTacticStalker: 4
       ClothingBackpackDuffelMilitaryOlive: 4
 
-  - name: shop-category-modules
+  - name: shop-category-raincoats-and-gasmasks
     priority: 6
+    items:
+      # Gas Masks
+      ClothingMaskM51: 8 # T4
+
+  - name: shop-category-modules
+    priority: 7
     items:
       STModuleScopeRiflesT1Ru: 1
       STModuleSniperSightT1: 1
@@ -231,9 +237,9 @@
       HatchetStalker: 150
       CraftBag: 10
       CasseteArstotzka1984: 500
-      STElasticRubberRed: 50
-      STElasticRubberGreen: 50
-      STElasticRubberBlue: 50
+      STElasticRubberRed: 1
+      STElasticRubberGreen: 1
+      STElasticRubberBlue: 1
       # Cameras
       STCamera: 750
       STCameraVintage: 1200
@@ -362,12 +368,157 @@
       CigPackKosmos: 100 #squalid
 
 - type: shopPreset
-  id: OKSOPShopPresetEN # OKSOP REWORK IN-PROGRESS
+  id: OKSOPShopPresetEN # OKSOP REWORK IN-PROGRESS, SELL PRICES ARE SAME AS SIDOROVICH
   minSellPrice: 5
   itemsForSale:
     FoodTinMRETrash: 0
     FoodTinPeachesTrash: 0
     FoodTinBeansTrash: 0
+    # Thermal group - 1
+    ZoneArtifactFireball: 405
+    ZoneArtifactEye: 610
+    ZoneArtifactFlame: 1215
+    ZoneArtifactBunch: 1420
+    ZoneArtifactRock: 1215
+    ZoneArtifactSun: 2210
+    ZoneArtifactRoot: 2430
+    ZoneArtifactConflagration: 610
+    # Thermal group - 2
+    ZoneArtifactCristall: 2430
+    ZoneArtifactLithosphere: 4860
+    # Electrical group - 1
+    ZoneArtifactSparkler: 405
+    ZoneArtifactBattery: 475
+    ZoneArtifactFlash: 1215
+    ZoneArtifactAccumulator: 1215
+    ZoneArtifactDiamond: 2210
+    ZoneArtifactCharger: 475
+    ArtMoon: 2430
+    ZoneArtifactTesla: 3645
+    ZoneArtifactIce: 4860
+    # Gravity group - 1
+    ArtMedusa: 405
+    ZoneArtifactFlower: 610
+    ZoneArtifactNightStar: 2430
+    ZoneArtifactWhirlwind: 550
+    ZoneArtifactPebble: 405
+    ZoneArtifactRosin: 610
+    ZoneArtifactStoneCube: 850
+    ZoneArtifactDarkCube: 3645
+    # Gravity group - 2
+    ZoneArtifactVyvert: 405
+    ZoneArtifactAmoeba: 610
+    ZoneArtifactFloodlight: 610
+    ZoneArtifactGravi: 1215
+    ZoneArtifactGoldfish: 4860
+    ZoneArtifactSpring: 2700
+    ZoneArtifactFocus: 3645
+    ZoneArtifactStuntman: 4860
+    ZoneArtifactDistorter: 4860
+    ZoneArtifactSoul: 3645
+    ZoneArtifactCompass: 2700
+    ZoneArtifactCrucifix: 3190
+    ZoneArtifactThorn: 1910
+    ZoneArtifactArf: 1910
+
+    # Acidic group - 1
+    ZoneArtifactToxic: 490
+    ZoneArtifactCytoplasm: 1215
+    ZoneArtifactBlood: 1215
+    ZoneArtifactMeat: 2430
+    ZoneArtifactKolobok: 3645
+    ZoneArtifactBeer: 450
+    # Acidic group - 2
+    ZoneArtifactPellicle: 405
+    ZoneArtifactBaloon: 3645
+
+    # Mutant parts
+
+    #Boars -------- Health * T * 0.45
+    MutantPartBoarHoof: 130 # T1
+    MutantPartSeasonedBoarHoof: 255 # T2
+    MutantPartOldBoarHoof: 385 # T3
+
+    #Bears ---------
+    MutantPartBearClaw: 245
+    MutantPartBearPaw: 390
+    MutantPartBearEye: 590
+    ClothingHeadBear: 700
+
+    #T1 -------- Health * 1
+    MutantPartBlindDogTail: 90
+    MutantPartFleshEye: 190
+    FoodMeatSpiderLeg: 30
+    MutantPartCatGland: 290
+
+    #T2 -------- Health * 1.8
+    MutantPartLeshiyRoot: 515
+    MutantPartPseudodogTail: 285
+    MutantPartSnorkFoot: 475
+    MutantPartPsiDogTail: 400
+    MutantPartFrogLeg: 200
+
+    #T3 -------- Health * 3 Modified by Oracle
+    MutantPartBloodsuckerTentacles: 1375
+    MutantPartOraculeEye: 1050
+    MutantPartZombieHand: 570
+    MutantPartPseudogiantHeart: 6800
+    ClothingMaskChimera: 1
+    MutantPartChimeraTooth: 1
+    MutantPartIzlomArm: 815
+    MutantPartBurerBrain: 1500
+    MutantPartControllerBrain: 2625
+
+    # Meat
+    FoodMeatDogCooked: 70
+    STFoodMeatSpiderCooked: 35
+    FoodMeatBoarCooked: 110
+    FoodMeatSTBearCooked: 200
+    FoodMeatSTFishFilletCooked: 25
+    FoodMeatSTFishSteakCooked: 75
+    FoodMeatSTEelCooked: 150
+    STFoodMeatCvarci: 5 # 15 profit per salo baby!
+    FoodMeatSTRatCooked: 5 # whatever
+    FoodMeatSTRatJerked: 10
+    FoodMeatSTDogJerkedSingle: 75
+    FoodMeatSTBoarJerkedSingle: 125
+    FoodMeatSTBearJerkedSingle: 245
+    FoodMeatSTSuckerJerkedSingle: 600
+
+# Cooking
+    FoodSTFreshCheese: 100
+    FoodSTRiceCooked: 250
+    FoodSTPancakes: 250
+    FoodSTOnionRings: 150
+    FoodSTFriedEggs: 300
+    FoodSTBorscht: 600
+    FoodSTCabbageSoup: 550
+    FoodSTMeatStew: 850
+    FoodSTFriedFish: 450 # this one might need adjusting
+    FoodSTCakePlain: 475
+    FoodSTHrechanyky: 525
+    FoodSTSyrnyky: 900
+    FoodSTDeruny: 575
+    FoodSTKebabMeat: 400
+    FoodSTKebabVeggie: 275
+    FoodSTCakeBerry: 750 # might need adjusting
+    FoodSTSnorkSoup: 0 # he dont want it
+    FoodSTIceCream: 300
+    FoodSTBraid: 0
+    FoodSTAmbrosia: 0
+    FoodSTFrogLegs: 775
+    FoodSTOracleGumbo: 0
+    STFoodJarCherriesPickled: 1350
+    STFoodJarJamBerry: 1350
+    STFoodJarKvass: 2300
+    STFoodJarSalo: 350
+    STFoodJarEggs: 375
+    STFoodJarMeatSausage: 775
+    STFoodJarMeatFishFillet: 300
+    STFoodJarMeatFishSteak: 850
+    STFoodJarMeatEel: 1250
+    STFoodJarWholeEelFermented: 2100
+
   categories:
   - name: shop-category-weapons
     priority: 1
@@ -526,9 +677,8 @@
     priority: 8
     items:
       # Gasmasks
-      ClothingMaskGasM40Military: 300 #T2
-      ClothingMaskGasXM40: 450 # T3
-      ClothingMaskGP7: 500 #T3
+      ClothingMaskGasM40Military: 700 #T2
+      ClothingMaskGasXM40: 2200 # T3
       # Raincoats
       #ClothingOuterCoatLoyalist: 2500
 
@@ -539,7 +689,7 @@
       STBoltBagFilled: 50
       ZoneAnomalyDetectorAD1: 450 # T1
       ZoneAnomalyDetectorAD2: 1000 # T2
-      STLeadPlate: 200 # PvE Anti-Rad if abused raise price
+      #STLeadPlate: 200 # PvE Anti-Rad if abused raise price
 
   - name: shop-category-utilities
     priority: 10
@@ -572,9 +722,9 @@
       STSkinsKitMilitary: 500
       AccordionInstrument: 500
       FoldedFlagMili: 250
-      STElasticRubberRed: 50
-      STElasticRubberGreen: 50
-      STElasticRubberBlue: 50
+      STElasticRubberRed: 1
+      STElasticRubberGreen: 1
+      STElasticRubberBlue: 1
       # Cameras
       STCamera: 750
       STCameraVintage: 1200
@@ -748,6 +898,8 @@
       ClothingMaskNeckBalaklava3: 10
       # Gloves
       ClothingHandsGlovesFingerless: 30
+      ClothingHandsGlovesNitrile: 35
+      ClothingHandsGlovesLatex: 35
       ClothingHandsGlovesMercFingerless: 60
       # Neck
       ClothingNeckScarfArmy: 100

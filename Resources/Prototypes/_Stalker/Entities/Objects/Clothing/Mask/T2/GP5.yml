@@ -15,9 +15,11 @@
     sprite: _Stalker/Objects/Clothing/mask/gp5.rsi
   - type: Armor
     modifiers:
-      coefficients:
-        Caustic: 0.85
-        Radiation: 0.9
+      #coefficients: # EN start
+        #Caustic: 0.85
+        #Radiation: 0.9
+      flatReductions:
+        Radiation: 0.75 # EN end - made into a T1
   - type: HideLayerClothing
     slots:
     - Hair
@@ -39,9 +41,11 @@
     sprite: _Stalker/Objects/Clothing/mask/gp5_green.rsi
   - type: Armor
     modifiers:
-      coefficients:
-        Caustic: 0.85
-        Radiation: 0.9
+      #coefficients: # EN start
+        #Caustic: 0.85
+        #Radiation: 0.9
+      flatReductions:
+        Radiation: 0.75 # EN end - made into a T1
   - type: HideLayerClothing
     slots:
     - Hair

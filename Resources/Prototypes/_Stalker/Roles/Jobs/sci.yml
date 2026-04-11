@@ -112,7 +112,7 @@
       #- type: PersistentCraftAccess
       - type: Access
         groups:
-          - Sci
+          - Sci_decan
       - type: Bands
         band: Stalker
         bandIcon: sci_decan

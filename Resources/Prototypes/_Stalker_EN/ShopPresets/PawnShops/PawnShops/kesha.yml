@@ -278,9 +278,9 @@
     - name: shop-category-raincoats-and-gasmasks
       priority: 6
       items:
-        ClothingMaskXoma: 100 # T1
-        ClothingMaskGP5: 250 # T2
-        ClothingMaskGP7: 300 # T3
+        ClothingMaskXoma: 600 # T1
+        ClothingMaskGP5: 500 # T1
+        ClothingMaskGP7: 3800 # T3
     - name: shop-category-research-equipment
       priority: 7
       items:

@@ -1,0 +1,9 @@
+- type: emote
+  id: SurrenderEmote
+  name: chat-emote-name-surrender
+  category: Hands
+  available: true
+  icon: /Textures/_Stalker_EN/Interface/Emotes/surrender.png
+  chatMessages: []
+  chatTriggers:
+    - surrender

@@ -1,0 +1,17 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Stalker14 EN",
+    "size": {
+        "x": 12,
+        "y": 12
+    },
+    "states": [
+        {
+            "name": "flag_above"
+        },
+		{
+			"name": "flag_above_red"
+		}
+    ]
+}

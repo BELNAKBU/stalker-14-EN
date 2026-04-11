@@ -13,6 +13,8 @@ using Content.Shared.Inventory;
 using Content.Shared.PDA;
 using Content.Shared.PDA.Ringer;
 using Content.Server.PDA.Ringer;
+using Robust.Server.Player;
+using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
@@ -33,6 +35,7 @@ public sealed class STBulletinBoardSystem : EntitySystem
     [Dependency] private readonly InventorySystem _inventory = default!;
     [Dependency] private readonly RingerSystem _ringer = default!;
     [Dependency] private readonly SharedSTFactionResolutionSystem _factionResolution = default!;
+    [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly STMessengerSystem _messenger = default!;
 
     private static readonly ProtoId<STBandPrototype> ClearSkyBandId = "STClearSkyBand";
@@ -203,8 +206,8 @@ public sealed class STBulletinBoardSystem : EntitySystem
         if (totalCount >= board.MaxTotalOffers)
             return;
 
-        var posterFaction = ResolveFaction(args.Actor);
-        var posterRankIcon = ResolveRankIcon(args.Actor);
+        var posterFaction = ResolveFactionForOwner(server);
+        var posterRankIcon = ResolveRankIconForOwner(server);
         var posterMessengerId = _messenger.GetMessengerId(server.OwnerUserId, server.OwnerCharacterName);
 
         var offer = new STBulletinOffer(
@@ -604,6 +607,36 @@ public sealed class STBulletinBoardSystem : EntitySystem
             return false;
 
         return IsBandMember(ownerMob, restrictions.RequiredBandForPrimary);
+    }
+
+    /// <summary>
+    /// Resolves the faction name for the PDA's original owner via their current session.
+    /// Returns null if the owner is offline.
+    /// </summary>
+    private string? ResolveFactionForOwner(STBulletinServerComponent server)
+    {
+        if (!_playerManager.TryGetSessionById(new NetUserId(server.OwnerUserId), out var session))
+            return null;
+
+        if (session.AttachedEntity is not { } mob)
+            return null;
+
+        return ResolveFaction(mob);
+    }
+
+    /// <summary>
+    /// Resolves the rank icon for the PDA's original owner via their current session.
+    /// Returns null if the owner is offline.
+    /// </summary>
+    private string? ResolveRankIconForOwner(STBulletinServerComponent server)
+    {
+        if (!_playerManager.TryGetSessionById(new NetUserId(server.OwnerUserId), out var session))
+            return null;
+
+        if (session.AttachedEntity is not { } mob)
+            return null;
+
+        return ResolveRankIcon(mob);
     }
 
     /// <summary>

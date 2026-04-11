@@ -2125,5 +2125,198 @@
   id: 225
   time: '2026-04-04T20:17:56.156129+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/750
+- author: BELNAKBU
+  changes:
+  - message: Even when you dont have pda in your pockets or hands you ll get popup.
+      And another bug fix
+    type: Add
+  id: 226
+  time: '2026-04-05T14:58:29.895744+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/760
+- author: BELNAKBU
+  changes:
+  - message: Armor based artis slots
+    type: Add
+  id: 227
+  time: '2026-04-05T15:09:23.482205+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/758
+- author: DuckManZach
+  changes:
+  - message: Fixed invalid links in cordon
+    type: Fix
+  id: 228
+  time: '2026-04-05T19:08:15.342472+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/761
+- author: Roland410
+  changes:
+  - message: Removes the teleporter between military base and Agroprom, meaning military
+      have to walk there on foot (the horrors).
+    type: Remove
+  - message: Changed all Agroprom base doors to be military access, only the bunker
+      elevator and downstairs are scientist locked.
+    type: Tweak
+  - message: Moved Ecologists to Yantar bunker, and gave it a small underside, compared
+      to what they had in Agroprom.
+    type: Tweak
+  - message: Ecologist bunker and base given a roof, a proper kitchen, and some hydroponic
+      trays.
+    type: Tweak
+  - message: Unifies the two Ecologist vendor NPCs.
+    type: Tweak
+  - message: Makes the Ecologist leader able to access their office again.
+    type: Fix
+  - message: Military can sell the same things to their vendor, that they could to
+      Sidorovich to compensate for their loss of ease of access to a vendor, that
+      buys parts and artis.
+    type: Add
+  - message: Adds a clone of the military vendor to Agroprom.
+    type: Add
+  id: 229
+  time: '2026-04-05T22:34:32.534801+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/703
+- author: Roland410
+  changes:
+  - message: Removes lumber selling from Eco vendor, that accidentally was readded
+      by me.
+    type: Remove
+  id: 230
+  time: '2026-04-06T14:02:15.996142+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/764
+- author: teecoding
+  changes:
+  - message: Messenger PDA now correctly restores faction channels and password access
+      after respawning
+    type: Fix
+  id: 231
+  time: '2026-04-06T20:20:35.797330+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/765
+- author: dallaszzz
+  changes:
+  - message: Overhauled gasmask functionality and economy
+    type: Tweak
+  - message: Removed lead plates
+    type: Remove
+  - message: Artifacts now ignore resistances on personal damage (rad protection does
+      not stop artifact damage)
+    type: Tweak
+  id: 232
+  time: '2026-04-06T20:22:20.209296+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/747
+- author: Aliwenko
+  changes:
+  - message: Prototype, Sounds, and Textures for new mob, the mannequin.
+    type: Add
+  id: 233
+  time: '2026-04-07T01:05:14.843943+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/759
+- author: BELNAKBU
+  changes:
+  - message: 2 new dolls for admins, a little change of HumanoidAppearance, new poster
+      sprite and some bug fix
+    type: Add
+  id: 234
+  time: '2026-04-07T22:41:30.553907+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/771
+- author: BELNAKBU
+  changes:
+  - message: Surrender emote in the hand gestures. For 6 second you get the pacified
+      alert and a white flag appears above you
+    type: Add
+  id: 235
+  time: '2026-04-07T22:48:13.969231+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/770
+- author: BELNAKBU
+  changes:
+  - message: Now theres no ninja flesh
+    type: Add
+  id: 236
+  time: '2026-04-08T15:21:55.836311+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/773
+- author: dallaszzz & @TheOverwatchVoice
+  changes:
+  - message: A new map that can be accessed somewhere in Red Forest.
+    type: Add
+  id: 237
+  time: '2026-04-08T23:25:25.739543+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/779
+- author: nathan736
+  changes:
+  - message: you can now modify bizon mags into moded bizon mags using the same easy
+      craft method as the bizon.
+    type: Add
+  id: 238
+  time: '2026-04-08T23:56:39.705735+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/622
+- author: crocodilecarousel
+  changes:
+  - message: Karambit knife for Neutrals
+    type: Add
+  - message: Price adjustments for Neutral shop
+    type: Tweak
+  id: 239
+  time: '2026-04-09T00:00:33.100464+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/781
+- author: BELNAKBU
+  changes:
+  - message: Optimization fix
+    type: Add
+  id: 240
+  time: '2026-04-09T21:41:17.750310+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/778
+- author: crocodilecarousel
+  changes:
+  - message: Adjusted artifacts for use with limited artifact slots
+    type: Tweak
+  id: 241
+  time: '2026-04-09T22:18:22.972729+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/763
+- author: Nox38
+  changes:
+  - message: Redid the M16 into a L85 sidegrade burst gun.
+    type: Add
+  id: 242
+  time: '2026-04-10T07:44:53.029827+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/788
+- author: stickycheZ101
+  changes:
+  - message: hides are now 2x2
+    type: Add
+  id: 243
+  time: '2026-04-10T21:57:57.808064+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/793
+- author: dallaszzz
+  changes:
+  - message: New area on the new map
+    type: Add
+  - message: Fixes things on the new map
+    type: Fix
+  id: 244
+  time: '2026-04-10T23:47:51.141024+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/790
+- author: Aliwenko
+  changes:
+  - message: Tunnel as a cool place and connection for future event map.
+    type: Tweak
+  - message: Remade Seraphim base, also for events.
+    type: Tweak
+  id: 245
+  time: '2026-04-11T01:38:11.736916+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/783
+- author: Nox38
+  changes:
+  - message: Added cross armband and medic gloves to all civilized faction's merchants
+    type: Add
+  - message: Rubber bands now cost only 1r
+    type: Tweak
+  id: 246
+  time: '2026-04-11T01:39:35.826052+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/795
+- author: crocodilecarousel
+  changes:
+  - message: Artifact slots are now tied to the armor you're wearing
+    type: Tweak
+  id: 247
+  time: '2026-04-11T05:57:40.442069+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/762
 Name: Stalker
 Order: -1

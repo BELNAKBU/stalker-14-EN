@@ -317,9 +317,9 @@
         ClothingOuterCoatLoyalistLight: 2500
         ClothingOuterCoatLoyalist: 3000
           # Gasmasks
-        ClothingMaskXoma: 100 # T1
-        ClothingMaskGP5: 200 # T2
-        ClothingMaskGP7: 600 # T3
+        ClothingMaskXoma: 600 # T1
+        ClothingMaskGP5: 600 # T1
+        STClothingMaskGasPPM88: 1800 # T2
 
     - name: shop-category-research-equipment
       priority: 9
@@ -360,9 +360,9 @@
         Matchbox: 10
         HatchetStalker: 150
         ClothingHeatBagStalker: 100
-        STElasticRubberRed: 50
-        STElasticRubberGreen: 50
-        STElasticRubberBlue: 50
+        STElasticRubberRed: 1
+        STElasticRubberGreen: 1
+        STElasticRubberBlue: 1
         FoldedFlagBand: 250
         STRag: 10
         # Cameras

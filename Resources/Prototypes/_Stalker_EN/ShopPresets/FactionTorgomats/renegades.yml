@@ -267,8 +267,8 @@
       ClothingOuterCoatLoyalist: 3000
       ClothingOuterCoatRenegat: 2000 # T3 Cheaper cause let a renegade be drippy
       # Gasmasks
-      ClothingMaskGasRenegats: 100 # T1
-      ClothingMaskGP5: 200 # T2
+      ClothingMaskGasRenegats: 400 # T1
+      STClothingMaskGasPPM88: 1500 # T2
 
   - name: shop-category-research-equipment
     priority: 9
@@ -311,9 +311,9 @@
       ClothingHeatBagStalker: 100
       CasseteTwentyDonateRadio: 500
       CasseteRenegade: 500
-      STElasticRubberRed: 50
-      STElasticRubberGreen: 50
-      STElasticRubberBlue: 50
+      STElasticRubberRed: 1
+      STElasticRubberGreen: 1
+      STElasticRubberBlue: 1
       FoldedFlagRene: 250
       STRag: 10
       # Cameras

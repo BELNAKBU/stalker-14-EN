@@ -1,3 +1,5 @@
 attack, backup, cover, enemy, grenade and medkit are all made by dallaszzz on github and are cc-by-sa
 
 The bandit monolith and stalker ones were from stalker 14 ru and are duplicated here as a weird hack to get around weird code
+
+surrender made by wassuythefourth_47721 and cc-by-sa 3.0

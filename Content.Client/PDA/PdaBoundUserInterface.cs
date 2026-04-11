@@ -114,11 +114,10 @@ namespace Content.Client.PDA
 
             _menu.UpdateState(updateState);
 
-            // stalker-en-changes-start: hide password button for non-owners (use entity comparison)
-            var isOwner = _playerMgr.LocalEntity.HasValue
-                && updateState.PdaOwnerInfo.PdaOwnerEntity.HasValue
-                && EntMan.GetEntity(updateState.PdaOwnerInfo.PdaOwnerEntity.Value) == _playerMgr.LocalEntity.Value;
-            _menu.SetPasswordButton.Visible = isOwner;
+            // stalker-en-changes-start: always show password button — if the user can see the PDA UI,
+            // they already passed the server's OnOpenAttempt auth check (owner, unlocked, or no lock).
+            // Server-side IsAuthorized in OnOpenSettings provides the actual security gate.
+            _menu.SetPasswordButton.Visible = true;
             // stalker-en-changes-end
 
             // Switch to home if there's no active program and we're on program view

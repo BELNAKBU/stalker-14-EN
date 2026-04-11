@@ -17,14 +17,15 @@
     sprite: _Stalker/Objects/Clothing/mask/jaba_gasmask2.rsi
   - type: Armor
     modifiers:
-      coefficients:
-        Radiation: 0.65
-        Caustic: 0.75
-        Blunt: 0.97
-        Slash: 0.97
+      #coefficients: # EN change start
+        #Radiation: 0.65
+        #Caustic: 0.75
+        #Blunt: 0.97
+        #Slash: 0.97
       flatReductions:
-        Blunt: 1
-        Slash: 1
+        #Blunt: 1
+        #Slash: 1
+        Radiation: 10 # EN change end
   - type: HideLayerClothing
     slots:
     - Hair

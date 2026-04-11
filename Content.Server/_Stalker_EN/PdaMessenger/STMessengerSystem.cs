@@ -2,6 +2,7 @@ using Content.Server.Administration.Logs;
 using Content.Server.CartridgeLoader;
 using Content.Server.Database;
 using Content.Server.Discord;
+using Content.Server.Mind;
 using Content.Server.PDA;
 using Content.Server.PDA.Ringer;
 using Content.Shared._Stalker.Bands;
@@ -51,6 +52,7 @@ public sealed partial class STMessengerSystem : EntitySystem
     [Dependency] private readonly RingerSystem _ringer = default!;
     [Dependency] private readonly SharedSTFactionResolutionSystem _factionResolution = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
+    [Dependency] private readonly MindSystem _mind = default!;
 
     private const int MaxChannelMessages = 200;
     private const int MaxDmMessages = 100;
@@ -460,16 +462,34 @@ public sealed partial class STMessengerSystem : EntitySystem
 
             NotifyChannelRecipients(channelProto, server);
 
-            // Send pop-up notification for General channel (if not muted)
+            // Send pop-up notification for General channel
             if (channelProto.ID == "STGeneral")
             {
                 var bandIcon = GetBandIcon(server);
+                var generalEvent = new PdaGeneralMessageEvent(displayName, content, displayName, bandIcon);
 
-                // Check if recipient has General channel muted
-                if (!server.MutedChannels.Contains(channelProto.ID))
+                foreach (var (pdaUid, (cartridgeUid, _)) in _messengerPdas)
                 {
-                    var generalEvent = new PdaGeneralMessageEvent(displayName, content, displayName, bandIcon);
-                    RaiseNetworkEvent(generalEvent);
+                    // 1. Skip if the channel is muted
+                    if (!TryComp(cartridgeUid, out STMessengerServerComponent? recipientServer) ||
+                        recipientServer.MutedChannels.Contains(channelProto.ID))
+                        continue;
+
+                    // 2. Check for PDA and its owner (mob)
+                    if (!TryComp(pdaUid, out PdaComponent? pdaComp) || !pdaComp.PdaOwner.HasValue)
+                        continue;
+
+                    var mobUid = pdaComp.PdaOwner.Value;
+
+                    // 3. Find the mob's Mind to get the player's UserId
+                    if (_mind.TryGetMind(mobUid, out var _, out var mindComp))
+                    {
+                        // 4. Find the session by UserId
+                        if (_playerManager.TryGetSessionById(mindComp.UserId, out var session))
+                        {
+                            RaiseNetworkEvent(generalEvent, session!);
+                        }
+                    }
                 }
             }
         }
@@ -970,7 +990,26 @@ public sealed partial class STMessengerSystem : EntitySystem
 
         // Already claimed — don't overwrite (e.g. looted PDA with someone else's data)
         if (!string.IsNullOrEmpty(server.OwnerCharacterName))
+        {
+            // If the rightful owner is re-equipping their own PDA (e.g. after death/respawn),
+            // update the cache so faction/rank resolution points to the correct (held) PDA.
+            if (TryComp<ActorComponent>(holder, out var ownerActor))
+            {
+                var holderId = ownerActor.PlayerSession.UserId.UserId;
+                var holderName = MetaData(holder).EntityName;
+
+                if (holderId == server.OwnerUserId
+                    && holderName == server.OwnerCharacterName)
+                {
+                    _characterToPda[(holderId, holderName)] = pdaUid;
+                    _messengerPdas[pdaUid] = (progUid.Value, pdaUid);
+                    server.OwnerBand = ResolveMobBand(holder);
+
+                }
+            }
+
             return;
+        }
 
         // Only initialize for player-controlled entities
         if (!TryComp<ActorComponent>(holder, out var actor))
@@ -1085,40 +1124,36 @@ public sealed partial class STMessengerSystem : EntitySystem
     #region Helpers
 
     /// <summary>
-    /// Resolves the current rank icon of an online contact by looking up their PDA holder's STCharacterRankComponent.
-    /// Returns null if the contact is offline, PDA is not equipped, or has no rank.
+    /// Resolves the current rank icon of an online contact by looking up their session's attached entity.
+    /// Returns null if the contact is offline or has no rank.
     /// </summary>
     private string? ResolveContactRankIcon((Guid UserId, string CharName) contactKey)
     {
-        if (!_characterToPda.TryGetValue(contactKey, out var pdaUid))
+        if (!_playerManager.TryGetSessionById(new NetUserId(contactKey.UserId), out var session))
             return null;
 
-        if (!TryComp<TransformComponent>(pdaUid, out var xform))
+        if (session.AttachedEntity is not { } mob)
             return null;
 
-        var holder = xform.ParentUid;
-        if (!TryComp<STCharacterRankComponent>(holder, out var rank))
+        if (!TryComp<STCharacterRankComponent>(mob, out var rank))
             return null;
 
         return rank.RankIconId;
     }
 
     /// <summary>
-    /// Resolves the current faction of an online contact by looking up their PDA holder's BandsComponent.
-    /// Returns null if the contact is offline, PDA is not equipped, or has no faction.
-    /// Only works when the PDA is in an inventory slot (ParentUid = mob entity).
+    /// Resolves the current faction of an online contact by looking up their session's attached entity.
+    /// Returns null if the contact is offline or has no faction.
     /// </summary>
     private string? ResolveContactFaction((Guid UserId, string CharName) contactKey)
     {
-        if (!_characterToPda.TryGetValue(contactKey, out var pdaUid))
+        if (!_playerManager.TryGetSessionById(new NetUserId(contactKey.UserId), out var session))
             return null;
 
-        if (!TryComp<TransformComponent>(pdaUid, out var xform))
+        if (session.AttachedEntity is not { } mob)
             return null;
 
-        // PDA in inventory: ParentUid is the mob. If PDA is dropped/in container, this won't be a mob.
-        var holder = xform.ParentUid;
-        if (!TryComp<BandsComponent>(holder, out var bands))
+        if (!TryComp<BandsComponent>(mob, out var bands))
             return null;
 
         // Only Clear Sky is disguised as Loners on PDA

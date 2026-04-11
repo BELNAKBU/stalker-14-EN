@@ -256,10 +256,11 @@
         ClothingOuterCoatLoyalist: 3000
         ClothingOuterCoatKevlarMercenaries: 2750
         # Gas Masks
-        ClothingMaskGasZarya: 100
-        ClothingMaskGasMercStalker: 150
-        ClothingMaskGasM40: 250
-        ClothingMaskGP7: 900
+        ClothingMaskGasZarya: 500 # T1
+        ClothingMaskGasMercStalker: 500 # T1
+        ClothingMaskGasM40: 1500 # T2
+        ClothingMaskM50: 3800 # T3
+        ClothingMaskM51: 7500 # T4
 
     - name: shop-category-research-equipment
       priority: 9
@@ -287,9 +288,9 @@
         STRadioHeadset: 150
         ClothingHeatBagStalker: 100
         STSkinsKitMercenary: 500
-        STElasticRubberRed: 50
-        STElasticRubberGreen: 50
-        STElasticRubberBlue: 50
+        STElasticRubberRed: 1
+        STElasticRubberGreen: 1
+        STElasticRubberBlue: 1
         STFlashlightSeclite: 50
         PowerCellHyper: 50
         BoxFlare: 60
@@ -348,6 +349,7 @@
         ClothingMaskNeckBalaklava2: 10
         ClothingMaskNeckBalaklava3: 10
         # NECK
+        ClothingBandageStalkerKrest: 10
         ClothingNeckScarfGray: 100
         # faction
         ClothingBandageStalkerMerc: 10
@@ -371,6 +373,8 @@
         ClothingTorsoTurtlenecksMatrosska: 50
         # HANDS
         ClothingHandsGlovesFingerless: 30
+        ClothingHandsGlovesNitrile: 35
+        ClothingHandsGlovesLatex: 35
         ClothingHandsGlovesMercFingerless: 60
         # OUTERCLOTHING
         # CLOAK

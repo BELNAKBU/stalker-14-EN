@@ -368,10 +368,6 @@
     - name: shop-category-raincoats-and-gasmasks
       priority: 9
       items:
-        ClothingMaskGP7: 165
-        ClothingMaskGasZarya: 125
-        ClothingMaskGasZaryaMono: 150
-        ClothingMaskXoma: 95
         ClothingCloakStalker: 30
         ClothingCloakBeige: 1000
         ClothingCloakBlack: 1000
@@ -384,6 +380,12 @@
         ClothingOuterCoatLoyalistLight: 2500
         ClothingOuterCoatLoyalist: 3000
         STClothingCapeArmorChainmailSeva: 2000
+        # Gas Masks
+        ClothingMaskGasZarya: 600 # T1
+        ClothingMaskGasZaryaMono: 600 # T1
+        ClothingMaskXoma: 600 # T1
+        STClothingMaskGasPPM88: 1800 # T2
+        ClothingMaskGP7: 4100 # T3
 
     - name: shop-category-research-equipment
       priority: 10
