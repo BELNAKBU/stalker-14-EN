@@ -137,7 +137,6 @@ namespace Content.Client.PDA
             _menu?.ProgramView.AddChild(cartridgeUIFragment);
             _menu?.ToProgramView();
 
-            // Note: title parameter is currently unused as PdaMenu doesn't display program titles in the header
         }
 
         protected override void DetachCartridgeUI(Control cartridgeUIFragment)
@@ -145,11 +144,6 @@ namespace Content.Client.PDA
             if (_menu is null)
                 return;
 
-            // Don't switch views here - let UpdateState handle view changes based on server authority
-            // This prevents unwanted home switching when:
-            // - switching between programs
-            // - user is on Settings view
-            // Only remove the UI fragment
             _menu.ProgramView.RemoveChild(cartridgeUIFragment);
         }
 
