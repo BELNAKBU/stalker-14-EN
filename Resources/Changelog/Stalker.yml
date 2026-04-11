@@ -2293,5 +2293,14 @@
   id: 244
   time: '2026-04-10T23:47:51.141024+00:00'
   url: https://github.com/stalker-14-EN/stalker-14-EN/pull/790
+- author: Aliwenko
+  changes:
+  - message: Tunnel as a cool place and connection for future event map.
+    type: Tweak
+  - message: Remade Seraphim base, also for events.
+    type: Tweak
+  id: 245
+  time: '2026-04-11T01:38:11.736916+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/783
 Name: Stalker
 Order: -1
