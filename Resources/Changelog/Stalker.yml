@@ -2325,5 +2325,14 @@
   id: 248
   time: '2026-04-11T13:40:27.836018+00:00'
   url: https://github.com/stalker-14-EN/stalker-14-EN/pull/798
+- author: Nox38
+  changes:
+  - message: Added Glock switches to make Glocks full-auto.
+    type: Add
+  - message: Tuned values of Glock mags for realism and balance.
+    type: Tweak
+  id: 249
+  time: '2026-04-12T01:44:32.094100+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/768
 Name: Stalker
 Order: -1
