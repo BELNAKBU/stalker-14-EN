@@ -2341,5 +2341,13 @@
   id: 250
   time: '2026-04-12T13:46:10.894841+00:00'
   url: https://github.com/stalker-14-EN/stalker-14-EN/pull/800
+- author: teecoding
+  changes:
+  - message: Your equipment is now saved periodically and can be recovered from the
+      repository after a server crash
+    type: Add
+  id: 251
+  time: '2026-04-12T22:25:52.106839+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/802
 Name: Stalker
 Order: -1
