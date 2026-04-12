@@ -379,6 +379,10 @@ namespace Content.Server.Database
         Task<string?> GetLoginItems(string login);
         Task SetLoadouts(string login, string jsonLoadouts);
         Task<string?> GetLoadouts(string login);
+        Task SetCrashRecovery(string login, string? jsonItems);
+        Task<string?> GetCrashRecovery(string login);
+        Task ClearAllCrashRecovery();
+        Task SetCrashRecoveryBatch(Dictionary<string, string> loginToJson);
         Task SetStalkerStatsAsync(string login, CharacteristicType characteristic, float value, DateTime? trainTime);
         Task<StalkerStats?> GetStalkerStatAsync(string login, CharacteristicType characteristic);
 
@@ -1511,6 +1515,30 @@ namespace Content.Server.Database
         {
             DbReadOpsMetric.Inc();
             return RunDbCommand(() => _db.GetLoadouts(login));
+        }
+
+        public Task SetCrashRecovery(string login, string? jsonItems)
+        {
+            DbWriteOpsMetric.Inc();
+            return RunDbCommand(() => _db.SetCrashRecovery(login, jsonItems));
+        }
+
+        public Task<string?> GetCrashRecovery(string login)
+        {
+            DbReadOpsMetric.Inc();
+            return RunDbCommand(() => _db.GetCrashRecovery(login));
+        }
+
+        public Task ClearAllCrashRecovery()
+        {
+            DbWriteOpsMetric.Inc();
+            return RunDbCommand(() => _db.ClearAllCrashRecovery());
+        }
+
+        public Task SetCrashRecoveryBatch(Dictionary<string, string> loginToJson)
+        {
+            DbWriteOpsMetric.Inc();
+            return RunDbCommand(() => _db.SetCrashRecoveryBatch(loginToJson));
         }
 
         public Task<List<Player>> GetPlayersWithRoleWhitelistAsync(IEnumerable<string> roleIds, CancellationToken cancel = default) // Added for BandsSystem

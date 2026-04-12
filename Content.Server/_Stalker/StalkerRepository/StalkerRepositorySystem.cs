@@ -37,6 +37,7 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.Manager;
 using RepositoryEjectMessage = Content.Shared._Stalker.StalkerRepository.RepositoryEjectMessage;
 using Content.Server._Stalker.Sponsors.SponsorManager;
+using Content.Server._Stalker_EN.CrashRecovery;
 using Content.Server._Stalker_EN.Loadout;
 using Content.Shared._Stalker_EN.Loadout;
 using Content.Shared.Actions.Components;
@@ -62,6 +63,7 @@ public sealed class StalkerRepositorySystem : EntitySystem
     [Dependency] private readonly EntityWhitelistSystem _whitelistSystem = default!; // for checks for whitelist
     [Dependency] private readonly ISharedPlayerManager _player = default!; // for getting session by mindComp
     [Dependency] private readonly LoadoutSystem _loadoutSystem = default!; // for loadout state updates
+    [Dependency] private readonly CrashRecoverySystem _crashRecovery = default!; // stalker-en-changes
     private ISawmill _sawmill = default!;
 
     // caching new records in database to get them later inside sponsors stuff
@@ -218,6 +220,9 @@ public sealed class StalkerRepositorySystem : EntitySystem
         UpdateUiState(args.User, uid, component);
         // Note: Loadout state is sent on demand when user opens the loadout menu,
         // not here, to avoid race conditions with the async database call.
+
+        // stalker-en-changes: Check for crash recovery data (async — arrives on next tick)
+        _crashRecovery.CheckAndSendCrashRecoveryState(uid, args.User);
     }
 
     private void UpdateUiState(EntityUid? user, EntityUid repository, StalkerRepositoryComponent? component = null)
