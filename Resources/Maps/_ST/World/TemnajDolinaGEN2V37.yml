@@ -32859,9 +32859,6 @@ entities:
     - type: Transform
       pos: 171.5,-0.5
       parent: 1
-    - type: LinkedEntity
-      linkedEntities:
-      - invalid
 - proto: Cordon-MercBandUncollide
   entities:
   - uid: 13747
@@ -32869,9 +32866,6 @@ entities:
     - type: Transform
       pos: -68.5,-56.5
       parent: 1
-    - type: LinkedEntity
-      linkedEntities:
-      - invalid
 - proto: Corpse1Stalker
   entities:
   - uid: 16160
