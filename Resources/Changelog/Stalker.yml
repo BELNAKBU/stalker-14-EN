@@ -2407,5 +2407,12 @@
   id: 257
   time: '2026-04-13T19:37:15.001257+00:00'
   url: https://github.com/stalker-14-EN/stalker-14-EN/pull/806
+- author: nathan736
+  changes:
+  - message: fixed planks when junped on causing people to get stuck against walls
+    type: Fix
+  id: 258
+  time: '2026-04-13T19:40:26.149058+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/805
 Name: Stalker
 Order: -1
