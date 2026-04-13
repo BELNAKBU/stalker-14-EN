@@ -4,7 +4,7 @@ meta:
   engineVersion: 268.0.0
   forkId: ""
   forkVersion: ""
-  time: 03/29/2026 11:31:02
+  time: 04/07/2026 23:25:52
   entityCount: 165
 maps:
 - 1
@@ -1199,6 +1199,9 @@ entities:
     - type: Transform
       pos: 1.5,2.5
       parent: 104
+    missingComponents:
+    - Destructible
+    - Damageable
 - proto: WoodenBoxWithLoot2
   entities:
   - uid: 152
@@ -1206,6 +1209,9 @@ entities:
     - type: Transform
       pos: 2.5,-1.5
       parent: 104
+    missingComponents:
+    - Destructible
+    - Damageable
 - proto: WoodenYaschik3
   entities:
   - uid: 139

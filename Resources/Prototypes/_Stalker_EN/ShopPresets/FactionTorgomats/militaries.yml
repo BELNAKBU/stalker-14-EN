@@ -42,8 +42,14 @@
       ClothingBackpackDuffelOliveTacticStalker: 4
       ClothingBackpackDuffelMilitaryOlive: 4
 
-  - name: shop-category-modules
+  - name: shop-category-raincoats-and-gasmasks
     priority: 6
+    items:
+      # Gas Masks
+      ClothingMaskM51: 8 # T4
+
+  - name: shop-category-modules
+    priority: 7
     items:
       STModuleScopeRiflesT1Ru: 1
       STModuleSniperSightT1: 1
@@ -231,9 +237,9 @@
       HatchetStalker: 150
       CraftBag: 10
       CasseteArstotzka1984: 500
-      STElasticRubberRed: 50
-      STElasticRubberGreen: 50
-      STElasticRubberBlue: 50
+      STElasticRubberRed: 1
+      STElasticRubberGreen: 1
+      STElasticRubberBlue: 1
       # Cameras
       STCamera: 750
       STCameraVintage: 1200
@@ -671,9 +677,8 @@
     priority: 8
     items:
       # Gasmasks
-      ClothingMaskGasM40Military: 300 #T2
-      ClothingMaskGasXM40: 450 # T3
-      ClothingMaskGP7: 500 #T3
+      ClothingMaskGasM40Military: 700 #T2
+      ClothingMaskGasXM40: 2200 # T3
       # Raincoats
       #ClothingOuterCoatLoyalist: 2500
 
@@ -684,7 +689,7 @@
       STBoltBagFilled: 50
       ZoneAnomalyDetectorAD1: 450 # T1
       ZoneAnomalyDetectorAD2: 1000 # T2
-      STLeadPlate: 200 # PvE Anti-Rad if abused raise price
+      #STLeadPlate: 200 # PvE Anti-Rad if abused raise price
 
   - name: shop-category-utilities
     priority: 10
@@ -717,9 +722,9 @@
       STSkinsKitMilitary: 500
       AccordionInstrument: 500
       FoldedFlagMili: 250
-      STElasticRubberRed: 50
-      STElasticRubberGreen: 50
-      STElasticRubberBlue: 50
+      STElasticRubberRed: 1
+      STElasticRubberGreen: 1
+      STElasticRubberBlue: 1
       # Cameras
       STCamera: 750
       STCameraVintage: 1200
@@ -893,6 +898,8 @@
       ClothingMaskNeckBalaklava3: 10
       # Gloves
       ClothingHandsGlovesFingerless: 30
+      ClothingHandsGlovesNitrile: 35
+      ClothingHandsGlovesLatex: 35
       ClothingHandsGlovesMercFingerless: 60
       # Neck
       ClothingNeckScarfArmy: 100

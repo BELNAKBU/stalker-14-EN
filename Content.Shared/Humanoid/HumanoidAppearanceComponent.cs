@@ -74,6 +74,21 @@ public sealed partial class HumanoidAppearanceComponent : Component
     [DataField, AutoNetworkedField]
     public Color EyeColor = Color.Brown;
 
+    // Stalker-EN-Change: Flags to track custom colors set directly in YAML
+    // Allows setting skinColor/eyeColor in doll prototypes without being overridden by profile
+    /// <summary>
+    ///     Whether SkinColor was explicitly set in YAML (should not be overridden by profile)
+    /// </summary>
+    [DataField]
+    public bool HasCustomSkinColor;
+
+    /// <summary>
+    ///     Whether EyeColor was explicitly set in YAML (should not be overridden by profile)
+    /// </summary>
+    [DataField]
+    public bool HasCustomEyeColor;
+    // Stalker-EN-Change end
+
     /// <summary>
     ///     Hair color of this humanoid. Used to avoid looping through all markings
     /// </summary>

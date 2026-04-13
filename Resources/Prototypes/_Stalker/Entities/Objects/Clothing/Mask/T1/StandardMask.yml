@@ -17,8 +17,10 @@
   - type: Craftable
   - type: Armor
     modifiers:
-      coefficients:
-        Radiation: 0.85
+      flatReductions: # EN start
+        Radiation: 1
+      #coefficients:
+        #Radiation: 0.85 # EN end
   - type: HideLayerClothing
     slots:
     - Snout
@@ -179,9 +181,9 @@
     sprite: _Stalker/Objects/Clothing/mask/gasmask_renegat.rsi
   - type: Clothing
     sprite: _Stalker/Objects/Clothing/mask/gasmask_renegat.rsi
-  - type: Armor
-    armorLevels:
-       environment: 1
+  #- type: Armor # EN start
+    #armorLevels:
+       #environment: 1 # EN end
 
 
 - type: entity

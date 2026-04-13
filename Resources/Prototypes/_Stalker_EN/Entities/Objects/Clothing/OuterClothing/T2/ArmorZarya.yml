@@ -16,6 +16,8 @@
     damage:
       types:
         Radiation: 18.01
+  - type: GrantsArtifactSlots
+    slots: 4
 
 - type: entity
   parent: STClothingHeadHatBase

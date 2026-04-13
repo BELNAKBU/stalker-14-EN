@@ -445,6 +445,23 @@
       prototypes: [ StalkerGear ]
 
 - type: entity
+  name: кукла Новичка (переименуй меня)
+  suffix: Stalker, пешка с нашивкой
+  parent: MobHuman
+  id: MobStalkerRookie
+  components:
+    - type: Bands
+      band: Stalker
+      bandIcon: rookie
+      bandProto: STStalkerBand
+      bandRankId: 1
+    - type: Access
+      tags:
+        - Rookie
+    - type: Loadout
+      prototypes: [ RookieGear ]
+
+- type: entity
   name: кукла Монолита (переименуй меня)
   suffix: Stalker, пешка с нашивкой
   parent: MobHuman
@@ -504,6 +521,37 @@
     - type: Loadout
       prototypes: [ SBUGear ]
 
+- type: entity
+  name: кукла зомбированного (переименуй меня)
+  suffix: Stalker, пешка с нашивкой
+  parent: MobHuman
+  id: MobStalkerZombified
+  components:
+  - type: HumanoidAppearance
+    species: Human
+    eyeColor: "#EBEBEB"
+    hasCustomEyeColor: true # Stalker-EN-Change: preserve custom eye color from YAML
+    skinColor: "#9C9794FF"
+    hasCustomSkinColor: true # Stalker-EN-Change: preserve custom skin color from YAML
+  - type: Bands
+    band: Zombie
+    bandIcon: zombieEN
+  - type: Access
+    tags:
+      - Stalker
+  - type: NpcFactionMember
+    factions:
+      - Mutated
+  - type: Hunger
+    baseDecayRate: 0
+  - type: Thirst
+    baseDecayRate: 0
+  - type: PersonalDamageBlock
+  - type: Damageable
+    damageContainer: Biological
+    damageModifierSet: Monolith
+  - type: PsyEffectImmune
+
 - type: startingGear
   id: StalkerGearT4
   equipment:
@@ -528,3 +576,9 @@
     torso: ClothingTorsoTurtlenecksMilitary
     shoes: STClothingShoesBootsCombatFilled
     pocket1: PassportSBU
+
+- type: startingGear
+  id: RookieGear
+  equipment:
+    id: StalkerPDA
+    dogtag: ClothingNeckDogtagRookie # EN

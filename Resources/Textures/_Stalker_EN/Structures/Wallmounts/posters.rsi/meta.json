@@ -1,7 +1,7 @@
 {
     "version": 1,
     "license": "CC-BY-SA-3.0",
-    "copyright": "sprites by carousel",
+    "copyright": "sprites by carousel and wassuy",
     "size": {
         "x": 32,
         "y": 32
@@ -15,6 +15,9 @@
         },
         {
             "name": "poster_cat3"
-        }
+        },
+		{
+			"name": "poster_vodka1"
+		}
     ]
 }

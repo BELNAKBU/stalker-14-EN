@@ -35,7 +35,7 @@
     pullTime: 6
 
 - type: entity
-  parent: ClothingMaskGas
+  parent: ClothingMaskBase # EN change
   id: STClothingMaskGas
   suffix: ST
   abstract: true
@@ -48,11 +48,14 @@
   - type: RepositoryItem
     categoryName: repository-equipment-category
   - type: PullDoAfter
-    pullTime: 2
+    pullTime: 0.75 # EN change
   - type: HideLayerClothing
     slots:
     - Snout
     - FacialHair
+  - type: BreathMask # EN start
+  - type: IngestionBlocker
+  - type: IdentityBlocker # EN end
 
 - type: entity
   parent: ClothingOuterBaseLarge

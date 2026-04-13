@@ -97,10 +97,9 @@
         STWeaponSMGMP5: 1800 # T3
         STWeaponSMGThompson: 3800
         # Nato Rifles
-        STWeaponRifleL85: 2100 # T2
+        STWeaponRifleM16: 2500 # T2
+        STWeaponRifleM16M203: 3500 # T2
         STWeaponRifleSCARH: 6000 # T3
-        STWeaponRifleM16: 4000 # T2
-        STWeaponRifleM16M203: 5000 # T2
         STWeaponRifleFAL: 1750 # T3
         STWeaponRifleFALo: 8000 # T3
         STWeaponRifleGalil: 7000 # T3
@@ -118,9 +117,8 @@
         556Mag20: 220
         556Mag30: 400
         BaseMP5Mag: 260
-        BaseGlockMag10: 100
-        GlockMag24: 350
-        GlockMag33: 950
+        GlockMag17: 150
+        GlockMag33: 600
         STSpeedLoader45ACPEmpty: 100
         Base751Mag10: 200
         751Mag20: 400
@@ -249,10 +247,10 @@
         ClothingOuterCoatLoyalist: 3000
         STClothingCapeFreedomChain: 2500 # T4
           # Gasmasks
-        ClothingMaskGasFreedom: 100 # T1
-        ClothingMaskGasZaryaMono: 100
-        ClothingMaskGasM40: 200 # T2
-        ClothingMaskGP21: 1000 # T3
+        ClothingMaskGasFreedom: 500 # T1
+        ClothingMaskGasZaryaMono: 500 # T1
+        ClothingMaskGasM40: 1500 # T2
+        ClothingMaskM50: 3800 # T3
 
     - name: shop-category-research-equipment
       priority: 9
@@ -298,9 +296,9 @@
         STOxygenTanksFractionalFreedom2: 500
         Matchbox: 10
         HatchetStalker: 150
-        STElasticRubberRed: 50
-        STElasticRubberGreen: 50
-        STElasticRubberBlue: 50
+        STElasticRubberRed: 1
+        STElasticRubberGreen: 1
+        STElasticRubberBlue: 1
         FoldedFlagFree: 250
         # Cameras
         STCamera: 750
@@ -321,6 +319,7 @@
         STModuleSilencerSMGT1: 600
         STModuleSniperSightT1: 600
         STModuleSilencerSniperT1: 600
+        STModuleGlockSwitch: 200
 
     - name: shop-category-grenades
       priority: 12
@@ -346,6 +345,7 @@
         ClothingMaskNeckBalaklava2: 10
         ClothingMaskNeckBalaklava3: 10
         # NECK
+        ClothingBandageStalkerKrest: 10
         ClothingNeckScarfBrown: 100
         # faction
         ClothingBandageStalkerGreen: 10
@@ -368,6 +368,8 @@
         ClothingTorsoTurtlenecksMatrosska: 50
         # HANDS
         ClothingHandsGlovesFingerless: 30
+        ClothingHandsGlovesNitrile: 35
+        ClothingHandsGlovesLatex: 35
         ClothingHandsGlovesMercFingerless: 60
         # OUTERCLOTHING
         # CLOAK

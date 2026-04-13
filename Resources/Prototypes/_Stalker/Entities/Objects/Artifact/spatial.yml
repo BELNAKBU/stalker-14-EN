@@ -21,6 +21,7 @@
           Radiation: -5
           Asphyxiation: -2
       interval: 1
+      ignoreResistances: true # EN
     - type: Armor
       hiddenExamine: true
       armorClass: 2
@@ -111,6 +112,7 @@
           Blunt: -0.5
           Heat: 0.3
       interval: 1
+      ignoreResistances: true # EN
     - type: Storage
       grid:
         - 0,0,2,2
@@ -120,13 +122,13 @@
     - type: Reflect
       reflectProb: 0.1
       spread: 340
-
-# t4 so i think its fine. maybe.
     - type: Tag
       tags:
       - Khabar
       - STArtifact
       - STArtifactTier2
+
+# t4 so i think its fine. maybe.
 - type: entity
   parent: BaseArtifactStorage
   id: ZoneArtifactCompass
@@ -154,6 +156,7 @@
           Caustic: -1
           Blunt: 0.5
       interval: 1
+      ignoreResistances: true # EN
     - type: Storage
       grid:
       - 0,0,2,2
@@ -166,13 +169,13 @@
     - type: Reflect
       reflectProb: 0.05
       spread: 340
-
-# not sure what to do with this one but its t5 so it doesnt matter yet
     - type: Tag
       tags:
       - Khabar
       - STArtifact
       - STArtifactTier4
+
+# not sure what to do with this one but its t5 so it doesnt matter yet
 - type: entity
   name: Распятие
   parent: BaseArtifact
@@ -196,8 +199,9 @@
       types:
         Radiation: 1
         Cold: 2.5
-        Asphyxiation: -2
+        Asphyxiation: -3
     interval: 1
+    ignoreResistances: true # EN
   - type: Armor
     hiddenExamine: true
     armorClass: 2
@@ -205,13 +209,14 @@
       coefficients:
         Heat: 0.7
         Shock: 0.7
+  - type: Prayable # whatever
   - type: STWeight
     self: -5
   - type: Tag
     tags:
     - Khabar
     - STArtifact
-    - STArtifactTier2
+    - STArtifactTier5
 
 - type: entity
   parent: BaseArtifact
@@ -235,6 +240,7 @@
       types:
         Heat: -3
     interval: 1
+    ignoreResistances: true # EN
   - type: Armor
     hiddenExamine: true
     armorClass: 2
@@ -258,7 +264,7 @@
     tags:
     - Khabar
     - STArtifact
-    - STArtifactTier2
+    - STArtifactTier3
 
 - type: entity
   parent: BaseArtifactStorage
@@ -283,6 +289,7 @@
           Radiation: 1
           Psy: 1
       interval: 1
+      ignoreResistances: true # EN
     - type: Armor
       hiddenExamine: true
       modifiers:
@@ -326,6 +333,7 @@
       types:
         Shock: 0.3
     interval: 1
+    ignoreResistances: true # EN
   - type: Armor
     hiddenExamine: true
     armorClass: 2

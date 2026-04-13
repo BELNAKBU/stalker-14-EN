@@ -1,4 +1,4 @@
-﻿# he's a worse barman
+# he's a worse barman
 - type: shopPreset
   id: STNPCToothPresetEN # between sido and barman
   minSellPrice: 5
@@ -276,8 +276,8 @@
   - name: shop-category-raincoats-and-gasmasks
     priority: 9
     items:
-      ClothingMaskGP7: 250
-      ClothingMaskXoma: 165
+      ClothingMaskGP7: 3800 # T3
+      ClothingMaskXoma: 500 # T1
       ClothingCloakShortCoverBlack: 1000
       ClothingOuterCoatStalker: 1000
       ClothingOuterCoatLoyalistLight: 3000

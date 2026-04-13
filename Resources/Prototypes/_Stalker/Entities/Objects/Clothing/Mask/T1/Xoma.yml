@@ -14,14 +14,16 @@
   - type: Clothing
     sprite: _Stalker/Objects/Clothing/mask/pbfxoma.rsi
   - type: Armor
-    armorLevels:
-       radiation: 1
+    #armorLevels: # EN start
+       #radiation: 1
     modifiers:
-      coefficients:
-        Caustic: 0.9
-        Blunt: 0.99
-        Slash: 0.99
-        Piercing: 0.99
+      #coefficients:
+        #Caustic: 0.9
+        #Blunt: 0.99
+        #Slash: 0.99
+        #Piercing: 0.99
+      flatReductions:
+        Radiation: 1 # EN end
   - type: HideLayerClothing
     slots:
     - Hair

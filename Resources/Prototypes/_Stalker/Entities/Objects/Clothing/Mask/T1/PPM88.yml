@@ -14,10 +14,12 @@
     sprite: _Stalker/Objects/Clothing/mask/ppm_88.rsi
   - type: Armor
     modifiers:
-      coefficients:
-        Radiation: 0.85
-        Caustic: 0.82
-  - type: HideLayerClothing
-    slots:
-    - Hair
-    - HeadTop
+      #coefficients: # EN start
+        #Radiation: 0.85
+        #Caustic: 0.82
+      flatReductions:
+        Radiation: 2 # made into a T2
+  #- type: HideLayerClothing
+    #slots:
+    #- Hair
+    #- HeadTop # EN end

@@ -182,10 +182,6 @@
     - name: shop-category-raincoats-and-gasmasks
       priority: 8
       items:
-          # Gasmasks
-        ClothingMaskGasDolg1: 100 # T1
-        ClothingMaskGasDolg2: 100 # T2
-        ClothingMaskGP21: 1200 # T3
           # Cloaks
         ClothingCloakStalker: 30
         ClothingCloakBeige: 1000
@@ -199,6 +195,11 @@
         ClothingOuterCoatLoyalistLight: 2500
         ClothingOuterCoatLoyalist: 3000
         STClothingCapeDolgArmor: 2500 # T4
+          # Gasmasks
+        ClothingMaskGasDolg1: 500 # T1
+        ClothingMaskGasDolg2: 500 # T1
+        STClothingMaskGasPPM88: 1500 # T2
+        ClothingMaskGP7: 3800 # T3
 
     - name: shop-category-research-equipment
       priority: 9
@@ -211,7 +212,7 @@
         BoxArtcontOrange: 750
         ZoneAnomalyDetectorAD1: 450 # T1
         ZoneAnomalyDetectorAD2: 1000 # T2
-        STLeadPlate: 200 # PvE Anti-Rad if abused raise price
+        #STLeadPlate: 200 # PvE Anti-Rad if abused raise price
 
     - name: shop-category-utilities
       priority: 10
@@ -241,9 +242,9 @@
         Matchbox: 10
         HatchetStalker: 150
         CasseteDuty: 500
-        STElasticRubberRed: 50
-        STElasticRubberGreen: 50
-        STElasticRubberBlue: 50
+        STElasticRubberRed: 1
+        STElasticRubberGreen: 1
+        STElasticRubberBlue: 1
         FoldedFlagDuty: 250
         # Cameras
         STCamera: 750
@@ -290,6 +291,7 @@
         ClothingMaskNeckBalaklava2: 10
         ClothingMaskNeckBalaklava3: 10
         # NECK
+        ClothingBandageStalkerKrest: 10
         ClothingNeckScarfGray: 100
         # faction
         ClothingBandageStalkerRed: 10
@@ -312,6 +314,8 @@
         ClothingTorsoTurtlenecksMatrosska: 50
         # HANDS
         ClothingHandsGlovesFingerless: 30
+        ClothingHandsGlovesNitrile: 35
+        ClothingHandsGlovesLatex: 35
         ClothingHandsGlovesMercFingerless: 60
         # OUTERCLOTHING
         # CLOAK

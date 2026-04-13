@@ -990,7 +990,26 @@ public sealed partial class STMessengerSystem : EntitySystem
 
         // Already claimed — don't overwrite (e.g. looted PDA with someone else's data)
         if (!string.IsNullOrEmpty(server.OwnerCharacterName))
+        {
+            // If the rightful owner is re-equipping their own PDA (e.g. after death/respawn),
+            // update the cache so faction/rank resolution points to the correct (held) PDA.
+            if (TryComp<ActorComponent>(holder, out var ownerActor))
+            {
+                var holderId = ownerActor.PlayerSession.UserId.UserId;
+                var holderName = MetaData(holder).EntityName;
+
+                if (holderId == server.OwnerUserId
+                    && holderName == server.OwnerCharacterName)
+                {
+                    _characterToPda[(holderId, holderName)] = pdaUid;
+                    _messengerPdas[pdaUid] = (progUid.Value, pdaUid);
+                    server.OwnerBand = ResolveMobBand(holder);
+
+                }
+            }
+
             return;
+        }
 
         // Only initialize for player-controlled entities
         if (!TryComp<ActorComponent>(holder, out var actor))
@@ -1105,40 +1124,36 @@ public sealed partial class STMessengerSystem : EntitySystem
     #region Helpers
 
     /// <summary>
-    /// Resolves the current rank icon of an online contact by looking up their PDA holder's STCharacterRankComponent.
-    /// Returns null if the contact is offline, PDA is not equipped, or has no rank.
+    /// Resolves the current rank icon of an online contact by looking up their session's attached entity.
+    /// Returns null if the contact is offline or has no rank.
     /// </summary>
     private string? ResolveContactRankIcon((Guid UserId, string CharName) contactKey)
     {
-        if (!_characterToPda.TryGetValue(contactKey, out var pdaUid))
+        if (!_playerManager.TryGetSessionById(new NetUserId(contactKey.UserId), out var session))
             return null;
 
-        if (!TryComp<TransformComponent>(pdaUid, out var xform))
+        if (session.AttachedEntity is not { } mob)
             return null;
 
-        var holder = xform.ParentUid;
-        if (!TryComp<STCharacterRankComponent>(holder, out var rank))
+        if (!TryComp<STCharacterRankComponent>(mob, out var rank))
             return null;
 
         return rank.RankIconId;
     }
 
     /// <summary>
-    /// Resolves the current faction of an online contact by looking up their PDA holder's BandsComponent.
-    /// Returns null if the contact is offline, PDA is not equipped, or has no faction.
-    /// Only works when the PDA is in an inventory slot (ParentUid = mob entity).
+    /// Resolves the current faction of an online contact by looking up their session's attached entity.
+    /// Returns null if the contact is offline or has no faction.
     /// </summary>
     private string? ResolveContactFaction((Guid UserId, string CharName) contactKey)
     {
-        if (!_characterToPda.TryGetValue(contactKey, out var pdaUid))
+        if (!_playerManager.TryGetSessionById(new NetUserId(contactKey.UserId), out var session))
             return null;
 
-        if (!TryComp<TransformComponent>(pdaUid, out var xform))
+        if (session.AttachedEntity is not { } mob)
             return null;
 
-        // PDA in inventory: ParentUid is the mob. If PDA is dropped/in container, this won't be a mob.
-        var holder = xform.ParentUid;
-        if (!TryComp<BandsComponent>(holder, out var bands))
+        if (!TryComp<BandsComponent>(mob, out var bands))
             return null;
 
         // Only Clear Sky is disguised as Loners on PDA

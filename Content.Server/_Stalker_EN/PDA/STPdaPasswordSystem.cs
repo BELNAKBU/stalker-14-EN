@@ -100,6 +100,24 @@ public sealed class STPdaPasswordSystem : SharedSTPdaPasswordSystem
         }
     }
 
+    /// <summary>
+    /// Returns true if the actor is the PDA owner, has unlocked it, or the PDA has no password set.
+    /// </summary>
+    private bool IsAuthorized(Entity<STPdaPasswordComponent> ent, EntityUid actor)
+    {
+        if (TryComp<PdaComponent>(ent, out var pda) && pda.PdaOwner == actor)
+            return true;
+
+        if (!ent.Comp.IsLocked)
+            return true;
+
+        if (TryComp<ActorComponent>(actor, out var actorComp)
+            && ent.Comp.UnlockedBy.Contains(actorComp.PlayerSession.UserId))
+            return true;
+
+        return false;
+    }
+
     private void OnOpenAttempt(Entity<STPdaPasswordComponent> ent, ref ActivatableUIOpenAttemptEvent args)
     {
         if (args.Cancelled || !ent.Comp.IsLocked)
@@ -130,7 +148,7 @@ public sealed class STPdaPasswordSystem : SharedSTPdaPasswordSystem
         if (args.UiKey is not STPdaPasswordUiKey)
             return;
 
-        var isOwner = TryComp<PdaComponent>(ent, out var pda) && pda.PdaOwner == args.Actor;
+        var isOwner = IsAuthorized(ent, args.Actor);
         _ui.SetUiState(ent.Owner, STPdaPasswordUiKey.Key,
             new STPdaPasswordUiState(false, isOwner, ent.Comp.IsLocked));
     }
@@ -168,7 +186,7 @@ public sealed class STPdaPasswordSystem : SharedSTPdaPasswordSystem
     {
         var actor = args.Actor;
 
-        if (!TryComp<PdaComponent>(ent, out var pda) || pda.PdaOwner != actor)
+        if (!IsAuthorized(ent, actor))
         {
             _popup.PopupEntity(Loc.GetString("st-pda-password-not-owner"), ent, actor);
             return;
@@ -210,7 +228,7 @@ public sealed class STPdaPasswordSystem : SharedSTPdaPasswordSystem
     {
         var actor = args.Actor;
 
-        if (!TryComp<PdaComponent>(ent, out var pda) || pda.PdaOwner != actor)
+        if (!IsAuthorized(ent, actor))
             return;
 
         _ui.SetUiState(ent.Owner, STPdaPasswordUiKey.Key,

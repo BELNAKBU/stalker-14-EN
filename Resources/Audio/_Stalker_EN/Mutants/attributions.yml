@@ -43,3 +43,18 @@
   copyright: "mixed by carousel for stalker14"
   source: "https://github.com/coolmankid12345/stalker-14-EN"
   
+- files: ["mannequin_death.ogg"]
+  license: "CC-BY-NC-4.0"
+  copyright: "Konami Digital Entertainment"
+  source: "https://sounds.spriters-resource.com/playstation_2/silenthill2/asset/401080/"
+
+- files: ["mannequin_hit.ogg"]
+  license: "CC-BY-NC-4.0"
+  copyright: "Konami Digital Entertainment"
+  source: "https://sounds.spriters-resource.com/playstation_2/silenthill2/asset/401080/"
+
+- files: ["mannequin_miss.ogg"]
+  license: "CC-BY-NC-4.0"
+  copyright: "Konami Digital Entertainment"
+  source: "https://sounds.spriters-resource.com/playstation_2/silenthill2/asset/401080/"
+  

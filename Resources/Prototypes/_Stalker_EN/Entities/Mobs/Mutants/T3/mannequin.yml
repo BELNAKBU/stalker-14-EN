@@ -1,0 +1,109 @@
+#Silent Hill Mannequin made for special events by Nahuel
+- type: entity
+  parent: BaseMobMutant
+  id: STMobMutantMannequin
+  name: Mannequin
+  suffix: ST, T3, SH
+  description: Do they look like monsters to you?
+  components:
+  - type: Sprite
+    layers:
+      - map: [ "enum.DamageStateVisualLayers.Base", "movement" ]
+        sprite: /Textures/_Stalker_EN/Mobs/Mutants/mannequin.rsi
+        state: alive-1
+  - type: SpriteMovement
+    movementLayers:
+      movement:
+        state: alive-3
+    noMovementLayers:
+      movement:
+        state: alive-1
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: alive-1
+      Dead:
+        Base: dead
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      500: Dead
+  - type: Damageable
+    damageModifierSet: STMutantT3DamageModifierSet
+  - type: Bloodstream
+    bloodReagents:
+      reagents:
+      - ReagentId: MuteToxin
+        Quantity: 1
+    bloodMaxVolume: 100
+  - type: SlowOnDamage
+    speedModifierThresholds:
+      400: 0.8
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 400
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          path: /Audio/_Stalker_EN/Mutants/mannequin_death.ogg
+  - type: Butcherable
+    spawned:
+    - id: STFoodMeatSalo #Or some other kind of meat? or a new part, and parent it so it's easy to implement
+      amount: 1
+  - type: STWeight
+    self: 65
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 2.8
+    baseSprintSpeed: 4
+  - type: MeleeWeapon
+    attackRate: 0.7
+    angle: 30
+    range: 1.8 # long leg of the law
+    soundHit:
+          path: /Audio/_Stalker_EN/Mutants/mannequin_hit.ogg
+          params:
+           variation: 0.125
+    soundSwing:
+      path: /Audio/_Stalker_EN/Mutants/mannequin_miss.ogg
+      params:
+        variation: 0.125
+    animation: WeaponArcSmash
+    wideAnimation: WeaponArcSmash
+    damage:
+      types:
+        Blunt: 55 # Hurting you hurting you hurting you
+  - type: BonusMeleeDamage
+    heavyDamageMultiplier: 1.5
+  - type: StaminaDamageOnHit
+    damage: 45
+  - type: Puller
+    needsHands: false
+  - type: HTN
+    rootTask:
+      task: STSimpleHostileCompound
+    blackboard:
+      VisionRadius: !type:Single
+        20
+      AggroVisionRadius: !type:Single
+        3
+  - type: MeleeThrowOnHit # Could add some oomph to it, less than bears
+    speed: 3
+    distance: 0.5
+  - type: NPCRetaliation
+    attackMemoryLength: 30 # 30 what?
+  - type: NpcFactionMember
+    factions:
+    - Mutated
+  - type: PassiveDamage
+    allowedStates:
+    - Alive
+    - Critical
+    damage:
+      types:
+        Burn: -100
+        Toxin: -100
+        Airloss: -100
+        Psy: -100
+        Radiation: -100

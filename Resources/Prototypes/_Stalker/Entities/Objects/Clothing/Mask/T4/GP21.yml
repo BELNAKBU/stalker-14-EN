@@ -15,7 +15,9 @@
     sprite: _Stalker/Objects/Clothing/mask/gp21.rsi
   - type: Armor
     modifiers:
-      coefficients:
-        Radiation: 0.75
-        Caustic: 0.8
+      flatReductions: # EN start
+        Radiation: 6
+      #coefficients:
+        #Radiation: 0.75
+        #Caustic: 0.8 # EN end
   - type: Craftable

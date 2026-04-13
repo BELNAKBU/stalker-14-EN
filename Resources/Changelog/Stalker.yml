@@ -2182,5 +2182,203 @@
   id: 230
   time: '2026-04-06T14:02:15.996142+00:00'
   url: https://github.com/coolmankid12345/stalker-14-EN/pull/764
+- author: teecoding
+  changes:
+  - message: Messenger PDA now correctly restores faction channels and password access
+      after respawning
+    type: Fix
+  id: 231
+  time: '2026-04-06T20:20:35.797330+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/765
+- author: dallaszzz
+  changes:
+  - message: Overhauled gasmask functionality and economy
+    type: Tweak
+  - message: Removed lead plates
+    type: Remove
+  - message: Artifacts now ignore resistances on personal damage (rad protection does
+      not stop artifact damage)
+    type: Tweak
+  id: 232
+  time: '2026-04-06T20:22:20.209296+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/747
+- author: Aliwenko
+  changes:
+  - message: Prototype, Sounds, and Textures for new mob, the mannequin.
+    type: Add
+  id: 233
+  time: '2026-04-07T01:05:14.843943+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/759
+- author: BELNAKBU
+  changes:
+  - message: 2 new dolls for admins, a little change of HumanoidAppearance, new poster
+      sprite and some bug fix
+    type: Add
+  id: 234
+  time: '2026-04-07T22:41:30.553907+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/771
+- author: BELNAKBU
+  changes:
+  - message: Surrender emote in the hand gestures. For 6 second you get the pacified
+      alert and a white flag appears above you
+    type: Add
+  id: 235
+  time: '2026-04-07T22:48:13.969231+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/770
+- author: BELNAKBU
+  changes:
+  - message: Now theres no ninja flesh
+    type: Add
+  id: 236
+  time: '2026-04-08T15:21:55.836311+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/773
+- author: dallaszzz & @TheOverwatchVoice
+  changes:
+  - message: A new map that can be accessed somewhere in Red Forest.
+    type: Add
+  id: 237
+  time: '2026-04-08T23:25:25.739543+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/779
+- author: nathan736
+  changes:
+  - message: you can now modify bizon mags into moded bizon mags using the same easy
+      craft method as the bizon.
+    type: Add
+  id: 238
+  time: '2026-04-08T23:56:39.705735+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/622
+- author: crocodilecarousel
+  changes:
+  - message: Karambit knife for Neutrals
+    type: Add
+  - message: Price adjustments for Neutral shop
+    type: Tweak
+  id: 239
+  time: '2026-04-09T00:00:33.100464+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/781
+- author: BELNAKBU
+  changes:
+  - message: Optimization fix
+    type: Add
+  id: 240
+  time: '2026-04-09T21:41:17.750310+00:00'
+  url: https://github.com/coolmankid12345/stalker-14-EN/pull/778
+- author: crocodilecarousel
+  changes:
+  - message: Adjusted artifacts for use with limited artifact slots
+    type: Tweak
+  id: 241
+  time: '2026-04-09T22:18:22.972729+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/763
+- author: Nox38
+  changes:
+  - message: Redid the M16 into a L85 sidegrade burst gun.
+    type: Add
+  id: 242
+  time: '2026-04-10T07:44:53.029827+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/788
+- author: stickycheZ101
+  changes:
+  - message: hides are now 2x2
+    type: Add
+  id: 243
+  time: '2026-04-10T21:57:57.808064+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/793
+- author: dallaszzz
+  changes:
+  - message: New area on the new map
+    type: Add
+  - message: Fixes things on the new map
+    type: Fix
+  id: 244
+  time: '2026-04-10T23:47:51.141024+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/790
+- author: Aliwenko
+  changes:
+  - message: Tunnel as a cool place and connection for future event map.
+    type: Tweak
+  - message: Remade Seraphim base, also for events.
+    type: Tweak
+  id: 245
+  time: '2026-04-11T01:38:11.736916+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/783
+- author: Nox38
+  changes:
+  - message: Added cross armband and medic gloves to all civilized faction's merchants
+    type: Add
+  - message: Rubber bands now cost only 1r
+    type: Tweak
+  id: 246
+  time: '2026-04-11T01:39:35.826052+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/795
+- author: crocodilecarousel
+  changes:
+  - message: Artifact slots are now tied to the armor you're wearing
+    type: Tweak
+  id: 247
+  time: '2026-04-11T05:57:40.442069+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/762
+- author: BELNAKBU
+  changes:
+  - message: More user friendly pda
+    type: Add
+  id: 248
+  time: '2026-04-11T13:40:27.836018+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/798
+- author: Nox38
+  changes:
+  - message: Added Glock switches to make Glocks full-auto.
+    type: Add
+  - message: Tuned values of Glock mags for realism and balance.
+    type: Tweak
+  id: 249
+  time: '2026-04-12T01:44:32.094100+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/768
+- author: BELNAKBU
+  changes:
+  - message: Some fixes of ui pda
+    type: Add
+  id: 250
+  time: '2026-04-12T13:46:10.894841+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/800
+- author: teecoding
+  changes:
+  - message: Your equipment is now saved periodically and can be recovered from the
+      repository after a server crash
+    type: Add
+  id: 251
+  time: '2026-04-12T22:25:52.106839+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/802
+- author: teecoding
+  changes:
+  - message: Crash recovery no longer duplicates items that were already in your stash
+    type: Fix
+  - message: Crash recovery button can no longer be clicked multiple times to duplicate
+      items
+    type: Fix
+  - message: Crash recovery button no longer appears after a normal server restart
+    type: Fix
+  - message: Crash recovery button no longer appears on shared stashes
+    type: Fix
+  id: 252
+  time: '2026-04-13T10:55:20.696597+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/808
+- author: teecoding
+  changes:
+  - message: Fixed crash recovery offering to restore items during normal play, causing
+      item duplication
+    type: Fix
+  id: 253
+  time: '2026-04-13T12:14:06.712760+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/809
+- author: teecoding
+  changes:
+  - message: Stash no longer appears empty when opening personal storage
+    type: Fix
+  - message: Crash recovery banner no longer shows after normal server restart
+    type: Fix
+  id: 254
+  time: '2026-04-13T13:14:39.094384+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/810
 Name: Stalker
 Order: -1

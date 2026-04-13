@@ -477,7 +477,8 @@
   suffix: ST, Mapping
   components:
   - type: Sprite
-    state: poster14_legit
+    sprite: /Textures/_Stalker_EN/Structures/Wallmounts/posters.rsi
+    state: poster_vodka1
 
 - type: entity
   parent: PosterBaseStalker

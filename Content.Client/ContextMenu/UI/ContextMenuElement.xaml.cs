@@ -57,10 +57,12 @@ namespace Content.Client.ContextMenu.UI
 
         protected override void Dispose(bool disposing)
         {
-            base.Dispose(disposing);
+            // Stalker-EN-Change: Dispose sub-menu BEFORE base.Dispose() to avoid "Control has been disposed" assertion
             _subMenu?.Dispose();
             _subMenu = null;
             ParentMenu = null;
+            base.Dispose(disposing);
+            // Stalker-EN-Change end
         }
 
         protected override void Draw(DrawingHandleScreen handle)

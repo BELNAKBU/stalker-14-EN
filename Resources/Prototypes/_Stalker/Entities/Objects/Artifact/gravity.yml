@@ -27,6 +27,7 @@
       types:
         Radiation: 0.5
     interval: 1
+    ignoreResistances: true # EN
   - type: Armor
     hiddenExamine: true
     armorClass: 2
@@ -63,21 +64,25 @@
       types:
         Radiation: 2
     interval: 1
+    ignoreResistances: true # EN
   - type: Armor
     hiddenExamine: true
     armorClass: 2
     modifiers:
+      flatReductions:
+        Blunt: 1
+        Slash: 1
       coefficients:
         Compression: 1.8
         Blunt: 0.7
         Slash: 0.7
-
-# doing something with this dont worry about it
   - type: Tag
     tags:
     - Khabar
     - STArtifact
     - STArtifactTier3
+
+# doing something with this dont worry about it
 - type: entity
   parent: BaseArtifactStorage
   id: ZoneArtifactDarkCube
@@ -101,7 +106,7 @@
     blacklist:
       tags:
       - STArtifact
-    maxItemSize: Small # maybe switch to tiny idk
+    maxItemSize: Tiny
   - type: STWeight
     self: 30
 
@@ -128,23 +133,27 @@
       types:
         Radiation: 3
     interval: 1
+    ignoreResistances: true # EN
   - type: Armor
     hiddenExamine: true
     armorClass: 2
     modifiers:
+      flatReductions:
+        Blunt: 2
+        Slash: 2
       coefficients:
         Compression: 2.2
         Blunt: 0.55
         Slash: 0.55
   - type: STWeight
-    self: -33
-
-# Пораждаемая эпицентром, каруселью
+    self: -10
   - type: Tag
     tags:
     - Khabar
     - STArtifact
     - STArtifactTier4
+
+# Пораждаемая эпицентром, каруселью
 - type: entity
   parent: BaseArtifact
   name: Выверт
@@ -168,6 +177,7 @@
       types:
         Radiation: -0.25
     interval: 1
+    ignoreResistances: true # EN
   - type: Armor
     hiddenExamine: true
     armorClass: 2
@@ -204,6 +214,7 @@
       types:
         Radiation: 1
     interval: 1
+    ignoreResistances: true # EN
   - type: Armor
     hiddenExamine: true
     armorClass: 2
@@ -240,6 +251,7 @@
       types:
         Radiation: -2
     interval: 1
+    ignoreResistances: true # EN
   - type: Armor
     hiddenExamine: true
     armorClass: 2
@@ -276,6 +288,7 @@
       types:
         Radiation: -2
     interval: 1
+    ignoreResistances: true # EN
   - type: Armor
     hiddenExamine: true
     armorClass: 2
@@ -309,6 +322,7 @@
     castShadows: false
   - type: PersonalDamage
     staminaDamage: -6
+    ignoreResistances: true # EN
   - type: Armor
     hiddenExamine: true
     armorClass: 2
@@ -316,13 +330,13 @@
       coefficients:
         Compression: 0.2
         Heat: 1.5
-
-# Пораждаемая инверсией
   - type: Tag
     tags:
     - Khabar
     - STArtifact
     - STArtifactTier5
+
+# Пораждаемая инверсией
 - type: entity
   parent: BaseArtifact
   id: ZoneArtifactFocus
@@ -344,6 +358,7 @@
     damage:
       types:
         Radiation: 1
+    ignoreResistances: true # EN
   - type: Armor
     hiddenExamine: false
     armorClass: 2
@@ -390,6 +405,7 @@
     damage:
       types:
         Radiation: 1.5
+    ignoreResistances: true # EN
   - type: Armor
     hiddenExamine: false
     armorClass: 3
@@ -436,6 +452,7 @@
     damage:
       types:
         Radiation: 2
+    ignoreResistances: true # EN
   - type: Armor
     hiddenExamine: false
     armorClass: 4

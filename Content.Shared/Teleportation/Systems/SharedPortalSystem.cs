@@ -179,10 +179,9 @@ public abstract class SharedPortalSystem : EntitySystem
                 return;
 
             // pick a target and teleport there
-            var target = _random.Pick(link.LinkedEntities);
-
-            if (target == EntityUid.Invalid || !EntityManager.EntityExists(target))
-                return;
+            var target = _random.Pick(link.LinkedEntities
+                .Where(x => x != EntityUid.Invalid && EntityManager.EntityExists(x))
+                .ToHashSet());
 
             if (!HasComp<TransformComponent>(target))
                 return;
