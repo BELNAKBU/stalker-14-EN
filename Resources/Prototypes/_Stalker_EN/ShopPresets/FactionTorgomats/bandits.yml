@@ -187,8 +187,8 @@
       priority: 3
       items:
         #20gauge
-        6.2mmBuckshotBox: 30 #T0
-        7.5mmBuckshotBox: 250 #T1
+        62mmBuckshotBox: 30 #T0
+        75mmBuckshotBox: 250 #T1
         # 7mm
         6mmBuckshotBox: 320 # T1
         7mmBuckshotBox: 75 # T0
