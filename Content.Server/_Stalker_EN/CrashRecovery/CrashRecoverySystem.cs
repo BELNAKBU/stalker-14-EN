@@ -86,7 +86,7 @@ public sealed class CrashRecoverySystem : GameRuleSystem<CrashRecoveryRuleCompon
         // Clear crash recovery on graceful shutdown.
         // On real crashes, the process dies without reaching here, so data persists correctly.
         if (_enabled)
-            _dbManager.ClearAllCrashRecovery();
+            _dbManager.ClearAllCrashRecovery().GetAwaiter().GetResult();
 
         _cfg.UnsubValueChanged(STCCVars.CrashRecoveryEnabled, v => _enabled = v);
         _cfg.UnsubValueChanged(STCCVars.CrashRecoverySaveInterval, v => _saveInterval = v);
@@ -189,22 +189,14 @@ public sealed class CrashRecoverySystem : GameRuleSystem<CrashRecoveryRuleCompon
 
         // Don't show banner if a claim is already being processed
         if (_currentlyProcessingClaims.ContainsKey(actor))
-        {
-            _ui.SetUiState(repository, StalkerRepositoryUiKey.Key,
-                new CrashRecoveryUpdateState(false, 0));
             return;
-        }
 
         var login = actorComp.PlayerSession.Name;
 
         // Only show recovery for data that existed at round start (from a crash).
         // Data written during the current session by periodic/immediate snapshots is not recoverable.
         if (!_pendingRecoveryLogins.Contains(login))
-        {
-            _ui.SetUiState(repository, StalkerRepositoryUiKey.Key,
-                new CrashRecoveryUpdateState(false, 0));
             return;
-        }
 
         try
         {
@@ -216,8 +208,6 @@ public sealed class CrashRecoverySystem : GameRuleSystem<CrashRecoveryRuleCompon
             if (string.IsNullOrEmpty(json))
             {
                 _pendingRecoveryLogins.Remove(login);
-                _ui.SetUiState(repository, StalkerRepositoryUiKey.Key,
-                    new CrashRecoveryUpdateState(false, 0));
                 return;
             }
 
@@ -318,9 +308,6 @@ public sealed class CrashRecoverySystem : GameRuleSystem<CrashRecoveryRuleCompon
 
             _popup.PopupEntity(Loc.GetString("crash-recovery-claimed"), msg.Actor, msg.Actor,
                 PopupType.Medium);
-
-            _ui.SetUiState(uid, StalkerRepositoryUiKey.Key,
-                new CrashRecoveryUpdateState(false, 0));
         }
         catch (Exception e)
         {
