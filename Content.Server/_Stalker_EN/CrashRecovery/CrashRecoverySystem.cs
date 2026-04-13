@@ -197,6 +197,15 @@ public sealed class CrashRecoverySystem : GameRuleSystem<CrashRecoveryRuleCompon
 
         var login = actorComp.PlayerSession.Name;
 
+        // Only show recovery for data that existed at round start (from a crash).
+        // Data written during the current session by periodic/immediate snapshots is not recoverable.
+        if (!_pendingRecoveryLogins.Contains(login))
+        {
+            _ui.SetUiState(repository, StalkerRepositoryUiKey.Key,
+                new CrashRecoveryUpdateState(false, 0));
+            return;
+        }
+
         try
         {
             var json = await _dbManager.GetCrashRecovery(login);
@@ -211,9 +220,6 @@ public sealed class CrashRecoverySystem : GameRuleSystem<CrashRecoveryRuleCompon
                     new CrashRecoveryUpdateState(false, 0));
                 return;
             }
-
-            // Mark this login as having unclaimed recovery data so snapshots don't overwrite it
-            _pendingRecoveryLogins.Add(login);
 
             var itemCount = 0;
             try
