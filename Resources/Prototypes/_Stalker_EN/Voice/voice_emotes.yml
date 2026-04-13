@@ -105,18 +105,18 @@
   - stpsy
 
 - type: emote
-  id: STSvaboda
-  name: chat-emote-name-st-svaboda
+  id: STSvoboda
+  name: chat-emote-name-st-svoboda
   category: VoiceLine
   icon: _Stalker_EN/Interface/Emotes/freedom.png
   whitelist:
     components:
     - Vocal
-    - SvabodaEmote
+    - SvobodaEmote
     requireAll: true
-  chatMessages: ["chat-emote-msg-st-svaboda"]
+  chatMessages: ["chat-emote-msg-st-svoboda"]
   chatTriggers:
-  - stsvaboda
+  - stsvoboda
 
   # Loner
 - type: emoteSounds
@@ -948,7 +948,7 @@
       collection: FreedomGrenade
     STMedkit:
       collection: FreedomMedkit
-    STSvaboda:
+    STSvoboda:
       path: /Audio/_Stalker_EN/VoiceLines/Freedom/Attack/attack_5.ogg
 
 - type: emoteSounds
@@ -1050,7 +1050,7 @@
       collection: FreedomMedkit
       params:
         pitch: 1.2
-    STSvaboda:
+    STSvoboda:
       path: /Audio/_Stalker_EN/VoiceLines/Freedom/Attack/attack_5.ogg
       params:
         pitch: 1.2

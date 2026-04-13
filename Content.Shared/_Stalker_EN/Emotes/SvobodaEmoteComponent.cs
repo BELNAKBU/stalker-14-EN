@@ -6,7 +6,7 @@ namespace Content.Shared._Stalker_EN.Emotes;
 /// Used for the emote whitelist since I couldnt come up with a better option
 /// </summary>
 [RegisterComponent, NetworkedComponent]
-public sealed partial class SvabodaEmoteComponent : Component
+public sealed partial class SvobodaEmoteComponent : Component
 {
 
 }

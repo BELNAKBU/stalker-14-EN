@@ -42,7 +42,7 @@
             Male: MaleHumanFreedom
             Female: FemaleHumanFreedom
             Unsexed: MaleHumanFreedom
-        - type: SvabodaEmote # stalker EN change end
+        - type: SvobodaEmote # stalker EN change end
 
 - type: job
   id: StalkerHeadFreedom
@@ -90,7 +90,7 @@
             Male: MaleHumanFreedom
             Female: FemaleHumanFreedom
             Unsexed: MaleHumanFreedom
-        - type: SvabodaEmote # stalker EN change end
+        - type: SvobodaEmote # stalker EN change end
 
 - type: startingGear
   id: FreedomGear
