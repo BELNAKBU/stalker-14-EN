@@ -32,7 +32,7 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: ProjectileSpread
-    proto: STPellet6.2mm
+    proto: STPellet62mm
     count: 8
     spread: 14
 
@@ -56,6 +56,6 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: ProjectileSpread
-    proto: STPellet7.5mm
+    proto: STPellet75mm
     count: 9
     spread: 12
