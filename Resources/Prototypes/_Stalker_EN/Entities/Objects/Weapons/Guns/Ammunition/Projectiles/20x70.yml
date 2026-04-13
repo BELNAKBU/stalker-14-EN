@@ -28,7 +28,7 @@
 - type: entity
   id: Bullet62mmBuckshot
   name: bullet (6.2mm buckshot)
-  parent: STPellet6.2mm
+  parent: STPellet62mm
   categories: [ HideSpawnMenu ]
   components:
   - type: ProjectileSpread
