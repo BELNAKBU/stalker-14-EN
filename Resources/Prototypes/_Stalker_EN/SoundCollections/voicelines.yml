@@ -681,12 +681,12 @@
 - type: soundCollection
   id: MonolithBackup
   files:
-  - /Audio/_Stalker_EN/VoiceLines/Monolith/Backup/backup_1.ogg
-  - /Audio/_Stalker_EN/VoiceLines/Monolith/Backup/backup_2.ogg
-  - /Audio/_Stalker_EN/VoiceLines/Monolith/Backup/backup_3.ogg
-  - /Audio/_Stalker_EN/VoiceLines/Monolith/Backup/backup_4.ogg
-  - /Audio/_Stalker_EN/VoiceLines/Monolith/Backup/backup_5.ogg
-  - /Audio/_Stalker_EN/VoiceLines/Monolith/Backup/backup_6.ogg
+  - /Audio/_Stalker_EN/VoiceLines/Monolith/backup/backup_1.ogg
+  - /Audio/_Stalker_EN/VoiceLines/Monolith/backup/backup_2.ogg
+  - /Audio/_Stalker_EN/VoiceLines/Monolith/backup/backup_3.ogg
+  - /Audio/_Stalker_EN/VoiceLines/Monolith/backup/backup_4.ogg
+  - /Audio/_Stalker_EN/VoiceLines/Monolith/backup/backup_5.ogg
+  - /Audio/_Stalker_EN/VoiceLines/Monolith/backup/backup_6.ogg
 
 - type: soundCollection
   id: MonolithCover
