@@ -470,18 +470,14 @@ public sealed partial class STMessengerSystem : EntitySystem
 
                 foreach (var (pdaUid, (cartridgeUid, _)) in _messengerPdas)
                 {
-                    // 1. Skip if the channel is muted
-                    if (!TryComp(cartridgeUid, out STMessengerServerComponent? recipientServer) ||
-                        recipientServer.MutedChannels.Contains(channelProto.ID))
-                        continue;
 
-                    // 2. Check for PDA and its owner (mob)
+                    // 1. Check for PDA and its owner (mob)
                     if (!TryComp(pdaUid, out PdaComponent? pdaComp) || !pdaComp.PdaOwner.HasValue)
                         continue;
 
                     var mobUid = pdaComp.PdaOwner.Value;
 
-                    // 3. Find the mob's Mind to get the player's UserId
+                    // 2. Find the mob's Mind to get the player's UserId
                     if (_mind.TryGetMind(mobUid, out var _, out var mindComp))
                     {
                         // 4. Find the session by UserId
