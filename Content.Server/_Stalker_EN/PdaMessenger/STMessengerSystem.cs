@@ -446,7 +446,9 @@ public sealed partial class STMessengerSystem : EntitySystem
             // Send pop-up notification to DM recipient
             var bandIcon = GetBandIcon(server);
             var dmEvent = new PdaDirectMessageEvent(senderName, content, bandIcon);
-            if (_playerManager.TryGetSessionById(new NetUserId(contactKey.UserId), out var recipientSession))
+            if (_playerManager.TryGetSessionById(new NetUserId(contactKey.UserId), out var recipientSession) &&
+            recipientSession.AttachedEntity is { } currentMob &&
+            MetaData(currentMob).EntityName == contactEntry.CharacterName)
             {
                 RaiseNetworkEvent(dmEvent, recipientSession);
             }
@@ -1150,6 +1152,9 @@ public sealed partial class STMessengerSystem : EntitySystem
             return null;
 
         if (!TryComp<BandsComponent>(mob, out var bands))
+            return null;
+
+        if (MetaData(mob).EntityName != contactKey.CharName)
             return null;
 
         // Only Clear Sky is disguised as Loners on PDA
