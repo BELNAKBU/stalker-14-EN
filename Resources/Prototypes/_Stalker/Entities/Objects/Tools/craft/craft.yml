@@ -16,10 +16,10 @@
     sprite: _Stalker/Objects/Tools/Craft/32.rsi
     state: gunpowder_bank_null
     scale: 0.9, 0.9
-  - type: ContainerFill
-    containers:
-      item:
-      - CraftMaterialGunpowder
+#  - type: ContainerFill
+#    containers:
+#      item:
+#      - CraftMaterialGunpowder
   - type: Tag
     tags:
     - CraftMaterialGunpowder
