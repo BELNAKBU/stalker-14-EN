@@ -2468,5 +2468,12 @@
   id: 265
   time: '2026-04-15T03:39:35.377097+00:00'
   url: https://github.com/stalker-14-EN/stalker-14-EN/pull/797
+- author: DuckManZach
+  changes:
+  - message: Locations and common abbreviations get spelled out in chat
+    type: Add
+  id: 266
+  time: '2026-04-15T03:42:59.470354+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/792
 Name: Stalker
 Order: -1
