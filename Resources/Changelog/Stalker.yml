@@ -2475,5 +2475,12 @@
   id: 266
   time: '2026-04-15T03:42:59.470354+00:00'
   url: https://github.com/stalker-14-EN/stalker-14-EN/pull/792
+- author: dallaszzz and @TheOverwatchVoice
+  changes:
+  - message: things on most maps
+    type: Fix
+  id: 267
+  time: '2026-04-15T19:30:35.090900+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/811
 Name: Stalker
 Order: -1
