@@ -15,7 +15,7 @@ using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Configuration;
 using Robust.Shared.Timing;
 
-namespace Content.Client._Stalker.PdaMessenger;
+namespace Content.Client._Stalker_EN.PdaMessenger;
 
 /// <summary>
 /// UI controller for displaying PDA General channel notifications in the bottom-left corner.
@@ -118,7 +118,7 @@ public sealed class PdaNotificationUIController : UIController, IOnStateEntered<
         if (!_notificationsEnabled)
             return;
 
-        AddNotification(ev.Title, ev.Content, ev.Sender, ev.BandIcon, ev.PortraitId);
+        AddNotification(ev.Title, ev.Content, ev.Sender, ev.BandIcon, ev.PortraitId, ev.IsDisguised);
     }
 
     private void OnDirectMessage(PdaDirectMessageEvent ev, EntitySessionEventArgs args)
@@ -126,13 +126,13 @@ public sealed class PdaNotificationUIController : UIController, IOnStateEntered<
         if (!_notificationsEnabled)
             return;
 
-        AddNotification("Direct Message", ev.Content, ev.Sender, ev.BandIcon, ev.PortraitId);
+        AddNotification("Direct Message", ev.Content, ev.Sender, ev.BandIcon, ev.PortraitId, ev.IsDisguised);
     }
 
     /// <summary>
     /// Adds a new notification to the display.
     /// </summary>
-    public void AddNotification(string title, string content, string sender, string? factionIcon = null, string? portraitId = null)
+    public void AddNotification(string title, string content, string sender, string? factionIcon = null, string? portraitId = null, bool isDisguised = false)
     {
         EnsureContainerAttached();
 
@@ -143,7 +143,7 @@ public sealed class PdaNotificationUIController : UIController, IOnStateEntered<
         if (content.Length > MaxContentLength)
             content = content[..MaxContentLength] + "...";
 
-        var notification = new PdaNotificationPanel(title, content, sender, factionIcon, portraitId);
+        var notification = new PdaNotificationPanel(title, content, sender, factionIcon, portraitId, isDisguised);
         notification.Visible = true;
         notification.HorizontalExpand = false;
 

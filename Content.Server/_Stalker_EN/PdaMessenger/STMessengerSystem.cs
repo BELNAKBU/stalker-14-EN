@@ -453,7 +453,8 @@ public sealed partial class STMessengerSystem : EntitySystem
             // Send pop-up notification to DM recipient
             var bandIcon = GetBandIcon(server);
             var portraitId = GetPortraitId(server);
-            var dmEvent = new PdaDirectMessageEvent(senderName, content, bandIcon, portraitId);
+            var isDisguised = GetIsDisguised(server);
+            var dmEvent = new PdaDirectMessageEvent(senderName, content, bandIcon, portraitId, isDisguised);
             if (_playerManager.TryGetSessionById(new NetUserId(contactKey.UserId), out var recipientSession))
             {
                 RaiseNetworkEvent(dmEvent, recipientSession);
@@ -475,7 +476,8 @@ public sealed partial class STMessengerSystem : EntitySystem
             {
                 var bandIcon = GetBandIcon(server);
                 var portraitId = GetPortraitId(server);
-                var generalEvent = new PdaGeneralMessageEvent(displayName, content, displayName, bandIcon, portraitId);
+                var isDisguised = GetIsDisguised(server);
+                var generalEvent = new PdaGeneralMessageEvent(displayName, content, displayName, bandIcon, portraitId, isDisguised);
 
                 foreach (var (pdaUid, (cartridgeUid, _)) in _messengerPdas)
                 {
@@ -585,6 +587,34 @@ public sealed partial class STMessengerSystem : EntitySystem
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// Gets whether the player is disguised (e.g., Clear Sky disguised as Loners).
+    /// Walks up the transform hierarchy to find the mob entity.
+    /// </summary>
+    private bool GetIsDisguised(STMessengerServerComponent server)
+    {
+        if (TryComp<TransformComponent>(server.Owner, out var xform))
+        {
+            var current = xform.ParentUid;
+
+            while (current.IsValid())
+            {
+                if (TryComp<CharacterPortraitComponent>(current, out var portraitComp))
+                {
+                    return portraitComp.IsDisguised;
+                }
+
+                var parentXform = CompOrNull<TransformComponent>(current);
+                if (parentXform == null)
+                    break;
+
+                current = parentXform.ParentUid;
+            }
+        }
+
+        return false;
     }
 
     /// <summary>

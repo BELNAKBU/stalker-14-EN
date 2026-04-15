@@ -12,7 +12,7 @@ using Robust.Shared.Log;
 using Robust.Shared.Maths;
 using Robust.Shared.Utility;
 
-namespace Content.Client._Stalker.PdaMessenger;
+namespace Content.Client._Stalker_EN.PdaMessenger;
 
 [GenerateTypedNameReferences]
 public sealed partial class PdaNotificationPanel : PanelContainer
@@ -21,15 +21,17 @@ public sealed partial class PdaNotificationPanel : PanelContainer
     private readonly IConfigurationManager _configManager;
     private readonly string? _bandId;
     private readonly string? _portraitId;
+    private readonly bool _isDisguised;
     private bool _usePngIcons;
 
-    public PdaNotificationPanel(string title, string content, string sender, string? bandId = null, string? portraitId = null)
+    public PdaNotificationPanel(string title, string content, string sender, string? bandId = null, string? portraitId = null, bool isDisguised = false)
     {
         RobustXamlLoader.Load(this);
 
         _configManager = IoCManager.Resolve<IConfigurationManager>();
         _bandId = bandId;
         _portraitId = portraitId;
+        _isDisguised = isDisguised;
 
         // Subscribe to CVar changes
         _configManager.OnValueChanged(CCCCVars.PdaNotificationPngIcons, OnPngIconsChanged, invokeImmediately: true);
@@ -77,7 +79,12 @@ public sealed partial class PdaNotificationPanel : PanelContainer
         else
         {
             // Sprite icon mode - use RSI sprite from band.rsi (same as STMessenger)
-            var spriteState = GetSpriteStateForBandIcon(_bandId ?? string.Empty);
+            // Clear Sky disguise as Loners on PDA (lore consistency)
+            var bandIcon = _bandId ?? string.Empty;
+            if (_isDisguised && bandIcon == "cn")
+                bandIcon = "stalker";
+
+            var spriteState = GetSpriteStateForBandIcon(bandIcon);
 
             try
             {

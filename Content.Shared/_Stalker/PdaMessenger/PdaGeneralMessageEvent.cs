@@ -25,12 +25,19 @@ public sealed class PdaGeneralMessageEvent : EntityEventArgs
     /// </summary>
     public readonly string? PortraitId;
 
-    public PdaGeneralMessageEvent(string title, string content, string sender, string? bandIcon = null, string? portraitId = null)
+    /// <summary>
+    /// Whether the sender is disguised (e.g., Clear Sky disguised as Loners).
+    /// Used to display correct faction icon when PNG icons are disabled.
+    /// </summary>
+    public readonly bool IsDisguised;
+
+    public PdaGeneralMessageEvent(string title, string content, string sender, string? bandIcon = null, string? portraitId = null, bool isDisguised = false)
     {
         Title = title;
         Content = content;
         Sender = sender;
         BandIcon = bandIcon;
         PortraitId = portraitId;
+        IsDisguised = isDisguised;
     }
 }
