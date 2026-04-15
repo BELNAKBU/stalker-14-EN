@@ -1422,8 +1422,11 @@ public sealed partial class STMessengerSystem : EntitySystem
     /// </summary>
     private void OnToggleDisguiseEvent(Entity<STMessengerComponent> ent, STMessengerServerComponent server, CartridgeMessageEvent args)
     {
-        // Toggle disguise in CharacterPortraitComponent on the mob (single source of truth)
-        if (TryComp<TransformComponent>(ent, out var xform))
+        // Get the loader (PDA) entity from args
+        var loaderUid = GetEntity(args.LoaderUid);
+
+        // Toggle disguise in CharacterPortraitComponent on the mob holding the PDA
+        if (TryComp<TransformComponent>(loaderUid, out var xform))
         {
             var holder = xform.ParentUid;
             if (holder.IsValid() && TryComp<CharacterPortraitComponent>(holder, out var portraitComp))
@@ -1433,12 +1436,9 @@ public sealed partial class STMessengerSystem : EntitySystem
             }
         }
 
-        // Force UI update by resending the state immediately
-        if (TryComp<CartridgeLoaderComponent>(ent, out var loader))
-        {
-            var state = BuildUiState(ent, server);
-            _cartridgeLoader.UpdateCartridgeUiState(ent, state, null, loader);
-        }
+        // Force UI update with correct loaderUid for _viewedChat lookup
+        var state = BuildUiState(loaderUid, server);
+        _cartridgeLoader.UpdateCartridgeUiState(loaderUid, state);
     }
 
     #endregion
