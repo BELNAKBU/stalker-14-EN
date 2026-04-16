@@ -165,6 +165,7 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
                 if (ValidatePortraitPath(profile.SelectedPortraitId))
                 {
                     portraitComp.PortraitTexturePath = profile.SelectedPortraitId;
+                    portraitComp.ExplicitlySelected = true;
                     Dirty(entity.Value, portraitComp);
                 }
             }

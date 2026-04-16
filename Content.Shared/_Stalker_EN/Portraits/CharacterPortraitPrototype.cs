@@ -100,6 +100,6 @@ public sealed partial class CharacterPortraitPrototype : IPrototype
             return false;
 
         var portraitPath = new ResPath(texturePath);
-        return portraits.Any(p => p.Textures.Contains(portraitPath) || p.Textures.Any(t => p.GetFullPath(t).ToString() == texturePath));
+        return portraits.Any(p => p.Textures.Contains(portraitPath) || p.Textures.Any(t => CharacterPortraitPrototype.GetFullPath(t).ToString() == texturePath));
     }
 }

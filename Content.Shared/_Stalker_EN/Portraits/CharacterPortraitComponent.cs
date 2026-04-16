@@ -21,6 +21,14 @@ public sealed partial class CharacterPortraitComponent : Component
     public string PortraitTexturePath = string.Empty;
 
     /// <summary>
+    /// If true, the portrait was explicitly selected by the player in the character profile.
+    /// Prevents automatic re-resolution via BandsComponent ComponentAdd to preserve player choice.
+    /// Set to false for NPCs and when portrait is auto-resolved.
+    /// </summary>
+    [DataField, ViewVariables(VVAccess.ReadWrite), AutoNetworkedField]
+    public bool ExplicitlySelected = false;
+
+    /// <summary>
     /// Optional job ID for portrait selection, overrides hierarchy-based job resolution.
     /// Used for NPCs that need specific portraits but aren't in the band hierarchy (e.g., rookie).
     /// Set in YAML for NPC dolls.

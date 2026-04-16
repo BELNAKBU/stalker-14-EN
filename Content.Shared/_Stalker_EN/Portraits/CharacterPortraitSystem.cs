@@ -84,8 +84,9 @@ public sealed class CharacterPortraitSystem : EntitySystem
 
         // Skip main portrait re-resolution if player explicitly selected a portrait to preserve their choice.
         // However, always resolve disguise portrait since it depends on band information.
-        if (string.IsNullOrEmpty(portraitComp.PortraitTexturePath))
+        if (!portraitComp.ExplicitlySelected || string.IsNullOrEmpty(portraitComp.PortraitTexturePath))
         {
+            portraitComp.PortraitTexturePath = string.Empty;
             ResolvePortrait(uid, portraitComp);
         }
         else

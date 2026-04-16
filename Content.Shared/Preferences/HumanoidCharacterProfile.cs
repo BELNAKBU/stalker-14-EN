@@ -758,7 +758,7 @@ namespace Content.Shared.Preferences
 
                 var relativeResPath = new Robust.Shared.Utility.ResPath(relativePath);
                 var textureExists = prototypeManager.EnumeratePrototypes<CharacterPortraitPrototype>()
-                    .Any(p => p.Textures.Contains(relativeResPath) || p.Textures.Any(t => p.GetFullPath(t).ToString() == SelectedPortraitId));
+                    .Any(p => p.Textures.Contains(relativeResPath) || p.Textures.Any(t => CharacterPortraitPrototype.GetFullPath(t).ToString() == SelectedPortraitId));
                 if (!textureExists)
                 {
                     SelectedPortraitId = string.Empty;
@@ -774,7 +774,7 @@ namespace Content.Shared.Preferences
 
                 var relativeResPath = new Robust.Shared.Utility.ResPath(relativePath);
                 var textureExists = prototypeManager.EnumeratePrototypes<CharacterPortraitPrototype>()
-                    .Any(p => p.Textures.Contains(relativeResPath) || p.Textures.Any(t => p.GetFullPath(t).ToString() == DisguisePortraitId));
+                    .Any(p => p.Textures.Contains(relativeResPath) || p.Textures.Any(t => CharacterPortraitPrototype.GetFullPath(t).ToString() == DisguisePortraitId));
                 if (!textureExists)
                 {
                     DisguisePortraitId = string.Empty;

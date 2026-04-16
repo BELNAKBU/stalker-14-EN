@@ -160,7 +160,7 @@ public sealed class PortraitSelector : BoxContainer
         var texRect = new TextureRect { Stretch = TextureRect.StretchMode.KeepCentered, HorizontalExpand = true, VerticalExpand = true };
         btn.AddChild(texRect);
 
-        var fullPath = proto.GetFullPath(texturePath);
+        var fullPath = CharacterPortraitPrototype.GetFullPath(texturePath);
         if (_resCache.TryGetResource<TextureResource>(fullPath.ToString(), out var tex))
             texRect.Texture = tex;
         else
@@ -194,7 +194,7 @@ public sealed class PortraitSelector : BoxContainer
             : Loc.GetString(proto.Name);
         _previewDesc.Text = proto.Description != null ? Loc.GetString(proto.Description) : string.Empty;
 
-        var fullPath = proto.GetFullPath(texturePath);
+        var fullPath = CharacterPortraitPrototype.GetFullPath(texturePath);
         if (_resCache.TryGetResource<TextureResource>(fullPath.ToString(), out var tex))
             _previewRect.Texture = tex;
         else
