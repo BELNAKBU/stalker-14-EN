@@ -2489,5 +2489,21 @@
   id: 268
   time: '2026-04-16T17:59:26.016645+00:00'
   url: https://github.com/stalker-14-EN/stalker-14-EN/pull/824
+- author: BELNAKBU
+  changes:
+  - message: New portrait system. You can change your portrait in Portrait tab on
+      Preference
+    type: Add
+  - message: Zombie dolls now have speech and stutter comps
+    type: Tweak
+  - message: All bands with patch swap feature now can send anonymous messages, but
+      only with their own band icon. You can turn it off and your messages will be
+      send with your own name
+    type: Tweak
+  - message: some code refactoring
+    type: Tweak
+  id: 269
+  time: '2026-04-16T22:00:15.810071+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/822
 Name: Stalker
 Order: -1
