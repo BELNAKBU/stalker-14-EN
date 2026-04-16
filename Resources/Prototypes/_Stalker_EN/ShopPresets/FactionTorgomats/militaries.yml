@@ -618,6 +618,7 @@
     items:
       STEnergyDrink: 150
       STEnergyDrinkMonster: 150
+      HerculesBottleFull: 200
       STEnergyDrinkRevo: 200
       STDrinkBeerCanBaltic: 90
       DrinkVodkaBottleFull: 55
