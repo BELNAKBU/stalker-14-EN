@@ -52,6 +52,7 @@
     - "neutral/neut_3.png"
     - "neutral/neut_4.png"
     - "neutral/neut_5.png"
+    - "neutral/neut_6.png"
     - "journalist/journalist_1.png"
 
 # MARK: Journalist (Department: StalkerAdvanced)
@@ -232,6 +233,7 @@
     - "military/mili_4.png"
     - "military/mili_5.png"
     - "military/mili_6.png"
+    - "military/mili_7.png"
 
 - type: characterPortrait
   id: Portrait_MilitaryOfficer

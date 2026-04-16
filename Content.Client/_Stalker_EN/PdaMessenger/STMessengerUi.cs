@@ -86,6 +86,11 @@ public sealed partial class STMessengerUi : UIFragment
             userInterface.SendMessage(new CartridgeUiMessage(new STMessengerToggleMuteEvent(channelId)));
         };
 
+        _mainPage.OnToggleRandomName += randomName =>
+        {
+            userInterface.SendMessage(new CartridgeUiMessage(new STMessengerToggleRandomNameEvent(randomName)));
+        };
+
         _channelPage.OnBack += () => NavigateToMain();
 
         _channelPage.OnCompose += chatId =>

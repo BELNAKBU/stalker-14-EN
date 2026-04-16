@@ -39,4 +39,12 @@
         <Button Name="AddContactButton" Text="{Loc 'st-messenger-add-contact-button'}" MinWidth="60"/>
     </BoxContainer>
 
+    <customControls:HSeparator Margin="0 4 0 4"/>
+
+    <!-- Settings Section -->
+    <Label Text="{Loc 'st-messenger-settings-header'}" StyleClasses="LabelKeyText" Margin="0 2 0 2"/>
+    <BoxContainer Name="SettingsContainer" Orientation="Vertical" HorizontalExpand="True" Visible="False">
+        <CheckBox Name="RandomNameCheckbox" Text="{Loc 'st-messenger-random-name-when-not-disguised'}" Margin="0 2 0 2"/>
+    </BoxContainer>
+
 </BoxContainer>

@@ -242,6 +242,9 @@ public sealed partial class STMessengerSystem : EntitySystem
             case STMessengerToggleMuteEvent mute:
                 OnToggleMute(ent, server, mute, args);
                 break;
+            case STMessengerToggleRandomNameEvent randomName:
+                OnToggleRandomName(ent, server, randomName, args);
+                break;
             case STMessengerMarkReadEvent markRead:
                 OnMarkRead(server, markRead);
                 break;
@@ -312,6 +315,26 @@ public sealed partial class STMessengerSystem : EntitySystem
         var displayName = isAnonymous
             ? GetOrCreatePseudonym(senderKey)
             : senderName;
+
+        // If not disguised and random name setting is enabled, use random name
+        if (!isAnonymous && server.RandomNameWhenNotDisguised)
+        {
+            // Check if player is disguised
+            bool isDisguised = false;
+            if (TryComp<TransformComponent>(loaderUid, out var xform))
+            {
+                var holder = xform.ParentUid;
+                if (holder.IsValid() && TryComp<CharacterPortraitComponent>(holder, out var portraitComp))
+                {
+                    isDisguised = portraitComp.IsDisguised;
+                }
+            }
+
+            if (!isDisguised)
+            {
+                displayName = GetOrCreatePseudonym(senderKey);
+            }
+        }
 
         string? replySnippet = null;
         if (replyToId is { } replyId)
@@ -451,7 +474,7 @@ public sealed partial class STMessengerSystem : EntitySystem
             var bandIcon = GetBandIcon(server);
             var portraitId = GetPortraitId(server);
             var isDisguised = GetIsDisguised(server);
-            var dmEvent = new PdaDirectMessageEvent(senderName, content, bandIcon, portraitId, isDisguised);
+            var dmEvent = new PdaDirectMessageEvent(displayName, content, bandIcon, portraitId, isDisguised);
             if (_playerManager.TryGetSessionById(new NetUserId(contactKey.UserId), out var recipientSession))
             {
                 RaiseNetworkEvent(dmEvent, recipientSession);
@@ -569,6 +592,34 @@ public sealed partial class STMessengerSystem : EntitySystem
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// Gets whether the player can disguise (has AltBand and CanChange).
+    /// Checks the BandsComponent.AltBand and BandsComponent.CanChange fields.
+    /// </summary>
+    private bool GetCanDisguise(STMessengerServerComponent server)
+    {
+        if (TryComp<TransformComponent>(server.Owner, out var xform))
+        {
+            var current = xform.ParentUid;
+
+            while (current.IsValid())
+            {
+                if (TryComp<BandsComponent>(current, out var bandsComp))
+                {
+                    return bandsComp.AltBand is not null && bandsComp.CanChange;
+                }
+
+                var parentXform = CompOrNull<TransformComponent>(current);
+                if (parentXform == null)
+                    break;
+
+                current = parentXform.ParentUid;
+            }
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -776,6 +827,18 @@ public sealed partial class STMessengerSystem : EntitySystem
         UpdateUiState(ent, loaderUid, server);
     }
 
+    private void OnToggleRandomName(
+        Entity<STMessengerComponent> ent,
+        STMessengerServerComponent server,
+        STMessengerToggleRandomNameEvent randomName,
+        CartridgeMessageEvent args)
+    {
+        server.RandomNameWhenNotDisguised = randomName.RandomNameWhenNotDisguised;
+
+        var loaderUid = GetEntity(args.LoaderUid);
+        UpdateUiState(ent, loaderUid, server);
+    }
+
     private void OnMarkRead(STMessengerServerComponent server, STMessengerMarkReadEvent markRead)
     {
         server.LastSeenMessageId[markRead.ChatId] = markRead.LastSeenMessageId;
@@ -963,7 +1026,9 @@ public sealed partial class STMessengerSystem : EntitySystem
             navigateToChatId,
             draftMessage,
             isDisguised,
-            server.OwnerBand);
+            server.OwnerBand,
+            GetCanDisguise(server),
+            server.RandomNameWhenNotDisguised);
     }
 
     private int CountUnread(string chatId, List<STMessengerMessage>? channelMessages, STMessengerServerComponent server)
@@ -1272,14 +1337,9 @@ public sealed partial class STMessengerSystem : EntitySystem
 
         // Fallback: use charName hash; bitwise AND avoids OverflowException on int.MinValue
         var hashSuffix = (identity.CharName.GetHashCode() & 0x7FFFFFFF) % (MaxPseudonymSuffix + 1);
-        var fallback = $"{AnonymousName}-{hashSuffix}";
-
-        while (_usedPseudonyms.Contains(fallback))
-            fallback += "X";
-
-        _usedPseudonyms.Add(fallback);
-        _anonymousPseudonyms[identity] = fallback;
-        return fallback;
+        var fallbackPseudonym = $"{AnonymousName}-{hashSuffix}";
+        _anonymousPseudonyms[identity] = fallbackPseudonym;
+        return fallbackPseudonym;
     }
 
     /// <summary>

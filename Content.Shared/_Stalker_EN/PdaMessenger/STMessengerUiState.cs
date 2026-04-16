@@ -56,6 +56,18 @@ public sealed class STMessengerUiState : BoundUserInterfaceState
     /// </summary>
     public readonly string? OwnerBand;
 
+    /// <summary>
+    /// If true, the player can disguise (has AltBand and CanChange in BandsComponent).
+    /// Used to show/hide random name setting.
+    /// </summary>
+    public readonly bool CanDisguise;
+
+    /// <summary>
+    /// If true, the player's name will be randomized in messages when not disguised.
+    /// Only applies to players who can disguise (have AltBand and CanChange).
+    /// </summary>
+    public readonly bool RandomNameWhenNotDisguised;
+
     public STMessengerUiState(
         string messengerId,
         List<STMessengerChat> channels,
@@ -64,7 +76,9 @@ public sealed class STMessengerUiState : BoundUserInterfaceState
         string? navigateToChatId = null,
         string? draftMessage = null,
         bool isDisguised = false,
-        string? ownerBand = null)
+        string? ownerBand = null,
+        bool canDisguise = false,
+        bool randomNameWhenNotDisguised = false)
     {
         MessengerId = messengerId;
         Channels = channels;
@@ -74,5 +88,7 @@ public sealed class STMessengerUiState : BoundUserInterfaceState
         DraftMessage = draftMessage;
         IsDisguised = isDisguised;
         OwnerBand = ownerBand;
+        CanDisguise = canDisguise;
+        RandomNameWhenNotDisguised = randomNameWhenNotDisguised;
     }
 }
