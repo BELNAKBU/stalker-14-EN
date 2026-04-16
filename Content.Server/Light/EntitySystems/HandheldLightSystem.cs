@@ -32,6 +32,7 @@ namespace Content.Server.Light.EntitySystems
         // TODO: Ideally you'd be able to subscribe to power stuff to get events at certain percentages.. or something?
         // But for now this will be better anyway.
         private readonly HashSet<Entity<HandheldLightComponent>> _activeLights = new();
+        private readonly HashSet<Entity<HandheldLightComponent>> _initializingLights = new();
 
         public override void Initialize()
         {
@@ -55,12 +56,20 @@ namespace Content.Server.Light.EntitySystems
 
         private void OnEntInserted(Entity<HandheldLightComponent> ent, ref EntInsertedIntoContainerMessage args)
         {
+            // Skip UpdateLevel during map initialization to prevent ItemSlotsComponent resolution errors
+            if (_initializingLights.Contains(ent))
+                return;
+
             // Not guaranteed to be the correct container for our slot, I don't care.
             UpdateLevel(ent);
         }
 
         private void OnEntRemoved(Entity<HandheldLightComponent> ent, ref EntRemovedFromContainerMessage args)
         {
+            // Skip UpdateLevel during map initialization to prevent ItemSlotsComponent resolution errors
+            if (_initializingLights.Contains(ent))
+                return;
+
             // Ditto above
             UpdateLevel(ent);
         }
@@ -91,14 +100,18 @@ namespace Content.Server.Light.EntitySystems
         private void OnMapInit(Entity<HandheldLightComponent> ent, ref MapInitEvent args)
         {
             var component = ent.Comp;
+            _initializingLights.Add(ent);
             _actionContainer.EnsureAction(ent, ref component.ToggleActionEntity, component.ToggleAction);
             _actions.AddAction(ent, ref component.SelfToggleActionEntity, component.ToggleAction);
+            _initializingLights.Remove(ent);
+            // UpdateLevel not called here - will be updated later when components are ready
         }
 
         private void OnShutdown(EntityUid uid, HandheldLightComponent component, ComponentShutdown args)
         {
             _actions.RemoveAction(uid, component.ToggleActionEntity);
             _actions.RemoveAction(uid, component.SelfToggleActionEntity);
+            _initializingLights.Remove((uid, component));
         }
 
         private byte? GetLevel(Entity<HandheldLightComponent> ent)
@@ -120,6 +133,7 @@ namespace Content.Server.Light.EntitySystems
         private void OnRemove(Entity<HandheldLightComponent> ent, ref ComponentRemove args)
         {
             _activeLights.Remove(ent);
+            _initializingLights.Remove(ent);
         }
 
         private void OnActivate(Entity<HandheldLightComponent> ent, ref ActivateInWorldEvent args)
