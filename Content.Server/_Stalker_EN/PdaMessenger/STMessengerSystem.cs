@@ -472,7 +472,9 @@ public sealed partial class STMessengerSystem : EntitySystem
 
             // Send pop-up notification to DM recipient
             var bandIcon = GetBandIcon(server);
-            var dmEvent = new PdaDirectMessageEvent(senderName, content, bandIcon);
+            var portraitId = GetPortraitId(server);
+            var isDisguised = GetIsDisguised(server);
+            var dmEvent = new PdaDirectMessageEvent(displayName, content, bandIcon, portraitId, isDisguised);
             if (_playerManager.TryGetSessionById(new NetUserId(contactKey.UserId), out var recipientSession) &&
             recipientSession.AttachedEntity is { } currentMob &&
             MetaData(currentMob).EntityName == contactEntry.CharacterName)
