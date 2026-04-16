@@ -55,12 +55,18 @@ namespace Content.Server.Light.EntitySystems
 
         private void OnEntInserted(Entity<HandheldLightComponent> ent, ref EntInsertedIntoContainerMessage args)
         {
+            if (MetaData(ent).EntityLifeStage < EntityLifeStage.MapInitialized)
+                return;
+
             // Not guaranteed to be the correct container for our slot, I don't care.
             UpdateLevel(ent);
         }
 
         private void OnEntRemoved(Entity<HandheldLightComponent> ent, ref EntRemovedFromContainerMessage args)
         {
+            if (MetaData(ent).EntityLifeStage < EntityLifeStage.MapInitialized)
+                return;
+
             // Ditto above
             UpdateLevel(ent);
         }
