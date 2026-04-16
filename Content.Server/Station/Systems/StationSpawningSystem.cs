@@ -162,11 +162,7 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
             // Player-selected portraits are preserved and not re-resolved by BandsComponent ComponentAdd.
             if (!string.IsNullOrEmpty(profile.SelectedPortraitId))
             {
-                var portraitPath = new Robust.Shared.Utility.ResPath(profile.SelectedPortraitId);
-                var textureExists = _prototypeManager.EnumeratePrototypes<CharacterPortraitPrototype>()
-                    .Any(p => p.Textures.Contains(portraitPath) || p.Textures.Any(t => p.GetFullPath(t).ToString() == profile.SelectedPortraitId));
-
-                if (textureExists)
+                if (ValidatePortraitPath(profile.SelectedPortraitId))
                 {
                     portraitComp.PortraitTexturePath = profile.SelectedPortraitId;
                     Dirty(entity.Value, portraitComp);
@@ -177,13 +173,10 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
             // DisguisePortraitId stores the texture path directly, not a ProtoId.
             if (!string.IsNullOrEmpty(profile.DisguisePortraitId))
             {
-                var portraitPath = new Robust.Shared.Utility.ResPath(profile.DisguisePortraitId);
-                var textureExists = _prototypeManager.EnumeratePrototypes<CharacterPortraitPrototype>()
-                    .Any(p => p.Textures.Contains(portraitPath) || p.Textures.Any(t => p.GetFullPath(t).ToString() == profile.DisguisePortraitId));
-
-                if (textureExists)
+                if (ValidatePortraitPath(profile.DisguisePortraitId))
                 {
                     portraitComp.DisguisedPortraitPath = profile.DisguisePortraitId;
+                    Dirty(entity.Value, portraitComp);
                 }
             }
             // stalker-en-end
@@ -244,6 +237,20 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
             jobSpecial.AfterEquip(entity);
         }
     }
+
+    // stalker-en-start
+    /// <summary>
+    /// Validates that a portrait texture path exists in any portrait prototype.
+    /// Supports both legacy full paths and new relative paths.
+    /// </summary>
+    /// <param name="path">The portrait texture path to validate.</param>
+    /// <returns>True if the path exists in any portrait prototype, false otherwise.</returns>
+    private bool ValidatePortraitPath(string path)
+    {
+        var portraits = _prototypeManager.EnumeratePrototypes<CharacterPortraitPrototype>();
+        return CharacterPortraitPrototype.ValidatePortraitPath(path, portraits);
+    }
+    // stalker-en-end
 
     /// <summary>
     /// Sets the ID card and PDA name, job, and access data.

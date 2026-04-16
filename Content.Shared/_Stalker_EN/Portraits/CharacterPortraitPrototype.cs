@@ -59,7 +59,7 @@ public sealed partial class CharacterPortraitPrototype : IPrototype
     /// Gets the full path for a texture, ensuring the prefix is present.
     /// If the path is already absolute (starts with /), returns it as-is.
     /// </summary>
-    public ResPath GetFullPath(ResPath path)
+    public static ResPath GetFullPath(ResPath path)
     {
         if (path == ResPath.Empty)
             return path;

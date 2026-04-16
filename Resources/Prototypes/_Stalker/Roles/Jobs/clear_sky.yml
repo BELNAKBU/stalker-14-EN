@@ -111,7 +111,6 @@
   maxMembers: 11
   managingRankId: 2
   disguiseTargetJobId: Stalker # stalker EN change
-  disguiseTargetBandIcon: stalker # stalker EN change
   hierarchy:
     1: StalkerClearSky
     2: StalkerHeadClearSky

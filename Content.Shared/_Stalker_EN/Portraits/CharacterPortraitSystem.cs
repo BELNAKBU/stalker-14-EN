@@ -17,12 +17,19 @@ public sealed class CharacterPortraitSystem : EntitySystem
     [Dependency] private readonly IRobustRandom _random = default!;
     private ISawmill _sawmill = default!;
 
+    // Cache for portrait prototypes keyed by (BandId, JobId) to avoid EnumeratePrototypes on every resolution.
+    private Dictionary<(string BandId, string JobId), List<CharacterPortraitPrototype>> _portraitCache = new();
+    // Cache for disguise portraits keyed by JobId.
+    private Dictionary<string, List<CharacterPortraitPrototype>> _disguiseCache = new();
+
     public override void Initialize()
     {
         base.Initialize();
         _sawmill = Logger.GetSawmill("st.portrait.system");
         SubscribeLocalEvent<CharacterPortraitComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<BandsComponent, ComponentAdd>(OnBandsComponentAdd);
+        SubscribeLocalEvent<PrototypeReloadedEventArgs>(OnPrototypeReloaded);
+        BuildCache();
     }
 
     private void OnMapInit(EntityUid uid, CharacterPortraitComponent comp, MapInitEvent args)
@@ -32,6 +39,39 @@ public sealed class CharacterPortraitSystem : EntitySystem
         // Players are handled via BandsComponent ComponentAdd after DoJobSpecials to ensure
         // band information is available before resolution.
         ResolvePortrait(uid, comp);
+    }
+
+    private void OnPrototypeReloaded(PrototypeReloadedEventArgs args)
+    {
+        // Rebuild cache when prototypes are reloaded to ensure consistency.
+        BuildCache();
+    }
+
+    /// <summary>
+    /// Builds portrait prototype cache for fast lookup during resolution.
+    /// Caches portraits by (BandId, JobId) for main portraits and by JobId for disguise portraits.
+    /// </summary>
+    private void BuildCache()
+    {
+        _portraitCache.Clear();
+        _disguiseCache.Clear();
+
+        foreach (var proto in _protoManager.EnumeratePrototypes<CharacterPortraitPrototype>())
+        {
+            // Cache for main portraits by (BandId, JobId)
+            var key = (proto.BandId, proto.JobId ?? string.Empty);
+            if (!_portraitCache.ContainsKey(key))
+                _portraitCache[key] = new List<CharacterPortraitPrototype>();
+            _portraitCache[key].Add(proto);
+
+            // Cache for disguise portraits by JobId (only if JobId is set)
+            if (!string.IsNullOrEmpty(proto.JobId))
+            {
+                if (!_disguiseCache.ContainsKey(proto.JobId))
+                    _disguiseCache[proto.JobId] = new List<CharacterPortraitPrototype>();
+                _disguiseCache[proto.JobId].Add(proto);
+            }
+        }
     }
 
     private void OnBandsComponentAdd(EntityUid uid, BandsComponent comp, ComponentAdd args)
@@ -116,26 +156,29 @@ public sealed class CharacterPortraitSystem : EntitySystem
             }
         }
 
-        // Filter portraits by band and job to find matching candidates.
+        // Filter portraits by band and job to find matching candidates using cache.
         // Band filtering is strict; job filtering depends on whether we have a specific job ID.
-        var matches = _protoManager.EnumeratePrototypes<CharacterPortraitPrototype>()
-            .Where(p =>
-            {
-                // Strict band matching when band ID is specified.
-                if (!string.IsNullOrEmpty(targetBandId) && p.BandId != targetBandId)
-                    return false;
+        var key = (targetBandId ?? string.Empty, targetJobId ?? string.Empty);
+        var matches = _portraitCache.TryGetValue(key, out var cached)
+            ? cached
+            : _protoManager.EnumeratePrototypes<CharacterPortraitPrototype>()
+                .Where(p =>
+                {
+                    // Strict band matching when band ID is specified.
+                    if (!string.IsNullOrEmpty(targetBandId) && p.BandId != targetBandId)
+                        return false;
 
-                // Strict job matching when job ID is specified; otherwise accept jobs without ID.
-                if (!string.IsNullOrEmpty(targetJobId))
-                {
-                    return p.JobId == targetJobId;
-                }
-                else
-                {
-                    return string.IsNullOrEmpty(p.JobId);
-                }
-            })
-            .ToList();
+                    // Strict job matching when job ID is specified; otherwise accept jobs without ID.
+                    if (!string.IsNullOrEmpty(targetJobId))
+                    {
+                        return p.JobId == targetJobId;
+                    }
+                    else
+                    {
+                        return string.IsNullOrEmpty(p.JobId);
+                    }
+                })
+                .ToList();
 
         if (matches.Count > 0)
         {
@@ -161,9 +204,8 @@ public sealed class CharacterPortraitSystem : EntitySystem
     /// </summary>
     private void ResolveDisguisePortrait(EntityUid uid, CharacterPortraitComponent comp)
     {
-        // Determine if faction can disguise by checking both band-change capability
-        // and explicit disguise target job ID. This supports both band-switching (Bandit->Freedom)
-        // and job-based disguise (Clear Sky->Stalker).
+        // Determine if faction can disguise by checking CanChange capability
+        // and explicit disguise target job ID (e.g., Clear Sky->Stalker).
         var canDisguise = false;
         var targetJobId = (string?)null;
 
@@ -174,9 +216,9 @@ public sealed class CharacterPortraitSystem : EntitySystem
                 if (_protoManager.TryIndex<STBandPrototype>(bands.BandProto.Value, out var bandProto))
                 {
                     targetJobId = bandProto.DisguiseTargetJobId?.ToString();
-                    // Factions can disguise if they have CanChange capability AND either
-                    // an AltBand for band-switching or a DisguiseTargetJobId for job-based disguise.
-                    canDisguise = bands.CanChange && (bands.AltBand != null || targetJobId != null);
+                    // Factions can disguise if they have CanChange capability AND a DisguiseTargetJobId.
+                    // AltBand is used for band-switching mechanics in other systems, not portrait selection.
+                    canDisguise = bands.CanChange && targetJobId != null;
                 }
             }
         }
@@ -199,10 +241,12 @@ public sealed class CharacterPortraitSystem : EntitySystem
             Dirty(uid, comp);
         }
 
-        // Select random portrait from target faction's portrait set.
-        var targetPortraits = _protoManager.EnumeratePrototypes<CharacterPortraitPrototype>()
-            .Where(p => p.JobId == targetJobId)
-            .ToList();
+        // Select random portrait from target faction's portrait set using cache.
+        var targetPortraits = _disguiseCache.TryGetValue(targetJobId, out var cached)
+            ? cached
+            : _protoManager.EnumeratePrototypes<CharacterPortraitPrototype>()
+                .Where(p => p.JobId == targetJobId)
+                .ToList();
 
         if (targetPortraits.Count > 0)
         {
@@ -231,15 +275,8 @@ public sealed class CharacterPortraitSystem : EntitySystem
 
         var randomPath = texturePaths[_random.Next(texturePaths.Count)];
 
-        // Convert relative paths to full paths using prototype's GetFullPath method.
+        // Convert relative paths to full paths using static GetFullPath method.
         // This ensures consistent path resolution regardless of input format.
-        var firstProto = _protoManager.EnumeratePrototypes<CharacterPortraitPrototype>().FirstOrDefault();
-        if (firstProto != null)
-        {
-            return firstProto.GetFullPath(randomPath);
-        }
-
-        // Fallback to raw path if no prototype available (should not occur in normal operation).
-        return randomPath;
+        return CharacterPortraitPrototype.GetFullPath(randomPath);
     }
 }
