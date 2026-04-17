@@ -573,10 +573,9 @@ namespace Content.Client.Lobby.UI
             PortraitSelector.OnPortraitSelected += _portraitSelectedHandler;
 
             // Validate current SelectedPortraitId - if it doesn't exist in available portraits, clear it
-            // stalker-en: use centralized validation method
             if (!string.IsNullOrEmpty(Profile?.SelectedPortraitId))
             {
-                var textureExists = Content.Shared._Stalker_EN.Portraits.CharacterPortraitPrototype.ValidatePortraitPath(Profile.SelectedPortraitId, portraits);
+                var textureExists = portraits.Any(p => p.Textures.Any(t => t is SpriteSpecifier.Texture tex && tex.TexturePath.ToString() == Profile.SelectedPortraitId));
                 if (!textureExists)
                 {
                     Profile = Profile.WithSelectedPortrait(string.Empty);
@@ -632,7 +631,7 @@ namespace Content.Client.Lobby.UI
                 // Validate current DisguisePortraitId - if it doesn't exist in available portraits, clear it
                 if (!string.IsNullOrEmpty(Profile?.DisguisePortraitId))
                 {
-                    var textureExists = Content.Shared._Stalker_EN.Portraits.CharacterPortraitPrototype.ValidatePortraitPath(Profile.DisguisePortraitId, disguisePortraits);
+                    var textureExists = disguisePortraits.Any(p => p.Textures.Any(t => t is SpriteSpecifier.Texture tex && tex.TexturePath.ToString() == Profile.DisguisePortraitId));
                     if (!textureExists)
                     {
                         Profile = Profile.WithDisguisePortrait(string.Empty);

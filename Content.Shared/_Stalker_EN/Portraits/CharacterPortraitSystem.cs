@@ -108,21 +108,19 @@ public sealed class CharacterPortraitSystem : EntitySystem
         // This catches stale paths from deleted portraits or prototype changes.
         if (!string.IsNullOrEmpty(comp.PortraitTexturePath))
         {
-            var currentPath = new ResPath(comp.PortraitTexturePath);
-
             // Support both legacy full paths and new relative paths for compatibility
             var textureExists = _protoManager.EnumeratePrototypes<CharacterPortraitPrototype>()
-                .Any(p => p.Textures.Any(t => t == currentPath || CharacterPortraitPrototype.GetFullPath(t) == currentPath));
+                .Any(p => p.Textures.Any(t => t is SpriteSpecifier.Texture tex && tex.TexturePath.ToString() == comp.PortraitTexturePath));
 
             if (!textureExists)
             {
-                _sawmill.Warning($"Portrait texture path not found in any prototype: {comp.PortraitTexturePath}");
+                // Path doesn't exist - clear it
                 comp.PortraitTexturePath = string.Empty;
-                Dirty(uid, comp);
+                _sawmill.Warning($"Portrait texture path not found: {comp.PortraitTexturePath}");
             }
             else
             {
-                // Valid path - keep as-is (supports both relative and absolute paths)
+                // Valid path - keep as-is
                 Dirty(uid, comp);
                 ResolveDisguisePortrait(uid, comp);
                 return;
@@ -263,21 +261,25 @@ public sealed class CharacterPortraitSystem : EntitySystem
     }
 
     /// <summary>
-    /// Picks a random texture from a list and converts relative paths to full paths.
-    /// Returns empty ResPath if list is empty and logs a warning.
+    /// Picks a random SpriteSpecifier from a list and returns its texture path.
+    /// Supports both Texture (PNG) and RSI formats.
+    /// Returns empty string if list is empty and logs a warning.
     /// </summary>
-    private ResPath PickRandomTexture(List<ResPath> texturePaths)
+    private string PickRandomTexture(List<SpriteSpecifier> textureSpecifiers)
     {
-        if (texturePaths.Count == 0)
+        if (textureSpecifiers.Count == 0)
         {
             _sawmill.Warning("Attempted to pick random texture from empty list");
-            return ResPath.Empty;
+            return string.Empty;
         }
 
-        var randomPath = texturePaths[_random.Next(texturePaths.Count)];
+        var randomSpecifier = textureSpecifiers[_random.Next(textureSpecifiers.Count)];
 
-        // Convert relative paths to full paths using static GetFullPath method.
-        // This ensures consistent path resolution regardless of input format.
-        return CharacterPortraitPrototype.GetFullPath(randomPath);
+        return randomSpecifier switch
+        {
+            SpriteSpecifier.Texture tex => tex.TexturePath.ToString(),
+            SpriteSpecifier.Rsi rsi => rsi.RsiPath.ToString(), // RSI format
+            _ => string.Empty
+        };
     }
 }

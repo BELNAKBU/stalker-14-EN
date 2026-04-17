@@ -32,19 +32,23 @@
 
     <customControls:HSeparator Margin="0 4 0 4"/>
 
+    <BoxContainer Orientation="Horizontal">
     <!-- Add Contact Section -->
-    <Label Text="{Loc 'st-messenger-add-contact-header'}" StyleClasses="LabelKeyText" Margin="0 2 0 2"/>
-    <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
-        <LineEdit Name="AddContactInput" PlaceHolder="{Loc 'st-messenger-add-contact-placeholder'}" HorizontalExpand="True" Margin="0 0 4 0"/>
-        <Button Name="AddContactButton" Text="{Loc 'st-messenger-add-contact-button'}" MinWidth="60"/>
+        <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="8 0 0 0">
+            <Label Text="{Loc 'st-messenger-add-contact-header'}" StyleClasses="LabelKeyText" Margin="0 2 0 2"/>
+            <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
+                <LineEdit Name="AddContactInput" PlaceHolder="{Loc 'st-messenger-add-contact-placeholder'}" HorizontalExpand="True" Margin="0 0 4 0"/>
+                <Button Name="AddContactButton" Text="{Loc 'st-messenger-add-contact-button'}" MinWidth="60"/>
+            </BoxContainer>
+        </BoxContainer>
+
+        <customControls:VSeparator Margin="0 4 0 4"/>
+        <!-- Settings Section -->
+        <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="8 0 0 0">
+            <Label Text="{Loc 'st-messenger-settings-header'}" StyleClasses="LabelKeyText" Margin="0 2 0 2"/>
+            <BoxContainer Name="SettingsContainer" Orientation="Horizontal" HorizontalExpand="True" Visible="False">
+                <CheckBox Name="RandomNameCheckbox" Text="{Loc 'st-messenger-random-name-when-not-disguised'}" Margin="0 2 0 2"/>
+            </BoxContainer>
+        </BoxContainer>
     </BoxContainer>
-
-    <customControls:HSeparator Margin="0 4 0 4"/>
-
-    <!-- Settings Section -->
-    <Label Text="{Loc 'st-messenger-settings-header'}" StyleClasses="LabelKeyText" Margin="0 2 0 2"/>
-    <BoxContainer Name="SettingsContainer" Orientation="Vertical" HorizontalExpand="True" Visible="False">
-        <CheckBox Name="RandomNameCheckbox" Text="{Loc 'st-messenger-random-name-when-not-disguised'}" Margin="0 2 0 2"/>
-    </BoxContainer>
-
 </BoxContainer>

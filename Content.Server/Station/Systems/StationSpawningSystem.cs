@@ -242,14 +242,14 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
     // stalker-en-start
     /// <summary>
     /// Validates that a portrait texture path exists in any portrait prototype.
-    /// Supports both legacy full paths and new relative paths.
+    /// Checks SpriteSpecifier.Texture directly.
     /// </summary>
     /// <param name="path">The portrait texture path to validate.</param>
     /// <returns>True if the path exists in any portrait prototype, false otherwise.</returns>
     private bool ValidatePortraitPath(string path)
     {
         var portraits = _prototypeManager.EnumeratePrototypes<CharacterPortraitPrototype>();
-        return CharacterPortraitPrototype.ValidatePortraitPath(path, portraits);
+        return portraits.Any(p => p.Textures.Any(t => t is SpriteSpecifier.Texture tex && tex.TexturePath.ToString() == path));
     }
     // stalker-en-end
 

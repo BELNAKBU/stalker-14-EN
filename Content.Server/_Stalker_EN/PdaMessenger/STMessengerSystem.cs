@@ -574,11 +574,11 @@ public sealed partial class STMessengerSystem : EntitySystem
                 {
                     // If disguised and has a disguise path — use it
                     if (portraitComp.IsDisguised && !string.IsNullOrEmpty(portraitComp.DisguisedPortraitPath))
-                        return AddPortraitPrefix(portraitComp.DisguisedPortraitPath);
+                        return portraitComp.DisguisedPortraitPath;
 
                     // Otherwise use normal portrait
                     if (!string.IsNullOrEmpty(portraitComp.PortraitTexturePath))
-                        return AddPortraitPrefix(portraitComp.PortraitTexturePath);
+                        return portraitComp.PortraitTexturePath;
                 }
 
                 var parentXform = CompOrNull<TransformComponent>(current);
@@ -647,21 +647,6 @@ public sealed partial class STMessengerSystem : EntitySystem
 
         return false;
     }
-
-    /// <summary>
-    /// Adds portrait texture prefix to a path if it doesn't have it.
-    /// </summary>
-    private static string AddPortraitPrefix(string path)
-    {
-        if (string.IsNullOrEmpty(path))
-            return path;
-
-        if (path.StartsWith(CharacterPortraitPrototype.PortraitTexturePrefix))
-            return path;
-
-        return CharacterPortraitPrototype.PortraitTexturePrefix + path;
-    }
-
 
     private string? FindReplySnippet(string chatId, bool isDm, STMessengerServerComponent server, uint replyId)
     {

@@ -7,8 +7,8 @@
 # Each portrait prototype represents ONE role and can have MULTIPLE texture variants.
 # NPCs pick one randomly. Players choose one in the loadout screen.
 #
-# NOTE: Texture paths are relative to /Textures/_Stalker_EN/Portraits/
-# The prefix is added automatically by the code
+# NOTE: Currently using scalar string format for PNG files (SpriteSpecifier.Texture).
+# To use RSI format, convert PNG to RSI and use sprite: + state: keys.
 
 # MARK: Stalker (Department: Stalker)
 
@@ -18,10 +18,10 @@
   bandId: STStalkerBand
   jobId: StalkerRookie
   textures:
-    - "stalkers/rookies/rookie_1.png"
-    - "stalkers/rookies/rookie_2.png"
-    - "stalkers/rookies/rookie_3.png"
-    - "stalkers/rookies/rookie_4.png"
+    - "/Textures/_Stalker_EN/Portraits/stalkers/rookies/rookie_1.png"
+    - "/Textures/_Stalker_EN/Portraits/stalkers/rookies/rookie_2.png"
+    - "/Textures/_Stalker_EN/Portraits/stalkers/rookies/rookie_3.png"
+    - "/Textures/_Stalker_EN/Portraits/stalkers/rookies/rookie_4.png"
 
 - type: characterPortrait
   id: Portrait_Stalker
@@ -29,15 +29,15 @@
   bandId: STStalkerBand
   jobId: Stalker
   textures:
-    - "stalkers/stalker_1.png"
-    - "stalkers/stalker_2.png"
-    - "stalkers/stalker_3.png"
-    - "stalkers/stalker_4.png"
-    - "stalkers/stalker_5.png"
-    - "stalkers/stalker_6.png"
-    - "stalkers/stalker_7.png"
-    - "stalkers/stalker_8.png"
-    - "stalkers/stalker_9.png"
+    - "/Textures/_Stalker_EN/Portraits/stalkers/stalker_1.png"
+    - "/Textures/_Stalker_EN/Portraits/stalkers/stalker_2.png"
+    - "/Textures/_Stalker_EN/Portraits/stalkers/stalker_3.png"
+    - "/Textures/_Stalker_EN/Portraits/stalkers/stalker_4.png"
+    - "/Textures/_Stalker_EN/Portraits/stalkers/stalker_5.png"
+    - "/Textures/_Stalker_EN/Portraits/stalkers/stalker_6.png"
+    - "/Textures/_Stalker_EN/Portraits/stalkers/stalker_7.png"
+    - "/Textures/_Stalker_EN/Portraits/stalkers/stalker_8.png"
+    - "/Textures/_Stalker_EN/Portraits/stalkers/stalker_9.png"
 
 # MARK: Neutral (Department: Stalker)
 
@@ -47,13 +47,13 @@
   bandId: STNeutralBand
   jobId: StalkerNeutral
   textures:
-    - "neutral/neut_1.png"
-    - "neutral/neut_2.png"
-    - "neutral/neut_3.png"
-    - "neutral/neut_4.png"
-    - "neutral/neut_5.png"
-    - "neutral/neut_6.png"
-    - "journalist/journalist_1.png"
+    - "/Textures/_Stalker_EN/Portraits/neutral/neut_1.png"
+    - "/Textures/_Stalker_EN/Portraits/neutral/neut_2.png"
+    - "/Textures/_Stalker_EN/Portraits/neutral/neut_3.png"
+    - "/Textures/_Stalker_EN/Portraits/neutral/neut_4.png"
+    - "/Textures/_Stalker_EN/Portraits/neutral/neut_5.png"
+    - "/Textures/_Stalker_EN/Portraits/neutral/neut_6.png"
+    - "/Textures/_Stalker_EN/Portraits/journalist/journalist_1.png"
 
 # MARK: Journalist (Department: StalkerAdvanced)
 
@@ -63,7 +63,7 @@
   bandId: STJournalistsBand
   jobId: StalkerJournalist
   textures:
-    - "journalist/journalist_1.png"
+    - "/Textures/_Stalker_EN/Portraits/journalist/journalist_1.png"
 
 # MARK: Dolg (Department: StalkerAdvanced)
 
@@ -73,14 +73,14 @@
   bandId: STDolgBand
   jobId: StalkerDolg
   textures:
-    - "duty/dolg_1.png"
-    - "duty/dolg_2.png"
-    - "duty/dolg_3.png"
-    - "duty/dolg_4.png"
-    - "duty/dolg_5.png"
-    - "duty/dolg_6.png"
-    - "duty/dolg_7.png"
-    - "duty/dolg_8.png"
+    - "/Textures/_Stalker_EN/Portraits/duty/dolg_1.png"
+    - "/Textures/_Stalker_EN/Portraits/duty/dolg_2.png"
+    - "/Textures/_Stalker_EN/Portraits/duty/dolg_3.png"
+    - "/Textures/_Stalker_EN/Portraits/duty/dolg_4.png"
+    - "/Textures/_Stalker_EN/Portraits/duty/dolg_5.png"
+    - "/Textures/_Stalker_EN/Portraits/duty/dolg_6.png"
+    - "/Textures/_Stalker_EN/Portraits/duty/dolg_7.png"
+    - "/Textures/_Stalker_EN/Portraits/duty/dolg_8.png"
 
 - type: characterPortrait
   id: Portrait_StalkerHeadDolg
@@ -88,11 +88,11 @@
   bandId: STDolgBand
   jobId: StalkerHeadDolg
   textures:
-    - "duty/dolg_head_1.png"
-    - "duty/dolg_head_2.png"
-    - "duty/dolg_head_3.png"
-    - "duty/dolg_head_4.png"
-    - "duty/dolg_head_5.png"
+    - "/Textures/_Stalker_EN/Portraits/duty/dolg_head_1.png"
+    - "/Textures/_Stalker_EN/Portraits/duty/dolg_head_2.png"
+    - "/Textures/_Stalker_EN/Portraits/duty/dolg_head_3.png"
+    - "/Textures/_Stalker_EN/Portraits/duty/dolg_head_4.png"
+    - "/Textures/_Stalker_EN/Portraits/duty/dolg_head_5.png"
 
 # MARK: Freedom (Department: StalkerAdvanced)
 
@@ -102,14 +102,14 @@
   bandId: STFreedomBand
   jobId: StalkerFreedom
   textures:
-    - "freedom/freedom_1.png"
-    - "freedom/freedom_2.png"
-    - "freedom/freedom_3.png"
-    - "freedom/freedom_4.png"
-    - "freedom/freedom_5.png"
-    - "freedom/freedom_6.png"
-    - "freedom/freedom_7.png"
-    - "freedom/freedom_8.png"
+    - "/Textures/_Stalker_EN/Portraits/freedom/freedom_1.png"
+    - "/Textures/_Stalker_EN/Portraits/freedom/freedom_2.png"
+    - "/Textures/_Stalker_EN/Portraits/freedom/freedom_3.png"
+    - "/Textures/_Stalker_EN/Portraits/freedom/freedom_4.png"
+    - "/Textures/_Stalker_EN/Portraits/freedom/freedom_5.png"
+    - "/Textures/_Stalker_EN/Portraits/freedom/freedom_6.png"
+    - "/Textures/_Stalker_EN/Portraits/freedom/freedom_7.png"
+    - "/Textures/_Stalker_EN/Portraits/freedom/freedom_8.png"
 
 - type: characterPortrait
   id: Portrait_StalkerHeadFreedom
@@ -117,10 +117,10 @@
   bandId: STFreedomBand
   jobId: StalkerHeadFreedom
   textures:
-    - "freedom/freedom_head_1.png"
-    - "freedom/freedom_head_2.png"
-    - "freedom/freedom_head_3.png"
-    - "freedom/freedom_head_4.png"
+    - "/Textures/_Stalker_EN/Portraits/freedom/freedom_head_1.png"
+    - "/Textures/_Stalker_EN/Portraits/freedom/freedom_head_2.png"
+    - "/Textures/_Stalker_EN/Portraits/freedom/freedom_head_3.png"
+    - "/Textures/_Stalker_EN/Portraits/freedom/freedom_head_4.png"
 
 # MARK: Clear Sky (Department: StalkerAdvanced)
 
@@ -130,9 +130,9 @@
   bandId: STClearSkyBand
   jobId: StalkerClearSky
   textures:
-    - "clearsky/clearsky_1.png"
-    - "clearsky/clearsky_2.png"
-    - "clearsky/clearsky_3.png"
+    - "/Textures/_Stalker_EN/Portraits/clearsky/clearsky_1.png"
+    - "/Textures/_Stalker_EN/Portraits/clearsky/clearsky_2.png"
+    - "/Textures/_Stalker_EN/Portraits/clearsky/clearsky_3.png"
 
 - type: characterPortrait
   id: Portrait_StalkerHeadClearSky
@@ -140,7 +140,7 @@
   bandId: STClearSkyBand
   jobId: StalkerHeadClearSky
   textures:
-    - "clearsky/clearsky_head_1.png"
+    - "/Textures/_Stalker_EN/Portraits/clearsky/clearsky_head_1.png"
 
 # MARK: Bandit (Department: StalkerBrigands)
 
@@ -150,13 +150,13 @@
   bandId: STBanditsBand
   jobId: StalkerBandit
   textures:
-    - "bandit/bandit_1.png"
-    - "bandit/bandit_2.png"
-    - "bandit/bandit_3.png"
-    - "bandit/bandit_4.png"
-    - "bandit/bandit_5.png"
-    - "bandit/bandit_6.png"
-    - "bandit/bandit_7.png"
+    - "/Textures/_Stalker_EN/Portraits/bandit/bandit_1.png"
+    - "/Textures/_Stalker_EN/Portraits/bandit/bandit_2.png"
+    - "/Textures/_Stalker_EN/Portraits/bandit/bandit_3.png"
+    - "/Textures/_Stalker_EN/Portraits/bandit/bandit_4.png"
+    - "/Textures/_Stalker_EN/Portraits/bandit/bandit_5.png"
+    - "/Textures/_Stalker_EN/Portraits/bandit/bandit_6.png"
+    - "/Textures/_Stalker_EN/Portraits/bandit/bandit_7.png"
 
 - type: characterPortrait
   id: Portrait_StalkerHeadBandit
@@ -164,8 +164,8 @@
   bandId: STBanditsBand
   jobId: StalkerHeadBandit
   textures:
-    - "bandit/bandit_head_1.png"
-    - "bandit/bandit_head_2.png"
+    - "/Textures/_Stalker_EN/Portraits/bandit/bandit_head_1.png"
+    - "/Textures/_Stalker_EN/Portraits/bandit/bandit_head_2.png"
 
 # MARK: Mercenary (Department: StalkerBrigands)
 
@@ -175,14 +175,14 @@
   bandId: STMercenariesBand
   jobId: StalkerMercenary
   textures:
-    - "mercenaries/merc_1.png"
-    - "mercenaries/merc_2.png"
-    - "mercenaries/merc_3.png"
-    - "mercenaries/merc_4.png"
-    - "mercenaries/merc_5.png"
-    - "mercenaries/merc_6.png"
-    - "mercenaries/merc_7.png"
-    - "mercenaries/merc_8.png"
+    - "/Textures/_Stalker_EN/Portraits/mercenaries/merc_1.png"
+    - "/Textures/_Stalker_EN/Portraits/mercenaries/merc_2.png"
+    - "/Textures/_Stalker_EN/Portraits/mercenaries/merc_3.png"
+    - "/Textures/_Stalker_EN/Portraits/mercenaries/merc_4.png"
+    - "/Textures/_Stalker_EN/Portraits/mercenaries/merc_5.png"
+    - "/Textures/_Stalker_EN/Portraits/mercenaries/merc_6.png"
+    - "/Textures/_Stalker_EN/Portraits/mercenaries/merc_7.png"
+    - "/Textures/_Stalker_EN/Portraits/mercenaries/merc_8.png"
 
 - type: characterPortrait
   id: Portrait_StalkerHeadMercenary
@@ -190,9 +190,9 @@
   bandId: STMercenariesBand
   jobId: StalkerHeadMercenary
   textures:
-    - "mercenaries/merc_head_1.png"
-    - "mercenaries/merc_head_2.png"
-    - "mercenaries/merc_head_3.png"
+    - "/Textures/_Stalker_EN/Portraits/mercenaries/merc_head_1.png"
+    - "/Textures/_Stalker_EN/Portraits/mercenaries/merc_head_2.png"
+    - "/Textures/_Stalker_EN/Portraits/mercenaries/merc_head_3.png"
 
 # MARK: Renegade (Department: StalkerBrigands)
 
@@ -202,13 +202,13 @@
   bandId: STRenegatsBand
   jobId: StalkerRene
   textures:
-    - "renegade/rene_1.png"
-    - "renegade/rene_2.png"
-    - "renegade/rene_3.png"
-    - "renegade/rene_4.png"
-    - "renegade/rene_5.png"
-    - "renegade/rene_6.png"
-    - "renegade/rene_7.png"
+    - "/Textures/_Stalker_EN/Portraits/renegade/rene_1.png"
+    - "/Textures/_Stalker_EN/Portraits/renegade/rene_2.png"
+    - "/Textures/_Stalker_EN/Portraits/renegade/rene_3.png"
+    - "/Textures/_Stalker_EN/Portraits/renegade/rene_4.png"
+    - "/Textures/_Stalker_EN/Portraits/renegade/rene_5.png"
+    - "/Textures/_Stalker_EN/Portraits/renegade/rene_6.png"
+    - "/Textures/_Stalker_EN/Portraits/renegade/rene_7.png"
 
 - type: characterPortrait
   id: Portrait_StalkerHeadRene
@@ -216,8 +216,8 @@
   bandId: STRenegatsBand
   jobId: StalkerHeadRene
   textures:
-    - "renegade/rene_head_1.png"
-    - "renegade/rene_head_2.png"
+    - "/Textures/_Stalker_EN/Portraits/renegade/rene_head_1.png"
+    - "/Textures/_Stalker_EN/Portraits/renegade/rene_head_2.png"
 
 # MARK: Military (Department: StalkerOfficials)
 
@@ -227,13 +227,13 @@
   bandId: STMilitaryBand
   jobId: Military
   textures:
-    - "military/mili_1.png"
-    - "military/mili_2.png"
-    - "military/mili_3.png"
-    - "military/mili_4.png"
-    - "military/mili_5.png"
-    - "military/mili_6.png"
-    - "military/mili_7.png"
+    - "/Textures/_Stalker_EN/Portraits/military/mili_1.png"
+    - "/Textures/_Stalker_EN/Portraits/military/mili_2.png"
+    - "/Textures/_Stalker_EN/Portraits/military/mili_3.png"
+    - "/Textures/_Stalker_EN/Portraits/military/mili_4.png"
+    - "/Textures/_Stalker_EN/Portraits/military/mili_5.png"
+    - "/Textures/_Stalker_EN/Portraits/military/mili_6.png"
+    - "/Textures/_Stalker_EN/Portraits/military/mili_7.png"
 
 - type: characterPortrait
   id: Portrait_MilitaryOfficer
@@ -241,9 +241,9 @@
   bandId: STMilitaryBand
   jobId: MilitaryOfficer
   textures:
-    - "military/mili_officer_1.png"
-    - "military/mili_officer_2.png"
-    - "military/mili_officer_3.png"
+    - "/Textures/_Stalker_EN/Portraits/military/mili_officer_1.png"
+    - "/Textures/_Stalker_EN/Portraits/military/mili_officer_2.png"
+    - "/Textures/_Stalker_EN/Portraits/military/mili_officer_3.png"
 
 - type: characterPortrait
   id: Portrait_MilitaryHead
@@ -251,11 +251,11 @@
   bandId: STMilitaryBand
   jobId: MilitaryHead
   textures:
-    - "military/mili_head_1.png"
-    - "military/mili_head_2.png"
-    - "military/mili_head_3.png"
-    - "military/mili_head_4.png"
-    - "military/mili_head_5.png"
+    - "/Textures/_Stalker_EN/Portraits/military/mili_head_1.png"
+    - "/Textures/_Stalker_EN/Portraits/military/mili_head_2.png"
+    - "/Textures/_Stalker_EN/Portraits/military/mili_head_3.png"
+    - "/Textures/_Stalker_EN/Portraits/military/mili_head_4.png"
+    - "/Textures/_Stalker_EN/Portraits/military/mili_head_5.png"
 
 # MARK: Scientists (Department: StalkerOfficials)
 
@@ -265,11 +265,11 @@
   bandId: STSciBand
   jobId: sci
   textures:
-    - "scientists/sci_2.png"
-    - "scientists/sci_3.png"
-    - "scientists/sci_4.png"
-    - "scientists/sci_5.png"
-    - "scientists/sci_6.png"
+    - "/Textures/_Stalker_EN/Portraits/scientists/sci_2.png"
+    - "/Textures/_Stalker_EN/Portraits/scientists/sci_3.png"
+    - "/Textures/_Stalker_EN/Portraits/scientists/sci_4.png"
+    - "/Textures/_Stalker_EN/Portraits/scientists/sci_5.png"
+    - "/Textures/_Stalker_EN/Portraits/scientists/sci_6.png"
 
 - type: characterPortrait
   id: Portrait_SciHead
@@ -277,8 +277,8 @@
   bandId: STSciBand
   jobId: sci_decan
   textures:
-    - "scientists/sci_head_1.png"
-    - "scientists/sci_head_2.png"
+    - "/Textures/_Stalker_EN/Portraits/scientists/sci_head_1.png"
+    - "/Textures/_Stalker_EN/Portraits/scientists/sci_head_2.png"
 
 - type: characterPortrait
   id: Portrait_Sci_Rector
@@ -286,8 +286,8 @@
   bandId: STSciBand
   jobId: sci_rector
   textures:
-    - "scientists/sci_head_1.png"
-    - "scientists/sci_head_2.png"
+    - "/Textures/_Stalker_EN/Portraits/scientists/sci_head_1.png"
+    - "/Textures/_Stalker_EN/Portraits/scientists/sci_head_2.png"
 
 # MARK: United Nations (Department: StalkerUnitedNations)
 
@@ -297,8 +297,8 @@
   bandId: STUNBand
   jobId: StalkerUN
   textures:
-    - "un/un_1.png"
-    - "un/un_2.png"
+    - "/Textures/_Stalker_EN/Portraits/un/un_1.png"
+    - "/Textures/_Stalker_EN/Portraits/un/un_2.png"
 
 # MARK: Monolith (Department: StalkerReligius)
 
@@ -308,14 +308,14 @@
   bandId: STMonolithBand
   jobId: StalkerMonolith
   textures:
-    - "monolith/mono_1.png"
-    - "monolith/mono_2.png"
-    - "monolith/mono_3.png"
-    - "monolith/mono_4.png"
-    - "monolith/mono_5.png"
-    - "monolith/mono_6.png"
-    - "monolith/mono_7.png"
-    - "monolith/mono_8.png"
+    - "/Textures/_Stalker_EN/Portraits/monolith/mono_1.png"
+    - "/Textures/_Stalker_EN/Portraits/monolith/mono_2.png"
+    - "/Textures/_Stalker_EN/Portraits/monolith/mono_3.png"
+    - "/Textures/_Stalker_EN/Portraits/monolith/mono_4.png"
+    - "/Textures/_Stalker_EN/Portraits/monolith/mono_5.png"
+    - "/Textures/_Stalker_EN/Portraits/monolith/mono_6.png"
+    - "/Textures/_Stalker_EN/Portraits/monolith/mono_7.png"
+    - "/Textures/_Stalker_EN/Portraits/monolith/mono_8.png"
 
 - type: characterPortrait
   id: Portrait_StalkerHeadMonolith
@@ -323,10 +323,10 @@
   bandId: STMonolithBand
   jobId: StalkerHeadMonolith
   textures:
-    - "monolith/mono_head_1.png"
-    - "monolith/mono_head_2.png"
-    - "monolith/mono_head_3.png"
-    - "monolith/mono_head_4.png"
+    - "/Textures/_Stalker_EN/Portraits/monolith/mono_head_1.png"
+    - "/Textures/_Stalker_EN/Portraits/monolith/mono_head_2.png"
+    - "/Textures/_Stalker_EN/Portraits/monolith/mono_head_3.png"
+    - "/Textures/_Stalker_EN/Portraits/monolith/mono_head_4.png"
 
 # MARK: Greh/Sin (Department: StalkerReligius)
 
@@ -336,8 +336,7 @@
   bandId: STGrehBand
   jobId: StalkerGreh
   textures:
-    - "sin/sin_1.png"
-
+    - "/Textures/_Stalker_EN/Portraits/sin/sin_1.png"
 
 # MARK: Pilgrims (Department: StalkerReligius)
 
@@ -347,7 +346,7 @@
   bandId: STPilgrimsBand
   jobId: StalkerPostulant
   textures:
-    - "seraphim/seraphim_1.png"
+    - "/Textures/_Stalker_EN/Portraits/seraphim/seraphim_1.png"
 
 - type: characterPortrait
   id: Portrait_StalkerBishop
@@ -355,7 +354,7 @@
   bandId: STPilgrimsBand
   jobId: StalkerBishop
   textures:
-    - "seraphim/seraphim_bishop_1.png"
+    - "/Textures/_Stalker_EN/Portraits/seraphim/seraphim_bishop_1.png"
 
 # MARK: Zombie
 
@@ -364,10 +363,10 @@
   name: st-portrait-zombie
   bandId: Zombie
   textures:
-    - "zombiefied/zombie_1.png"
-    - "zombiefied/zombie_2.png"
-    - "zombiefied/zombie_3.png"
-    - "zombiefied/zombie_4.png"
+    - "/Textures/_Stalker_EN/Portraits/zombiefied/zombie_1.png"
+    - "/Textures/_Stalker_EN/Portraits/zombiefied/zombie_2.png"
+    - "/Textures/_Stalker_EN/Portraits/zombiefied/zombie_3.png"
+    - "/Textures/_Stalker_EN/Portraits/zombiefied/zombie_4.png"
 
 # MARK: Admin
 
@@ -375,7 +374,7 @@
   id: Portrait_Admems
   name: st-portrait-admems
   textures:
-    - "admems/admem_1.png"
-    - "admems/admem_2.png"
-    - "admems/admem_3.png"
-    - "admems/admem_4.png"
+    - "/Textures/_Stalker_EN/Portraits/admems/admem_1.png"
+    - "/Textures/_Stalker_EN/Portraits/admems/admem_2.png"
+    - "/Textures/_Stalker_EN/Portraits/admems/admem_3.png"
+    - "/Textures/_Stalker_EN/Portraits/admems/admem_4.png"

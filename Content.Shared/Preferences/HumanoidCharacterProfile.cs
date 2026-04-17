@@ -752,13 +752,8 @@ namespace Content.Shared.Preferences
             // Validate main portrait texture path
             if (!string.IsNullOrEmpty(SelectedPortraitId))
             {
-                var relativePath = SelectedPortraitId.StartsWith(CharacterPortraitPrototype.PortraitTexturePrefix)
-                    ? SelectedPortraitId.Substring(CharacterPortraitPrototype.PortraitTexturePrefix.Length)
-                    : SelectedPortraitId;
-
-                var relativeResPath = new Robust.Shared.Utility.ResPath(relativePath);
                 var textureExists = prototypeManager.EnumeratePrototypes<CharacterPortraitPrototype>()
-                    .Any(p => p.Textures.Contains(relativeResPath) || p.Textures.Any(t => CharacterPortraitPrototype.GetFullPath(t).ToString() == SelectedPortraitId));
+                    .Any(p => p.Textures.Any(t => t is SpriteSpecifier.Texture tex && tex.TexturePath.ToString() == SelectedPortraitId));
                 if (!textureExists)
                 {
                     SelectedPortraitId = string.Empty;
@@ -768,13 +763,8 @@ namespace Content.Shared.Preferences
             // Validate disguise portrait texture path
             if (!string.IsNullOrEmpty(DisguisePortraitId))
             {
-                var relativePath = DisguisePortraitId.StartsWith(CharacterPortraitPrototype.PortraitTexturePrefix)
-                    ? DisguisePortraitId.Substring(CharacterPortraitPrototype.PortraitTexturePrefix.Length)
-                    : DisguisePortraitId;
-
-                var relativeResPath = new Robust.Shared.Utility.ResPath(relativePath);
                 var textureExists = prototypeManager.EnumeratePrototypes<CharacterPortraitPrototype>()
-                    .Any(p => p.Textures.Contains(relativeResPath) || p.Textures.Any(t => CharacterPortraitPrototype.GetFullPath(t).ToString() == DisguisePortraitId));
+                    .Any(p => p.Textures.Any(t => t is SpriteSpecifier.Texture tex && tex.TexturePath.ToString() == DisguisePortraitId));
                 if (!textureExists)
                 {
                     DisguisePortraitId = string.Empty;
