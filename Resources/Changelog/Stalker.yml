@@ -2546,5 +2546,20 @@
   id: 274
   time: '2026-04-17T16:23:52.348391+00:00'
   url: https://github.com/stalker-14-EN/stalker-14-EN/pull/832
+- author: AlesterPherrer
+  changes:
+  - message: Adds Army Backpacks to Gov, Duty, CS and Renegades
+    type: Add
+  - message: Basic cloaks and coats to Mili's shop
+    type: Add
+  - message: Duty backpack prices adjusted and slightly rebalanced.
+    type: Tweak
+  - message: Missing Hercules drink in Mili's shop
+    type: Fix
+  - message: Missing Sunrise backpacks from loner shopkeerers
+    type: Fix
+  id: 275
+  time: '2026-04-17T23:57:13.166603+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/823
 Name: Stalker
 Order: -1
