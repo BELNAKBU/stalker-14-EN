@@ -2525,5 +2525,12 @@
   id: 271
   time: '2026-04-17T00:35:05.045537+00:00'
   url: https://github.com/stalker-14-EN/stalker-14-EN/pull/821
+- author: dallaszzz
+  changes:
+  - message: Overhauled anomaly sounds
+    type: Add
+  id: 272
+  time: '2026-04-17T00:48:17.349668+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/830
 Name: Stalker
 Order: -1
