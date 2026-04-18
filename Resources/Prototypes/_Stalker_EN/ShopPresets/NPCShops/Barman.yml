@@ -1,5 +1,5 @@
 - type: shopPreset
-  id: STNPCBarmanPresetEN # 1x Standard - Pending Economy Change
+  id: STNPCBarmanPresetEN # 1x Standard
   minSellPrice: 5
   itemsForSale:
 
@@ -60,36 +60,36 @@
     ZoneArtifactPellicle: 535
     ZoneArtifactBaloon: 4800
 
-    # Mutant parts
+    # Mutant parts - 1x price
 
-    #Boars -------- PENDING REWORK
+    #Boars
     MutantPartBoarHoof: 155 # T1
     MutantPartSeasonedBoarHoof: 310 # T2
     MutantPartOldBoarHoof: 465 # T3
 
-    #Bears --------- PENDING REWORK
+    #Bears
     MutantPartBearClaw: 325
     MutantPartBearPaw: 475
     MutantPartBearEye: 690
     ClothingHeadBear: 750
 
-    #T1 -------- PENDING REWORK
+    #T1
     MutantPartBlindDogTail: 105
     MutantPartFleshEye: 230
     FoodMeatSpiderLeg: 50
     MutantPartCatGland: 320
 
-    #T2 -------- PENDING REWORK
+    #T2
     MutantPartLeshiyRoot: 630
     MutantPartPseudodogTail: 345
     MutantPartSnorkFoot: 575
     MutantPartPsiDogTail: 475
     MutantPartFrogLeg: 300
 
-    #T3 -------- PENDING REWORK Modified by Oracle
+    #T3
     MutantPartBloodsuckerTentacles: 2750
     MutantPartOraculeEye: 1800
-    MutantPartZombieHand: 1000
+    MutantPartZombieHand: 750
     MutantPartPseudogiantHeart: 9050
     ClothingMaskChimera: 1
     MutantPartChimeraTooth: 1

@@ -1,20 +1,20 @@
 - type: shopPreset
-  id: DolgShopPresetEN # Mutant parts 1.5x Barman - Pending Economy Change
+  id: DolgShopPresetEN # Mutant parts 1.5x Barman
   minSellPrice: 5
   itemsForSale:
-    #Boars -------- Health * T
+    #Boars
     MutantPartBoarHoof: 275 # T1
     MutantPartSeasonedBoarHoof: 545 # T2
     MutantPartOldBoarHoof: 825 # T3
 
-    #T1 -------- Health * 1
+    #T1
     MutantPartBlindDogTail: 180
     MutantPartFleshEye: 405
     FoodMeatSpiderLeg: 100
     MutantPartBearClaw: 490
     MutantPartCatGland: 580
 
-    #T2 -------- Health * 1.8
+    #T2
     MutantPartLeshiyRoot: 1115
     MutantPartPseudodogTail: 610
     MutantPartSnorkFoot: 1015
@@ -23,15 +23,15 @@
     MutantPartBearPaw: 780
     MutantPartFrogLeg: 400
 
-    #T3 -------- Health * 3 Modified by Oracle
-    MutantPartBloodsuckerTentacles: 4700
-    MutantPartOraculeEye: 3600
-    MutantPartPseudogiantHeart: 18100
-    MutantPartZombieHand: 2000
-    ClothingHeadBear: 1500
-    MutantPartIzlomArm: 3750
-    MutantPartBurerBrain: 3500
-    MutantPartControllerBrain: 6500
+    #T3
+    MutantPartBloodsuckerTentacles: 4125
+    MutantPartOraculeEye: 2700
+    MutantPartPseudogiantHeart: 13575
+    MutantPartZombieHand: 1125
+    ClothingHeadBear: 1125
+    MutantPartIzlomArm: 2475
+    MutantPartBurerBrain: 3000
+    MutantPartControllerBrain: 5250
 
   categories:
     - name: shop-category-weapons
