@@ -2590,5 +2590,12 @@
   id: 278
   time: '2026-04-18T15:37:40.475469+00:00'
   url: https://github.com/stalker-14-EN/stalker-14-EN/pull/814
+- author: dallaszzz
+  changes:
+  - message: Nature has taken over the voenstal base in red forest
+    type: Tweak
+  id: 279
+  time: '2026-04-18T20:46:12.445645+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/835
 Name: Stalker
 Order: -1
