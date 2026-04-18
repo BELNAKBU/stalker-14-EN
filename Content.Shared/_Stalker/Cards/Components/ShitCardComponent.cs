@@ -3,7 +3,7 @@ using Robust.Shared.GameStates;
 namespace Content.Shared._Stalker.Cards.Components;
 
 [RegisterComponent, NetworkedComponent]
-public sealed partial class CardComponent : Component
+public sealed partial class ShitCardComponent : Component
 {
     #region Visualizer
     [DataField("state")]
