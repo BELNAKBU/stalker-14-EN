@@ -2574,5 +2574,12 @@
   id: 276
   time: '2026-04-18T15:29:45.359538+00:00'
   url: https://github.com/stalker-14-EN/stalker-14-EN/pull/827
+- author: dallaszzz
+  changes:
+  - message: a PKM
+    type: Add
+  id: 277
+  time: '2026-04-18T15:31:27.972360+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/826
 Name: Stalker
 Order: -1
