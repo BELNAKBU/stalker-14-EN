@@ -2561,5 +2561,18 @@
   id: 275
   time: '2026-04-17T23:57:13.166603+00:00'
   url: https://github.com/stalker-14-EN/stalker-14-EN/pull/823
+- author: dallaszzz
+  changes:
+  - message: Lowers zombie hand prices
+    type: Tweak
+  - message: lowers duty mutant prices over all
+    type: Tweak
+  - message: melee zombies were buffed
+    type: Tweak
+  - message: eco t3 mutant prices were buffed slightly
+    type: Tweak
+  id: 276
+  time: '2026-04-18T15:29:45.359538+00:00'
+  url: https://github.com/stalker-14-EN/stalker-14-EN/pull/827
 Name: Stalker
 Order: -1
