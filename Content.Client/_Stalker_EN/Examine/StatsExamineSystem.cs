@@ -32,6 +32,9 @@ public sealed class StatsExamineSystem : EntitySystem
     [Dependency] private readonly IComponentFactory _componentFactory = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
 
+    private const float SpreadReferenceAngle = 95f; // Reference angle for spread calculation (95° ensures minAngle has proper impact on score)
+    private const float StabilityMultiplier = 10f; // Multiplier for stability calculation (AngleDecay / (AngleIncrease * 10))
+
     private StatsExamineWindow? _window;
     private List<(EntityPrototype proto, CartridgeAmmoComponent cartridge)>? _cartridgeCache;
 
@@ -41,6 +44,16 @@ public sealed class StatsExamineSystem : EntitySystem
 
         SubscribeLocalEvent<ClothingComponent, GetVerbsEvent<ExamineVerb>>(OnClothingStatsVerb);
         SubscribeLocalEvent<GunComponent, GetVerbsEvent<ExamineVerb>>(OnGunStatsVerb);
+        SubscribeLocalEvent<PrototypesReloadedEventArgs>(OnPrototypesReloaded);
+    }
+
+    private void OnPrototypesReloaded(PrototypesReloadedEventArgs args)
+    {
+        // Invalidate cartridge cache when EntityPrototype is modified
+        if (args.WasModified<EntityPrototype>())
+        {
+            _cartridgeCache = null;
+        }
     }
 
     /// <summary>
@@ -109,7 +122,7 @@ public sealed class StatsExamineSystem : EntitySystem
         _window = new StatsExamineWindow();
         _window.OpenCentered();
 
-        // 1. Проверяем, wielded ли сейчас оружие в руках игрока
+        // 1. Check if equipped weapon is wielded
         var isEquippedWielded = false;
         GunComponent? equippedGun = null;
         if (TryGetEquippedWeaponStats(user, out var equippedGunTemp) && equippedGunTemp != null)
@@ -119,91 +132,83 @@ public sealed class StatsExamineSystem : EntitySystem
                 isEquippedWielded = wieldable.Wielded;
         }
 
-        // 2. Examined weapon — base + wield bonus ТОЛЬКО если equipped wielded
-        float examinedMinAngle = (float)examinedGun.MinAngle.Degrees;
-        float examinedMaxAngle = (float)examinedGun.MaxAngle.Degrees;
-        float examinedAngleDecay = (float)examinedGun.AngleDecay.Degrees;
-        float examinedAngleIncrease = (float)examinedGun.AngleIncrease.Degrees;
-
+        // 2. Examined weapon — base + wield bonus ONLY if equipped is wielded
+        EntityPrototype? examinedProto = null;
         if (isEquippedWielded)
         {
             var examinedProtoId = MetaData(target).EntityPrototype?.ID;
-            if (examinedProtoId != null && _prototypeManager.TryIndex<EntityPrototype>(examinedProtoId, out var proto))
-            {
-                if (proto.TryGetComponent<GunWieldBonusComponent>(out var wieldBonus, _componentFactory))
-                {
-                    examinedMinAngle = Math.Max(0, examinedMinAngle + (float)wieldBonus.MinAngle.Degrees);
-                    examinedMaxAngle = Math.Max(0, examinedMaxAngle + (float)wieldBonus.MaxAngle.Degrees);
-                    examinedAngleDecay += (float)wieldBonus.AngleDecay.Degrees;
-                    examinedAngleIncrease += (float)wieldBonus.AngleIncrease.Degrees;
-                }
-            }
+            if (examinedProtoId != null)
+                _prototypeManager.TryIndex<EntityPrototype>(examinedProtoId, out examinedProto);
         }
 
-        var examinedSpread = CalcSpread(examinedMinAngle, examinedMaxAngle);
-        var examinedStability = CalcStability(examinedAngleDecay, examinedAngleIncrease);
-        var examinedFireRate = examinedGun.FireRate;
+        var (examinedSpread, examinedStability, examinedFireRate) = CalculateWeaponStats(examinedGun, examinedProto, isEquippedWielded);
 
         // Get examined weapon prototype for projectile stats
         float? examinedPveDamage = null;
         float? examinedPvpDamage = null;
         Dictionary<string, float>? examinedDamageTypes = null;
         Dictionary<string, float>? examinedPveDamageTypes = null;
-        float? examinedFalloff = null;
         string? examinedCartridgeId = null;
         var examinedGunProtoId = MetaData(target).EntityPrototype?.ID;
         if (examinedGunProtoId != null && _prototypeManager.TryIndex<EntityPrototype>(examinedGunProtoId, out var examinedGunProto))
         {
-            // Get PvE damage (projectile class 0)
-            if (TryGetProjectileStats(examinedGunProto, 0, out var pveDamage, out _, out _, out var pveDmgTypes, out var falloff, out var pveCartridgeId))
-            {
-                examinedPveDamage = pveDamage;
-                examinedPveDamageTypes = pveDmgTypes;
-                examinedFalloff = falloff;
-                examinedCartridgeId = pveCartridgeId;
-            }
+            // Check if weapon is a shotgun (has BallisticAmmoProviderComponent)
+            var isShotgun = examinedGunProto.TryGetComponent<BallisticAmmoProviderComponent>(out _, _componentFactory);
 
-            // Get PvP damage (projectile class 2)
-            if (TryGetProjectileStats(examinedGunProto, 2, out _, out var pvpDamage, out var damageTypes, out _, out _, out var pvpCartridgeId))
+            if (isShotgun)
             {
-                examinedPvpDamage = pvpDamage;
-                examinedDamageTypes = damageTypes;
-                // Show both cartridge IDs if different
-                if (examinedCartridgeId != pvpCartridgeId && pvpCartridgeId != null)
-                    examinedCartridgeId = $"{examinedCartridgeId} / {pvpCartridgeId}";
+                // Shotguns use cartridges with projectile class 1 for both PvE and PvP
+                if (TryGetProjectileStats(examinedGunProto, 1, out var shotgunDamage, out _, out var shotgunDamageTypes, out var shotgunPveDamageTypes, out var shotgunCartridgeId))
+                {
+                    examinedPveDamage = shotgunDamage;
+                    examinedPvpDamage = shotgunDamage;
+                    examinedDamageTypes = shotgunDamageTypes;
+                    examinedPveDamageTypes = shotgunPveDamageTypes;
+                    examinedCartridgeId = shotgunCartridgeId;
+                }
+            }
+            else
+            {
+                // Other weapons use class 0 for PvE and class 2 for PvP
+                // Get PvE damage (projectile class 0)
+                if (TryGetProjectileStats(examinedGunProto, 0, out var pveDamage, out _, out _, out var pveDmgTypes, out var pveCartridgeId))
+                {
+                    examinedPveDamage = pveDamage;
+                    examinedPveDamageTypes = pveDmgTypes;
+                    examinedCartridgeId = pveCartridgeId;
+                }
+
+                // Get PvP damage (projectile class 2)
+                if (TryGetProjectileStats(examinedGunProto, 2, out _, out var pvpDamage, out var damageTypes, out _, out var pvpCartridgeId))
+                {
+                    examinedPvpDamage = pvpDamage;
+                    examinedDamageTypes = damageTypes;
+                    // Show both cartridge IDs if different
+                    if (examinedCartridgeId != pvpCartridgeId && pvpCartridgeId != null)
+                        examinedCartridgeId = $"{examinedCartridgeId} / {pvpCartridgeId}";
+                }
             }
         }
 
-        // 3. Equipped weapon — всегда применяем wield bonus, если оно wielded
+        // 3. Equipped weapon — always apply wield bonus if wielded
         float? equippedSpread = null;
         float? equippedStability = null;
         float? equippedFireRate = null;
 
         if (equippedGun != null)
         {
-            float eqMinAngle = (float)equippedGun.MinAngle.Degrees;
-            float eqMaxAngle = (float)equippedGun.MaxAngle.Degrees;
-            float eqAngleDecay = (float)equippedGun.AngleDecay.Degrees;
-            float eqAngleIncrease = (float)equippedGun.AngleIncrease.Degrees;
-
+            EntityPrototype? equippedProto = null;
             if (isEquippedWielded)
             {
                 var equippedProtoId = MetaData(equippedGun.Owner).EntityPrototype?.ID;
-                if (equippedProtoId != null && _prototypeManager.TryIndex<EntityPrototype>(equippedProtoId, out var eqProto))
-                {
-                    if (eqProto.TryGetComponent<GunWieldBonusComponent>(out var wieldBonus, _componentFactory))
-                    {
-                        eqMinAngle = Math.Max(0, eqMinAngle + (float)wieldBonus.MinAngle.Degrees);
-                        eqMaxAngle = Math.Max(0, eqMaxAngle + (float)wieldBonus.MaxAngle.Degrees);
-                        eqAngleDecay += (float)wieldBonus.AngleDecay.Degrees;
-                        eqAngleIncrease += (float)wieldBonus.AngleIncrease.Degrees;
-                    }
-                }
+                if (equippedProtoId != null)
+                    _prototypeManager.TryIndex<EntityPrototype>(equippedProtoId, out equippedProto);
             }
 
-            equippedSpread = CalcSpread(eqMinAngle, eqMaxAngle);
-            equippedStability = CalcStability(eqAngleDecay, eqAngleIncrease);
-            equippedFireRate = equippedGun.FireRate;
+            var (spread, stability, fireRate) = CalculateWeaponStats(equippedGun, equippedProto, isEquippedWielded);
+            equippedSpread = spread;
+            equippedStability = stability;
+            equippedFireRate = fireRate;
         }
 
         // Get equipped weapon prototype for projectile stats
@@ -211,30 +216,47 @@ public sealed class StatsExamineSystem : EntitySystem
         float? equippedPvpDamage = null;
         Dictionary<string, float>? equippedDamageTypes = null;
         Dictionary<string, float>? equippedPveDamageTypes = null;
-        float? equippedFalloff = null;
         string? equippedCartridgeId = null;
         if (equippedGun != null)
         {
             var equippedGunProtoId = MetaData(equippedGun.Owner).EntityPrototype?.ID;
             if (equippedGunProtoId != null && _prototypeManager.TryIndex<EntityPrototype>(equippedGunProtoId, out var equippedGunProto))
             {
-                // Get PvE damage (projectile class 0)
-                if (TryGetProjectileStats(equippedGunProto, 0, out var pveDamage, out _, out _, out var pveDmgTypes, out var falloff, out var pveCartridgeId))
-                {
-                    equippedPveDamage = pveDamage;
-                    equippedPveDamageTypes = pveDmgTypes;
-                    equippedFalloff = falloff;
-                    equippedCartridgeId = pveCartridgeId;
-                }
+                // Check if equipped weapon is a shotgun
+                var isEquippedShotgun = equippedGunProto.TryGetComponent<BallisticAmmoProviderComponent>(out _, _componentFactory);
 
-                // Get PvP damage (projectile class 2)
-                if (TryGetProjectileStats(equippedGunProto, 2, out _, out var pvpDamage, out var damageTypes, out _, out _, out var pvpCartridgeId))
+                if (isEquippedShotgun)
                 {
-                    equippedPvpDamage = pvpDamage;
-                    equippedDamageTypes = damageTypes;
-                    // Show both cartridge IDs if different
-                    if (equippedCartridgeId != pvpCartridgeId && pvpCartridgeId != null)
-                        equippedCartridgeId = $"{equippedCartridgeId} / {pvpCartridgeId}";
+                    // Shotguns use cartridges with projectile class 1 for both PvE and PvP
+                    if (TryGetProjectileStats(equippedGunProto, 1, out var shotgunDamage, out _, out var shotgunDamageTypes, out var shotgunPveDamageTypes, out var shotgunCartridgeId))
+                    {
+                        equippedPveDamage = shotgunDamage;
+                        equippedPvpDamage = shotgunDamage;
+                        equippedDamageTypes = shotgunDamageTypes;
+                        equippedPveDamageTypes = shotgunPveDamageTypes;
+                        equippedCartridgeId = shotgunCartridgeId;
+                    }
+                }
+                else
+                {
+                    // Other weapons use class 0 for PvE and class 2 for PvP
+                    // Get PvE damage (projectile class 0)
+                    if (TryGetProjectileStats(equippedGunProto, 0, out var pveDamage, out _, out _, out var pveDmgTypes, out var pveCartridgeId))
+                    {
+                        equippedPveDamage = pveDamage;
+                        equippedPveDamageTypes = pveDmgTypes;
+                        equippedCartridgeId = pveCartridgeId;
+                    }
+
+                    // Get PvP damage (projectile class 2)
+                    if (TryGetProjectileStats(equippedGunProto, 2, out _, out var pvpDamage, out var damageTypes, out _, out var pvpCartridgeId))
+                    {
+                        equippedPvpDamage = pvpDamage;
+                        equippedDamageTypes = damageTypes;
+                        // Show both cartridge IDs if different
+                        if (equippedCartridgeId != pvpCartridgeId && pvpCartridgeId != null)
+                            equippedCartridgeId = $"{equippedCartridgeId} / {pvpCartridgeId}";
+                    }
                 }
             }
         }
@@ -243,12 +265,13 @@ public sealed class StatsExamineSystem : EntitySystem
         var examinedWeaponName = MetaData(target).EntityName;
         var equippedWeaponName = equippedGun != null ? MetaData(equippedGun.Owner).EntityName : null;
 
-        _window.UpdateStats(new DamageModifierSet(), null, null, null, null, null,
+        _window.UpdateStats(new StatsExamineWindow.WeaponComparisonStats(
+            new DamageModifierSet(), null, null, null, null, null,
             examinedSpread, examinedStability, equippedSpread, equippedStability,
             examinedFireRate, equippedFireRate,
-            examinedPveDamage, examinedPvpDamage, examinedDamageTypes, examinedFalloff, examinedCartridgeId, examinedPveDamageTypes,
-            equippedPveDamage, equippedPvpDamage, equippedDamageTypes, equippedFalloff, equippedCartridgeId, equippedPveDamageTypes,
-            examinedWeaponName, equippedWeaponName);
+            examinedPveDamage, examinedPvpDamage, examinedDamageTypes, examinedCartridgeId, examinedPveDamageTypes,
+            equippedPveDamage, equippedPvpDamage, equippedDamageTypes, equippedCartridgeId, equippedPveDamageTypes,
+            examinedWeaponName, equippedWeaponName));
     }
 
     /// <summary>
@@ -290,7 +313,7 @@ public sealed class StatsExamineSystem : EntitySystem
         if (!_prototypeManager.TryIndex<EntityPrototype>(prototypeId, out var prototype))
             return;
 
-        // 1. Проверяем wielded-состояние equipped оружия (один раз на весь метод)
+        // 1. Check equipped weapon wielded state (once for the entire method)
         var isEquippedWielded = false;
         if (TryGetEquippedWeaponStats(user, out var equippedGunWieldCheck) && equippedGunWieldCheck != null)
         {
@@ -320,7 +343,7 @@ public sealed class StatsExamineSystem : EntitySystem
             slotFlags = clothing.Slots;
         }
 
-        // 2. Weapon stats для examined (прототип)
+        // 2. Weapon stats for examined (prototype)
         float? examinedSpread = null;
         float? examinedStability = null;
         float? examinedFireRate = null;
@@ -328,45 +351,50 @@ public sealed class StatsExamineSystem : EntitySystem
         float? examinedPvpDamage = null;
         Dictionary<string, float>? examinedDamageTypes = null;
         Dictionary<string, float>? examinedPveDamageTypes = null;
-        float? examinedFalloff = null;
         string? examinedCartridgeId = null;
+
+        // Check if weapon is a shotgun (has BallisticAmmoProviderComponent)
+        var isShotgun = prototype.TryGetComponent<BallisticAmmoProviderComponent>(out _, _componentFactory);
+
         if (prototype.TryGetComponent<GunComponent>(out var gun, _componentFactory))
         {
-            float examinedMinAngle = (float)gun.MinAngle.Degrees;
-            float examinedMaxAngle = (float)gun.MaxAngle.Degrees;
-            float examinedAngleDecay = (float)gun.AngleDecay.Degrees;
-            float examinedAngleIncrease = (float)gun.AngleIncrease.Degrees;
+            var (spread, stability, fireRate) = CalculateWeaponStats(gun, prototype, isEquippedWielded);
+            examinedSpread = spread;
+            examinedStability = stability;
+            examinedFireRate = fireRate;
 
-            // Применяем wield bonus к examined, если equipped сейчас wielded
-            if (isEquippedWielded && prototype.TryGetComponent<GunWieldBonusComponent>(out var wieldBonus, _componentFactory))
+            if (isShotgun)
             {
-                examinedMinAngle = Math.Max(0, examinedMinAngle + (float)wieldBonus.MinAngle.Degrees);
-                examinedMaxAngle = Math.Max(0, examinedMaxAngle + (float)wieldBonus.MaxAngle.Degrees);
-                examinedAngleDecay += (float)wieldBonus.AngleDecay.Degrees;
-                examinedAngleIncrease += (float)wieldBonus.AngleIncrease.Degrees;
+                // Shotguns use cartridges with projectile class 1 for both PvE and PvP
+                if (TryGetProjectileStats(prototype, 1, out var shotgunDamage, out _, out var shotgunDamageTypes, out var shotgunPveDamageTypes, out var shotgunCartridgeId))
+                {
+                    examinedPveDamage = shotgunDamage;
+                    examinedPvpDamage = shotgunDamage;
+                    examinedDamageTypes = shotgunDamageTypes;
+                    examinedPveDamageTypes = shotgunPveDamageTypes;
+                    examinedCartridgeId = shotgunCartridgeId;
+                }
             }
-
-            examinedSpread = CalcSpread(examinedMinAngle, examinedMaxAngle);
-            examinedStability = CalcStability(examinedAngleDecay, examinedAngleIncrease);
-            examinedFireRate = gun.FireRate;
-
-            // Get PvE damage (projectile class 0)
-            if (TryGetProjectileStats(prototype, 0, out var pveDamage, out _, out _, out var pveDmgTypes, out var falloff, out var pveCartridgeId))
+            else
             {
-                examinedPveDamage = pveDamage;
-                examinedPveDamageTypes = pveDmgTypes;
-                examinedFalloff = falloff;
-                examinedCartridgeId = pveCartridgeId;
-            }
+                // Other weapons use class 0 for PvE and class 2 for PvP
+                // Get PvE damage (projectile class 0)
+                if (TryGetProjectileStats(prototype, 0, out var pveDamage, out _, out _, out var pveDmgTypes, out var pveCartridgeId))
+                {
+                    examinedPveDamage = pveDamage;
+                    examinedPveDamageTypes = pveDmgTypes;
+                    examinedCartridgeId = pveCartridgeId;
+                }
 
-            // Get PvP damage (projectile class 2)
-            if (TryGetProjectileStats(prototype, 2, out _, out var pvpDamage, out var damageTypes, out _, out _, out var pvpCartridgeId))
-            {
-                examinedPvpDamage = pvpDamage;
-                examinedDamageTypes = damageTypes;
-                // Show both cartridge IDs if different
-                if (examinedCartridgeId != pvpCartridgeId && pvpCartridgeId != null)
-                    examinedCartridgeId = $"{examinedCartridgeId} / {pvpCartridgeId}";
+                // Get PvP damage (projectile class 2)
+                if (TryGetProjectileStats(prototype, 2, out _, out var pvpDamage, out var damageTypes, out _, out var pvpCartridgeId))
+                {
+                    examinedPvpDamage = pvpDamage;
+                    examinedDamageTypes = damageTypes;
+                    // Show both cartridge IDs if different
+                    if (examinedCartridgeId != pvpCartridgeId && pvpCartridgeId != null)
+                        examinedCartridgeId = $"{examinedCartridgeId} / {pvpCartridgeId}";
+                }
             }
         }
 
@@ -385,7 +413,7 @@ public sealed class StatsExamineSystem : EntitySystem
             }
         }
 
-        // 3. Equipped weapon stats (с wield bonus если нужно)
+        // 3. Equipped weapon stats (with wield bonus if needed)
         float? equippedSpread = null;
         float? equippedStability = null;
         float? equippedFireRate = null;
@@ -393,55 +421,61 @@ public sealed class StatsExamineSystem : EntitySystem
         float? equippedPvpDamage = null;
         Dictionary<string, float>? equippedDamageTypes = null;
         Dictionary<string, float>? equippedPveDamageTypes = null;
-        float? equippedFalloff = null;
         string? equippedCartridgeId = null;
         if (TryGetEquippedWeaponStats(user, out var equippedGun))
         {
-            float eqMinAngle = (float)equippedGun!.MinAngle.Degrees;
-            float eqMaxAngle = (float)equippedGun.MaxAngle.Degrees;
-            float eqAngleDecay = (float)equippedGun.AngleDecay.Degrees;
-            float eqAngleIncrease = (float)equippedGun.AngleIncrease.Degrees;
-
+            EntityPrototype? equippedProto = null;
             if (isEquippedWielded)
             {
-                var equippedProtoId = MetaData(equippedGun.Owner).EntityPrototype?.ID;
-                if (equippedProtoId != null && _prototypeManager.TryIndex<EntityPrototype>(equippedProtoId, out var eqProto))
-                {
-                    if (eqProto.TryGetComponent<GunWieldBonusComponent>(out var wieldBonus, _componentFactory))
-                    {
-                        eqMinAngle = Math.Max(0, eqMinAngle + (float)wieldBonus.MinAngle.Degrees);
-                        eqMaxAngle = Math.Max(0, eqMaxAngle + (float)wieldBonus.MaxAngle.Degrees);
-                        eqAngleDecay += (float)wieldBonus.AngleDecay.Degrees;
-                        eqAngleIncrease += (float)wieldBonus.AngleIncrease.Degrees;
-                    }
-                }
+                var equippedProtoId = MetaData(equippedGun!.Owner).EntityPrototype?.ID;
+                if (equippedProtoId != null)
+                    _prototypeManager.TryIndex<EntityPrototype>(equippedProtoId, out equippedProto);
             }
 
-            equippedSpread = CalcSpread(eqMinAngle, eqMaxAngle);
-            equippedStability = CalcStability(eqAngleDecay, eqAngleIncrease);
-            equippedFireRate = equippedGun.FireRate;
+            var (spread, stability, fireRate) = CalculateWeaponStats(equippedGun!, equippedProto, isEquippedWielded);
+            equippedSpread = spread;
+            equippedStability = stability;
+            equippedFireRate = fireRate;
 
             // Get equipped weapon prototype for projectile stats
-            var equippedGunProtoId = MetaData(equippedGun.Owner).EntityPrototype?.ID;
+            var equippedGunProtoId = MetaData(equippedGun!.Owner).EntityPrototype?.ID;
             if (equippedGunProtoId != null && _prototypeManager.TryIndex<EntityPrototype>(equippedGunProtoId, out var equippedGunProto))
             {
-                // Get PvE damage (projectile class 0)
-                if (TryGetProjectileStats(equippedGunProto, 0, out var pveDamage, out _, out _, out var pveDmgTypes, out var falloff, out var pveCartridgeId))
-                {
-                    equippedPveDamage = pveDamage;
-                    equippedPveDamageTypes = pveDmgTypes;
-                    equippedFalloff = falloff;
-                    equippedCartridgeId = pveCartridgeId;
-                }
+                // Check if equipped weapon is a shotgun
+                var isEquippedShotgun = equippedGunProto.TryGetComponent<BallisticAmmoProviderComponent>(out _, _componentFactory);
 
-                // Get PvP damage (projectile class 2)
-                if (TryGetProjectileStats(equippedGunProto, 2, out _, out var pvpDamage, out var damageTypes, out _, out _, out var pvpCartridgeId))
+                if (isEquippedShotgun)
                 {
-                    equippedPvpDamage = pvpDamage;
-                    equippedDamageTypes = damageTypes;
-                    // Show both cartridge IDs if different
-                    if (equippedCartridgeId != pvpCartridgeId && pvpCartridgeId != null)
-                        equippedCartridgeId = $"{equippedCartridgeId} / {pvpCartridgeId}";
+                    // Shotguns use cartridges with projectile class 1 for both PvE and PvP
+                    if (TryGetProjectileStats(equippedGunProto, 1, out var shotgunDamage, out _, out var shotgunDamageTypes, out var shotgunPveDamageTypes, out var shotgunCartridgeId))
+                    {
+                        equippedPveDamage = shotgunDamage;
+                        equippedPvpDamage = shotgunDamage;
+                        equippedDamageTypes = shotgunDamageTypes;
+                        equippedPveDamageTypes = shotgunPveDamageTypes;
+                        equippedCartridgeId = shotgunCartridgeId;
+                    }
+                }
+                else
+                {
+                    // Other weapons use class 0 for PvE and class 2 for PvP
+                    // Get PvE damage (projectile class 0)
+                    if (TryGetProjectileStats(equippedGunProto, 0, out var pveDamage, out _, out _, out var pveDmgTypes, out var pveCartridgeId))
+                    {
+                        equippedPveDamage = pveDamage;
+                        equippedPveDamageTypes = pveDmgTypes;
+                        equippedCartridgeId = pveCartridgeId;
+                    }
+
+                    // Get PvP damage (projectile class 2)
+                    if (TryGetProjectileStats(equippedGunProto, 2, out _, out var pvpDamage, out var damageTypes, out _, out var pvpCartridgeId))
+                    {
+                        equippedPvpDamage = pvpDamage;
+                        equippedDamageTypes = damageTypes;
+                        // Show both cartridge IDs if different
+                        if (equippedCartridgeId != pvpCartridgeId && pvpCartridgeId != null)
+                            equippedCartridgeId = $"{equippedCartridgeId} / {pvpCartridgeId}";
+                    }
                 }
             }
         }
@@ -450,13 +484,14 @@ public sealed class StatsExamineSystem : EntitySystem
         var examinedWeaponName = prototype.Name;
         var equippedWeaponName = equippedGun != null ? MetaData(equippedGun.Owner).EntityName : null;
 
-        _window.UpdateStats(examinedModifiers ?? new DamageModifierSet(), examinedArmorClass, examinedReflectProb,
+        _window.UpdateStats(new StatsExamineWindow.WeaponComparisonStats(
+            examinedModifiers ?? new DamageModifierSet(), examinedArmorClass, examinedReflectProb,
             equippedModifiers, equippedArmorClass, equippedReflectProb,
             examinedSpread, examinedStability, equippedSpread, equippedStability,
             examinedFireRate, equippedFireRate,
-            examinedPveDamage, examinedPvpDamage, examinedDamageTypes, examinedFalloff, examinedCartridgeId, examinedPveDamageTypes,
-            equippedPveDamage, equippedPvpDamage, equippedDamageTypes, equippedFalloff, equippedCartridgeId, equippedPveDamageTypes,
-            examinedWeaponName, equippedWeaponName);
+            examinedPveDamage, examinedPvpDamage, examinedDamageTypes, examinedCartridgeId, examinedPveDamageTypes,
+            equippedPveDamage, equippedPvpDamage, equippedDamageTypes, equippedCartridgeId, equippedPveDamageTypes,
+            examinedWeaponName, equippedWeaponName));
     }
 
     /// <summary>
@@ -530,136 +565,72 @@ public sealed class StatsExamineSystem : EntitySystem
     }
 
     /// <summary>
+    /// Calculates weapon stats (spread, stability, fire rate) with optional wield bonus application.
+    /// </summary>
+    private (float spread, float stability, float fireRate) CalculateWeaponStats(
+        GunComponent gun,
+        EntityPrototype? proto,
+        bool applyWieldBonus)
+    {
+        float minAngle = (float)gun.MinAngle.Degrees;
+        float maxAngle = (float)gun.MaxAngle.Degrees;
+        float angleDecay = (float)gun.AngleDecay.Degrees;
+        float angleIncrease = (float)gun.AngleIncrease.Degrees;
+
+        if (applyWieldBonus && proto != null)
+        {
+            if (proto.TryGetComponent<GunWieldBonusComponent>(out var wieldBonus, _componentFactory))
+            {
+                minAngle = Math.Max(0, minAngle + (float)wieldBonus.MinAngle.Degrees);
+                maxAngle = Math.Max(0, maxAngle + (float)wieldBonus.MaxAngle.Degrees);
+                angleDecay += (float)wieldBonus.AngleDecay.Degrees;
+                angleIncrease += (float)wieldBonus.AngleIncrease.Degrees;
+            }
+        }
+
+        var spread = CalcSpread(minAngle, maxAngle);
+        var fireRate = gun.FireRate;
+        var fireDelay = fireRate > 0 ? 1f / fireRate : 0f;
+        var stability = CalcStability(angleDecay, angleIncrease, fireDelay);
+
+        return (spread, stability, fireRate);
+    }
+
+    /// <summary>
     /// Calculates spread percentage from min and max angle.
-    /// Spread = 100 - (avgAngle / 95 * 100), clamped to 0-100.
+    /// Spread = 100 - (avgAngle / SpreadReferenceAngle * 100), clamped to 0-100.
     /// Uses average of MinAngle and MaxAngle for more honest representation.
-    /// Uses 95 as reference to ensure minAngle has proper impact on the score.
     /// Lower angle = better accuracy (less spread).
     /// No guard clause needed since angles are always positive.
     /// </summary>
     private static float CalcSpread(float minAngle, float maxAngle)
     {
         var avg = (minAngle + maxAngle) / 2f;
-        return Math.Clamp(100f - (avg / 95f * 100f), 0f, 100f);
+        return Math.Clamp(100f - (avg / SpreadReferenceAngle * 100f), 0f, 100f);
     }
 
     /// <summary>
-    /// Gets projectile stats (damage and falloff) from a gun prototype.
+    /// Gets projectile stats (damage) from a gun prototype.
     /// Stalker weapons use three ammo systems:
     /// - BallisticAmmoProvider (shotguns - direct cartridge loading)
     /// - ItemSlots with gun_magazine (rifles - magazine-based)
     /// - RevolverAmmoProvider (revolvers - cylinder-based)
     /// </summary>
-    private bool TryGetProjectileStats(EntityPrototype gunProto, int? projectileClass, out float pveDamage, out float pvpDamage, out Dictionary<string, float> damageTypes, out Dictionary<string, float> pveDamageTypes, out float falloffMultiplier, out string cartridgeId)
+    private bool TryGetProjectileStats(EntityPrototype gunProto, int? projectileClass, out float pveDamage, out float pvpDamage, out Dictionary<string, float> damageTypes, out Dictionary<string, float> pveDamageTypes, out string cartridgeId)
     {
         pveDamage = 0f;
         pvpDamage = 0f;
         damageTypes = new Dictionary<string, float>();
         pveDamageTypes = new Dictionary<string, float>();
-        falloffMultiplier = 1f;
         cartridgeId = string.Empty;
 
-        EntityPrototype? cartridgeProto = null;
-
-        // Try BallisticAmmoProvider (shotguns)
-        if (gunProto.TryGetComponent<BallisticAmmoProviderComponent>(out var ballisticProvider, _componentFactory))
-        {
-            if (ballisticProvider.Proto == null)
-            {
-                cartridgeProto = FindCartridgeFromWhitelist(ballisticProvider.Whitelist, projectileClass);
-                if (cartridgeProto == null)
-                    return false;
-            }
-            else
-            {
-                if (!_prototypeManager.TryIndex<EntityPrototype>(ballisticProvider.Proto, out cartridgeProto))
-                    return false;
-
-                // Check if it's actually a cartridge (has CartridgeAmmoComponent)
-                // If not, it might be a projectile directly, so use whitelist instead
-                if (!cartridgeProto.TryGetComponent<CartridgeAmmoComponent>(out _, _componentFactory))
-                {
-                    cartridgeProto = FindCartridgeFromWhitelist(ballisticProvider.Whitelist, projectileClass);
-                    if (cartridgeProto == null)
-                        return false;
-                }
-            }
-        }
-        // Try RevolverAmmoProvider (revolvers)
-        else if (gunProto.TryGetComponent<RevolverAmmoProviderComponent>(out var revolverProvider, _componentFactory))
-        {
-            if (revolverProvider.FillPrototype == null)
-            {
-                cartridgeProto = FindCartridgeFromWhitelist(revolverProvider.Whitelist, projectileClass);
-                if (cartridgeProto == null)
-                    return false;
-            }
-            else
-            {
-                if (!_prototypeManager.TryIndex<EntityPrototype>(revolverProvider.FillPrototype, out cartridgeProto))
-                    return false;
-
-                // Check if it's actually a cartridge (has CartridgeAmmoComponent)
-                // If not, it might be a projectile directly, so use whitelist instead
-                if (cartridgeProto != null && !cartridgeProto.TryGetComponent<CartridgeAmmoComponent>(out _, _componentFactory))
-                {
-                    cartridgeProto = FindCartridgeFromWhitelist(revolverProvider.Whitelist, projectileClass);
-                    if (cartridgeProto == null)
-                        return false;
-                }
-            }
-        }
-        // Try ItemSlots with gun_magazine (rifles with magazines)
-        else if (gunProto.TryGetComponent<ItemSlotsComponent>(out var gunItemSlots, _componentFactory))
-        {
-            EntityPrototype? magazineProto = null;
-            foreach (var (slotName, slot) in gunItemSlots.Slots)
-            {
-                if (slotName == "gun_magazine" && slot.StartingItem != null)
-                {
-                    if (_prototypeManager.TryIndex<EntityPrototype>(slot.StartingItem, out var magProto))
-                    {
-                        magazineProto = magProto;
-                        break;
-                    }
-                }
-            }
-
-            if (magazineProto == null)
-                return false;
-
-            // Get cartridge from magazine (magazines have BallisticAmmoProvider)
-            if (!magazineProto.TryGetComponent<BallisticAmmoProviderComponent>(out var magBallisticProvider, _componentFactory))
-                return false;
-
-            if (magBallisticProvider.Proto == null)
-            {
-                cartridgeProto = FindCartridgeFromWhitelist(magBallisticProvider.Whitelist, projectileClass);
-                if (cartridgeProto == null)
-                    return false;
-            }
-            else
-            {
-                if (!_prototypeManager.TryIndex<EntityPrototype>(magBallisticProvider.Proto, out cartridgeProto))
-                    return false;
-
-                // Check if it's actually a cartridge (has CartridgeAmmoComponent)
-                // If not, it might be a projectile directly, so use whitelist instead
-                if (!cartridgeProto.TryGetComponent<CartridgeAmmoComponent>(out _, _componentFactory))
-                {
-                    cartridgeProto = FindCartridgeFromWhitelist(magBallisticProvider.Whitelist, projectileClass);
-                    if (cartridgeProto == null)
-                        return false;
-                }
-            }
-        }
-        else
-        {
+        // Find cartridge prototype from gun
+        var cartridgeProto = FindCartridgeFromGunProto(gunProto, projectileClass);
+        if (cartridgeProto == null)
             return false;
-        }
 
         // Get projectile from cartridge
-        if (cartridgeProto == null || !cartridgeProto.TryGetComponent<CartridgeAmmoComponent>(out var cartridge, _componentFactory))
+        if (!cartridgeProto.TryGetComponent<CartridgeAmmoComponent>(out var cartridge, _componentFactory))
             return false;
 
         // Only set cartridgeId if it's actually a cartridge (not a projectile)
@@ -681,8 +652,116 @@ public sealed class StatsExamineSystem : EntitySystem
             }
         }
 
-        // Calculate PvE damage (with Mutant), PvP damage (without Mutant), and individual damage types
-        if (damageProjectileProto.TryGetComponent<ProjectileComponent>(out var projectile, _componentFactory))
+        // Calculate damage from projectile
+        (pveDamage, pvpDamage, damageTypes, pveDamageTypes) = CalculateDamageFromProjectile(damageProjectileProto, pelletCount);
+
+        // Return true if we found a projectile (even if damage is 0 or only Mutant)
+        return projectileProto.TryGetComponent<ProjectileComponent>(out _, _componentFactory);
+    }
+
+    /// <summary>
+    /// Finds cartridge prototype from gun prototype based on ammo provider type.
+    /// Handles BallisticAmmoProvider (shotguns), RevolverAmmoProvider (revolvers), and ItemSlots (rifles with magazines).
+    /// </summary>
+    private EntityPrototype? FindCartridgeFromGunProto(EntityPrototype gunProto, int? projectileClass)
+    {
+        EntityPrototype? cartridgeProto = null;
+
+        // Try BallisticAmmoProvider (shotguns)
+        if (gunProto.TryGetComponent<BallisticAmmoProviderComponent>(out var ballisticProvider, _componentFactory))
+        {
+            if (ballisticProvider.Proto == null)
+            {
+                cartridgeProto = FindCartridgeFromWhitelist(ballisticProvider.Whitelist, projectileClass);
+            }
+            else
+            {
+                if (!_prototypeManager.TryIndex<EntityPrototype>(ballisticProvider.Proto, out cartridgeProto))
+                    return null;
+
+                // Check if it's actually a cartridge (has CartridgeAmmoComponent)
+                // If not, it might be a projectile directly, so use whitelist instead
+                if (!cartridgeProto.TryGetComponent<CartridgeAmmoComponent>(out _, _componentFactory))
+                {
+                    cartridgeProto = FindCartridgeFromWhitelist(ballisticProvider.Whitelist, projectileClass);
+                }
+            }
+        }
+        // Try RevolverAmmoProvider (revolvers)
+        else if (gunProto.TryGetComponent<RevolverAmmoProviderComponent>(out var revolverProvider, _componentFactory))
+        {
+            if (revolverProvider.FillPrototype == null)
+            {
+                cartridgeProto = FindCartridgeFromWhitelist(revolverProvider.Whitelist, projectileClass);
+            }
+            else
+            {
+                if (!_prototypeManager.TryIndex<EntityPrototype>(revolverProvider.FillPrototype, out cartridgeProto))
+                    return null;
+
+                // Check if it's actually a cartridge (has CartridgeAmmoComponent)
+                // If not, it might be a projectile directly, so use whitelist instead
+                if (cartridgeProto != null && !cartridgeProto.TryGetComponent<CartridgeAmmoComponent>(out _, _componentFactory))
+                {
+                    cartridgeProto = FindCartridgeFromWhitelist(revolverProvider.Whitelist, projectileClass);
+                }
+            }
+        }
+        // Try ItemSlots with gun_magazine (rifles with magazines)
+        else if (gunProto.TryGetComponent<ItemSlotsComponent>(out var gunItemSlots, _componentFactory))
+        {
+            EntityPrototype? magazineProto = null;
+            foreach (var (slotName, slot) in gunItemSlots.Slots)
+            {
+                if (slotName == "gun_magazine" && slot.StartingItem != null)
+                {
+                    if (_prototypeManager.TryIndex<EntityPrototype>(slot.StartingItem, out var magProto))
+                    {
+                        magazineProto = magProto;
+                        break;
+                    }
+                }
+            }
+
+            if (magazineProto == null)
+                return null;
+
+            // Get cartridge from magazine (magazines have BallisticAmmoProvider)
+            if (!magazineProto.TryGetComponent<BallisticAmmoProviderComponent>(out var magBallisticProvider, _componentFactory))
+                return null;
+
+            if (magBallisticProvider.Proto == null)
+            {
+                cartridgeProto = FindCartridgeFromWhitelist(magBallisticProvider.Whitelist, projectileClass);
+            }
+            else
+            {
+                if (!_prototypeManager.TryIndex<EntityPrototype>(magBallisticProvider.Proto, out cartridgeProto))
+                    return null;
+
+                // Check if it's actually a cartridge (has CartridgeAmmoComponent)
+                // If not, it might be a projectile directly, so use whitelist instead
+                if (!cartridgeProto.TryGetComponent<CartridgeAmmoComponent>(out _, _componentFactory))
+                {
+                    cartridgeProto = FindCartridgeFromWhitelist(magBallisticProvider.Whitelist, projectileClass);
+                }
+            }
+        }
+
+        return cartridgeProto;
+    }
+
+    /// <summary>
+    /// Calculates PvE and PvP damage from projectile prototype, handling pellet scaling for shotguns.
+    /// </summary>
+    private (float pveDamage, float pvpDamage, Dictionary<string, float> damageTypes, Dictionary<string, float> pveDamageTypes) CalculateDamageFromProjectile(EntityPrototype projectileProto, int pelletCount)
+    {
+        float pveDamage = 0f;
+        float pvpDamage = 0f;
+        var damageTypes = new Dictionary<string, float>();
+        var pveDamageTypes = new Dictionary<string, float>();
+
+        if (projectileProto.TryGetComponent<ProjectileComponent>(out var projectile, _componentFactory))
         {
             foreach (var (damageType, value) in projectile.Damage.DamageDict)
             {
@@ -713,14 +792,7 @@ public sealed class StatsExamineSystem : EntitySystem
             pveDamageTypes[key] *= pelletCount;
         }
 
-        // Get falloff multiplier from weapon
-        if (gunProto.TryGetComponent<STWeaponDamageFalloffComponent>(out var weaponFalloff, _componentFactory))
-        {
-            falloffMultiplier = weaponFalloff.FalloffMultiplier;
-        }
-
-        // Return true if we found a projectile (even if damage is 0 or only Mutant)
-        return projectileProto.TryGetComponent<ProjectileComponent>(out _, _componentFactory);
+        return (pveDamage, pvpDamage, damageTypes, pveDamageTypes);
     }
 
     /// <summary>
@@ -757,24 +829,8 @@ public sealed class StatsExamineSystem : EntitySystem
     }
 
     /// <summary>
-    /// Checks if a cartridge's projectile is an allowed shotgun pellet type.
-    /// </summary>
-    private bool IsAllowedShotgunPellet(EntProtoId protoId)
-    {
-        if (!_prototypeManager.TryIndex<EntityPrototype>(protoId, out var projectileProto))
-            return true;
-
-        if (!projectileProto.TryGetComponent<ProjectileSpreadComponent>(out var spread, _componentFactory))
-            return true;
-
-        var proto = spread.Proto;
-        return proto == "STPellet7mm" || proto == "STPellet65mm" || proto == "STPellet85mm";
-    }
-
-    /// <summary>
-    /// Finds a cartridge prototype that matches the given whitelist tags and projectile class.
-    /// If projectile class is specified, first tries to find exact match.
-    /// If no exact match found, tries cartridges without a class (null).
+    /// Finds cartridge prototype from whitelist based on projectile class.
+    /// First tries exact projectile class match, then null class, then fallback for PvP.
     /// If projectile class is 2 (PvP) and still no match, falls back to any cartridge except class 0.
     /// </summary>
     private EntityPrototype? FindCartridgeFromWhitelist(EntityWhitelist? whitelist, int? projectileClass = null)
@@ -784,7 +840,7 @@ public sealed class StatsExamineSystem : EntitySystem
         // First pass: try to find exact projectile class match
         if (projectileClass.HasValue)
         {
-            var exactMatches = allCartridges
+            var exactMatch = allCartridges
                 .Where(x => MatchesWhitelist(x.proto, whitelist))
                 .Where(x =>
                 {
@@ -798,23 +854,17 @@ public sealed class StatsExamineSystem : EntitySystem
                     if (projectile.ProjectileClass != null && projectile.ProjectileClass != projectileClass.Value)
                         return false;
 
-                    // Shotgun pellet filter: only allow 7mm, 6mm, and 8mm pellets for PvP (class 2)
-                    if (projectileClass.Value == 2 && !IsAllowedShotgunPellet(x.cartridge.Prototype))
-                        return false;
-
                     return true;
                 })
-                .ToList();
+                .OrderBy(x => x.proto.ID)
+                .FirstOrDefault();
 
-            if (exactMatches.Count > 0)
-            {
-                exactMatches.Sort((a, b) => string.Compare(a.proto.ID, b.proto.ID, StringComparison.Ordinal));
-                return exactMatches[0].proto;
-            }
+            if (exactMatch.proto != null)
+                return exactMatch.proto;
         }
 
         // Second pass: try cartridges without a projectile class (null)
-        var nullClassMatches = allCartridges
+        var nullClassMatch = allCartridges
             .Where(x => MatchesWhitelist(x.proto, whitelist))
             .Where(x =>
             {
@@ -828,24 +878,18 @@ public sealed class StatsExamineSystem : EntitySystem
                 if (projectile.ProjectileClass != null)
                     return false;
 
-                // Shotgun pellet filter for null class
-                if (!IsAllowedShotgunPellet(x.cartridge.Prototype))
-                    return false;
-
                 return true;
             })
-            .ToList();
+            .OrderBy(x => x.proto.ID)
+            .FirstOrDefault();
 
-        if (nullClassMatches.Count > 0)
-        {
-            nullClassMatches.Sort((a, b) => string.Compare(a.proto.ID, b.proto.ID, StringComparison.Ordinal));
-            return nullClassMatches[0].proto;
-        }
+        if (nullClassMatch.proto != null)
+            return nullClassMatch.proto;
 
         // Third pass: for PvP (class 2), fall back to any cartridge except class 0
         if (projectileClass == 2)
         {
-            var fallbackMatches = allCartridges
+            var fallbackMatch = allCartridges
                 .Where(x => MatchesWhitelist(x.proto, whitelist))
                 .Where(x =>
                 {
@@ -859,33 +903,34 @@ public sealed class StatsExamineSystem : EntitySystem
                     if (projectile.ProjectileClass == 0)
                         return false;
 
-                    // Shotgun pellet filter for fallback
-                    if (!IsAllowedShotgunPellet(x.cartridge.Prototype))
-                        return false;
-
                     return true;
                 })
-                .ToList();
+                .OrderBy(x => x.proto.ID)
+                .FirstOrDefault();
 
-            if (fallbackMatches.Count > 0)
-            {
-                fallbackMatches.Sort((a, b) => string.Compare(a.proto.ID, b.proto.ID, StringComparison.Ordinal));
-                return fallbackMatches[0].proto;
-            }
+            if (fallbackMatch.proto != null)
+                return fallbackMatch.proto;
         }
 
         return null;
     }
 
     /// <summary>
-    /// Calculates stability percentage from angle decay and angle increase.
-    /// Stability = AngleDecay / (AngleIncrease * 10) * 100, clamped to 0-100.
-    /// Guard clause needed: if AngleIncrease is 0 or negative (spread doesn't grow),
-    /// stability is perfect (100%) to avoid division by zero.
+    /// Calculates stability percentage from angle decay, angle increase, and fire rate.
+    /// Stability = (decayPerSecond * fireDelaySeconds) / increasePerShot * 100, clamped to 0-100.
+    /// Accounts for fire rate: higher fire rate = less time between shots = less recovery per cycle = lower stability.
     /// </summary>
-    private static float CalcStability(float decay, float increase)
+    private static float CalcStability(float decayPerSecond, float increasePerShot, float fireDelaySeconds)
     {
-        return increase <= 0f ? 100f : Math.Clamp(decay / (increase * 10f) * 100f, 0f, 100f);
+        if (fireDelaySeconds <= 0f) return 100f;
+        if (increasePerShot <= 0f) return 100f;
+
+        float recoveryPerCycle = decayPerSecond * fireDelaySeconds;
+
+        if (recoveryPerCycle >= increasePerShot)
+            return 100f;
+
+        return Math.Clamp(recoveryPerCycle / increasePerShot * 100f, 0f, 100f);
     }
 
     /// <summary>

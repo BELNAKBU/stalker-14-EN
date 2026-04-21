@@ -20,6 +20,35 @@ namespace Content.Client._Stalker_EN.Examine;
 [GenerateTypedNameReferences]
 public sealed partial class StatsExamineWindow : FancyWindow
 {
+    /// <summary>
+    /// Holds all stats for weapon comparison.
+    /// </summary>
+    public record WeaponComparisonStats(
+        DamageModifierSet ExaminedModifiers,
+        int? ExaminedArmorClass,
+        float? ExaminedReflectProb,
+        DamageModifierSet? EquippedModifiers,
+        int? EquippedArmorClass,
+        float? EquippedReflectProb,
+        float? ExaminedSpread,
+        float? ExaminedStability,
+        float? EquippedSpread,
+        float? EquippedStability,
+        float? ExaminedFireRate,
+        float? EquippedFireRate,
+        float? ExaminedPveDamage,
+        float? ExaminedPvpDamage,
+        Dictionary<string, float>? ExaminedDamageTypes,
+        string? ExaminedCartridgeId,
+        Dictionary<string, float>? ExaminedPveDamageTypes,
+        float? EquippedPveDamage,
+        float? EquippedPvpDamage,
+        Dictionary<string, float>? EquippedDamageTypes,
+        string? EquippedCartridgeId,
+        Dictionary<string, float>? EquippedPveDamageTypes,
+        string? ExaminedWeaponName,
+        string? EquippedWeaponName);
+
     public StatsExamineWindow()
     {
         RobustXamlLoader.Load(this);
@@ -40,6 +69,20 @@ public sealed partial class StatsExamineWindow : FancyWindow
     {
         StatsContainer.Children.Clear();
 
+        AddArmorStatRows(examinedModifiers, equippedModifiers, examinedArmorClass, equippedArmorClass, examinedReflectProb, equippedReflectProb);
+    }
+
+    /// <summary>
+    /// Adds armor stat rows to the display. Helper method to avoid duplication between UpdateArmorStats and UpdateStats.
+    /// </summary>
+    private void AddArmorStatRows(
+        DamageModifierSet examinedModifiers,
+        DamageModifierSet? equippedModifiers,
+        int? examinedArmorClass,
+        int? equippedArmorClass,
+        float? examinedReflectProb,
+        float? equippedReflectProb)
+    {
         // Show coefficient protections
         foreach (var (damageType, coefficient) in examinedModifiers.Coefficients)
         {
@@ -143,40 +186,14 @@ public sealed partial class StatsExamineWindow : FancyWindow
 
     /// <summary>
     /// Updates the stats display with armor and weapon stat comparison data.
-    /// Shows armor class, reflect chance, coefficient protections, flat reductions, fire rate, spread, stability, damage, and falloff.
+    /// Shows armor class, reflect chance, coefficient protections, flat reductions, fire rate, spread, stability, and damage.
     /// </summary>
-    public void UpdateStats(
-        DamageModifierSet examinedModifiers,
-        int? examinedArmorClass,
-        float? examinedReflectProb,
-        DamageModifierSet? equippedModifiers,
-        int? equippedArmorClass,
-        float? equippedReflectProb,
-        float? examinedSpread = null,
-        float? examinedStability = null,
-        float? equippedSpread = null,
-        float? equippedStability = null,
-        float? examinedFireRate = null,
-        float? equippedFireRate = null,
-        float? examinedPveDamage = null,
-        float? examinedPvpDamage = null,
-        Dictionary<string, float>? examinedDamageTypes = null,
-        float? examinedFalloff = null,
-        string? examinedCartridgeId = null,
-        Dictionary<string, float>? examinedPveDamageTypes = null,
-        float? equippedPveDamage = null,
-        float? equippedPvpDamage = null,
-        Dictionary<string, float>? equippedDamageTypes = null,
-        float? equippedFalloff = null,
-        string? equippedCartridgeId = null,
-        Dictionary<string, float>? equippedPveDamageTypes = null,
-        string? examinedWeaponName = null,
-        string? equippedWeaponName = null)
+    public void UpdateStats(WeaponComparisonStats stats)
     {
         StatsContainer.Children.Clear();
 
         // Show comparison label with weapon names
-        if (examinedWeaponName != null || equippedWeaponName != null)
+        if (stats.ExaminedWeaponName != null || stats.EquippedWeaponName != null)
         {
             var comparisonRow = new BoxContainer
             {
@@ -186,7 +203,7 @@ public sealed partial class StatsExamineWindow : FancyWindow
 
             var comparisonLabel = new Label
             {
-                Text = $"{examinedWeaponName ?? "Examined"} vs {equippedWeaponName ?? "Equipped"}",
+                Text = $"{stats.ExaminedWeaponName ?? "Examined"} vs {stats.EquippedWeaponName ?? "Equipped"}",
                 FontColorOverride = new Color(0.5f, 0.5f, 0.5f), // Darker gray for comparison label
                 HorizontalExpand = true,
                 HorizontalAlignment = Control.HAlignment.Center
@@ -197,7 +214,7 @@ public sealed partial class StatsExamineWindow : FancyWindow
         }
 
         // Show cartridge IDs being compared
-        if (examinedCartridgeId != null || equippedCartridgeId != null)
+        if (stats.ExaminedCartridgeId != null || stats.EquippedCartridgeId != null)
         {
             var cartridgeRow = new BoxContainer
             {
@@ -214,7 +231,7 @@ public sealed partial class StatsExamineWindow : FancyWindow
 
             var cartridgeValue = new Label
             {
-                Text = $"{examinedCartridgeId ?? "N/A"} vs {equippedCartridgeId ?? "N/A"}",
+                Text = $"{stats.ExaminedCartridgeId ?? "N/A"} vs {stats.EquippedCartridgeId ?? "N/A"}",
                 FontColorOverride = new Color(1f, 1f, 1f) // White for value
             };
 
@@ -224,163 +241,203 @@ public sealed partial class StatsExamineWindow : FancyWindow
         }
 
         // Show PvE DMG (with Mutant) - raw damage with individual damage types
-        if (examinedPveDamage.HasValue)
+        if (stats.ExaminedPveDamage.HasValue)
         {
-            AddStatRow("PvE DMG (raw)", examinedPveDamage.Value, equippedPveDamage, isFlatReduction: true);
+            AddStatRow("PvE DMG (raw)", stats.ExaminedPveDamage.Value, stats.EquippedPveDamage, isFlatReduction: true);
 
-            // Show individual damage types for PvE
-            if (examinedPveDamageTypes != null)
+            // Show individual damage types for PvE in compact row
+            if (stats.ExaminedPveDamageTypes != null)
             {
-                foreach (var (damageType, value) in examinedPveDamageTypes)
-                {
-                    var shortName = GetDamageTypeShortName(damageType);
-                    float? equippedValue = null;
-                    if (equippedPveDamageTypes != null && equippedPveDamageTypes.TryGetValue(damageType, out var equippedTypeValue))
-                    {
-                        equippedValue = equippedTypeValue;
-                    }
-                    AddStatRow($"  {shortName}", value, equippedValue, isFlatReduction: true);
-                }
+                AddCompactDamageTypesRow(stats.ExaminedPveDamageTypes, stats.EquippedPveDamageTypes, isPve: true);
             }
         }
 
         // Show PvP DMG (without Mutant) - raw damage with individual damage types
-        if (examinedPvpDamage.HasValue && examinedDamageTypes != null)
+        if (stats.ExaminedPvpDamage.HasValue && stats.ExaminedDamageTypes != null)
         {
-            AddStatRow("PvP DMG (raw)", examinedPvpDamage.Value, equippedPvpDamage, isFlatReduction: true);
+            AddStatRow("PvP DMG (raw)", stats.ExaminedPvpDamage.Value, stats.EquippedPvpDamage, isFlatReduction: true);
 
-            // Show individual damage types for PvP
-            foreach (var (damageType, value) in examinedDamageTypes)
-            {
-                var shortName = GetDamageTypeShortName(damageType);
-                float? equippedValue = null;
-                if (equippedDamageTypes != null && equippedDamageTypes.TryGetValue(damageType, out var equippedTypeValue))
-                {
-                    equippedValue = equippedTypeValue;
-                }
-                AddStatRow($"  {shortName}", value, equippedValue, isFlatReduction: true);
-            }
+            // Show individual damage types for PvP in compact row
+            AddCompactDamageTypesRow(stats.ExaminedDamageTypes, stats.EquippedDamageTypes, isPve: false);
         }
 
-        if (examinedFalloff.HasValue)
+        // Show individual stats for Spread, Stability, Fire Rate
+        if (stats.ExaminedFireRate.HasValue)
         {
-            AddStatRow("Falloff", examinedFalloff.Value, equippedFalloff, isFlatReduction: true);
+            AddStatRow("Fire Rate", stats.ExaminedFireRate.Value, stats.EquippedFireRate, isFlatReduction: true);
         }
 
-        if (examinedFireRate.HasValue)
+        if (stats.ExaminedSpread.HasValue)
         {
-            AddStatRow("Fire Rate", examinedFireRate.Value, equippedFireRate, isFlatReduction: true);
+            AddStatRow("Spread", stats.ExaminedSpread.Value, stats.EquippedSpread);
         }
 
-        if (examinedSpread.HasValue)
+        if (stats.ExaminedStability.HasValue)
         {
-            AddStatRow("Spread", examinedSpread.Value, equippedSpread);
-        }
-
-        if (examinedStability.HasValue)
-        {
-            AddStatRow("Stability", examinedStability.Value, equippedStability);
+            AddStatRow("Stability", stats.ExaminedStability.Value, stats.EquippedStability);
         }
 
         // Show Armor Class if available (Stalker-specific) - treat like flat reduction (no progress bar)
-        if (examinedArmorClass.HasValue)
+        if (stats.ExaminedArmorClass.HasValue)
         {
             AddStatRow(
                 $"Armor Class",
-                examinedArmorClass.Value,
-                equippedArmorClass,
+                stats.ExaminedArmorClass.Value,
+                stats.EquippedArmorClass,
                 isFlatReduction: true
             );
         }
-        else if (equippedArmorClass.HasValue)
+        else if (stats.EquippedArmorClass.HasValue)
         {
             // Show armor class from equipped armor as missing (red)
             AddStatRow(
                 $"Armor Class",
                 0,
-                equippedArmorClass,
+                stats.EquippedArmorClass,
                 isFlatReduction: true,
                 isMissing: true
             );
         }
 
         // Show Reflect Chance if available (for helmets)
-        if (examinedReflectProb.HasValue)
+        if (stats.ExaminedReflectProb.HasValue)
         {
             AddStatRow(
                 $"Reflect Chance",
-                examinedReflectProb.Value * 100f,
-                equippedReflectProb.HasValue ? equippedReflectProb.Value * 100f : null,
+                stats.ExaminedReflectProb.Value * 100f,
+                stats.EquippedReflectProb.HasValue ? stats.EquippedReflectProb.Value * 100f : null,
                 isFlatReduction: true
             );
         }
-        else if (equippedReflectProb.HasValue)
+        else if (stats.EquippedReflectProb.HasValue)
         {
             // Show reflect chance from equipped armor as missing (red)
             AddStatRow(
                 $"Reflect Chance",
                 0,
-                equippedReflectProb.Value * 100f,
+                stats.EquippedReflectProb.Value * 100f,
                 isFlatReduction: true,
                 isMissing: true
             );
         }
 
-        // Show coefficient protections
-        foreach (var (damageType, coefficient) in examinedModifiers.Coefficients)
+        // Show armor stats (coefficients, flat reductions, armor class, reflect chance)
+        AddArmorStatRows(stats.ExaminedModifiers, stats.EquippedModifiers, stats.ExaminedArmorClass, stats.EquippedArmorClass, stats.ExaminedReflectProb, stats.EquippedReflectProb);
+    }
+
+    /// <summary>
+    /// Adds a compact horizontal row for damage types (M, B, S, P).
+    /// Displays all damage types with their values next to them in a single line.
+    /// </summary>
+    private void AddCompactDamageTypesRow(Dictionary<string, float> examinedTypes, Dictionary<string, float>? equippedTypes, bool isPve)
+    {
+        var row = new BoxContainer
         {
-            var protectionPercent = (1f - coefficient) * 100f;
-            var statName = Loc.GetString($"armor-damage-type-{damageType.ToLower()}");
+            Orientation = BoxContainer.LayoutOrientation.Horizontal,
+            HorizontalExpand = true,
+            Margin = new Thickness(0, 0, 0, 8)
+        };
 
-            float? equippedProtection = null;
-            if (equippedModifiers?.Coefficients.TryGetValue(damageType, out var equippedCoeff) == true)
-            {
-                equippedProtection = (1f - equippedCoeff) * 100f;
-            }
+        // Order of damage types: Mutant (M), Blunt (B), Slash (S), Piercing (P)
+        var damageTypeOrder = new List<string> { "Mutant", "Blunt", "Slash", "Piercing" };
 
-            AddStatRow(statName, protectionPercent, equippedProtection);
+        // Collect all unique damage types from both examined and equipped
+        var allDamageTypes = new HashSet<string>(examinedTypes.Keys);
+        if (equippedTypes != null)
+        {
+            foreach (var key in equippedTypes.Keys)
+                allDamageTypes.Add(key);
         }
 
-        // Show coefficients that exist in equipped armor but not in examined
-        if (equippedModifiers != null)
+        foreach (var damageType in damageTypeOrder)
         {
-            foreach (var (damageType, coefficient) in equippedModifiers.Coefficients)
+            // For PvP, skip Mutant
+            if (!isPve && damageType == "Mutant")
+                continue;
+
+            // Only show if this damage type exists in either examined or equipped
+            if (!allDamageTypes.Contains(damageType))
+                continue;
+
+            var shortName = GetDamageTypeShortName(damageType);
+            float? examinedValue = examinedTypes.TryGetValue(damageType, out var examinedVal) ? examinedVal : null;
+            float? equippedValue = equippedTypes != null && equippedTypes.TryGetValue(damageType, out var equippedVal) ? equippedVal : null;
+
+            // If damage type exists in equipped but not in examined, show as missing (red)
+            if (examinedValue == null && equippedValue.HasValue)
             {
-                if (!examinedModifiers.Coefficients.ContainsKey(damageType))
-                {
-                    var protectionPercent = (1f - coefficient) * 100f;
-                    var statName = Loc.GetString($"armor-damage-type-{damageType.ToLower()}");
-                    AddStatRow(statName, 0, protectionPercent, isMissing: true);
-                }
+                var container = CreateCompactStatLabel(shortName, 0f, equippedValue, isFlatReduction: true);
+                row.AddChild(container);
+            }
+            // If damage type exists in examined (with or without equipped value)
+            else if (examinedValue.HasValue)
+            {
+                var container = CreateCompactStatLabel(shortName, examinedValue.Value, equippedValue, isFlatReduction: true);
+                row.AddChild(container);
             }
         }
 
-        // Show flat reductions
-        foreach (var (damageType, reduction) in examinedModifiers.FlatReduction)
+        if (row.ChildCount > 0)
+            StatsContainer.AddChild(row);
+    }
+
+    /// <summary>
+    /// Creates a compact stat label with abbreviation and value.
+    /// </summary>
+    private BoxContainer CreateCompactStatLabel(string label, float examinedValue, float? equippedValue, bool isFlatReduction)
+    {
+        var container = new BoxContainer
         {
-            var statName = Loc.GetString($"armor-damage-type-{damageType.ToLower()}");
+            Orientation = BoxContainer.LayoutOrientation.Horizontal,
+            Margin = new Thickness(0, 0, 16, 0)
+        };
 
-            float? equippedReduction = null;
-            if (equippedModifiers?.FlatReduction.TryGetValue(damageType, out var equippedFlat) == true)
+        // Label (P, S, B)
+        var labelControl = new Label
+        {
+            Text = label,
+            FontColorOverride = new Color(0.7f, 0.7f, 0.7f),
+            Margin = new Thickness(0, 0, 4, 0),
+            ToolTip = GetTooltipText(label)
+        };
+        container.AddChild(labelControl);
+
+        // Examined value
+        var examinedLabel = new Label
+        {
+            Text = isFlatReduction ? $"{examinedValue:F1}" : $"{examinedValue:F0}%",
+            FontColorOverride = new Color(1f, 1f, 1f)
+        };
+        container.AddChild(examinedLabel);
+
+        // Delta indicator
+        if (equippedValue.HasValue)
+        {
+            var delta = examinedValue - equippedValue.Value;
+            var deltaLabel = new Label
             {
-                equippedReduction = equippedFlat;
-            }
-
-            AddStatRow(statName, reduction, equippedReduction, isFlatReduction: true);
+                Text = delta > 0 ? $" (+{delta:F1})" : delta < 0 ? $" ({delta:F1})" : "",
+                FontColorOverride = delta > 0 ? new Color(0.298f, 0.686f, 0.314f) : delta < 0 ? new Color(0.957f, 0.263f, 0.212f) : new Color(0.5f, 0.5f, 0.5f)
+            };
+            container.AddChild(deltaLabel);
         }
 
-        // Show flat reductions that exist in equipped armor but not in examined
-        if (equippedModifiers != null)
+        return container;
+    }
+
+    /// <summary>
+    /// Gets tooltip text for a stat label.
+    /// </summary>
+    private string GetTooltipText(string label)
+    {
+        return label switch
         {
-            foreach (var (damageType, reduction) in equippedModifiers.FlatReduction)
-            {
-                if (!examinedModifiers.FlatReduction.ContainsKey(damageType))
-                {
-                    var statName = Loc.GetString($"armor-damage-type-{damageType.ToLower()}");
-                    AddStatRow(statName, 0, reduction, isFlatReduction: true, isMissing: true);
-                }
-            }
-        }
+            "PvE DMG (raw)" => "Total PvE damage including all damage types (Mutant, Blunt, Slash, Piercing). Uses cartridge class 0 for most weapons, class 1 for shotguns.",
+            "PvP DMG (raw)" => "Total PvP damage excluding Mutant damage (Blunt, Slash, Piercing only). Uses cartridge class 2 for most weapons, class 1 for shotguns.",
+            "Spread" => "Weapon spread - accuracy of shots. Lower is better. Calculated from min/max angle with 95° reference.",
+            "Stability" => "Weapon stability - recoil recovery. Higher is better. Calculated from angle decay, angle increase, and fire rate.",
+            _ => ""
+        };
     }
 
     /// <summary>
@@ -400,14 +457,35 @@ public sealed partial class StatsExamineWindow : FancyWindow
             Margin = new Thickness(0, 2)
         };
 
-        // Stat name label
-        var nameLabel = new Label
+        // Check if this stat should be a button (Spread, Stability, PvE DMG, PvP DMG)
+        var isButtonStat = statName == "Spread" || statName == "Stability" ||
+                           statName == "PvE DMG (raw)" || statName == "PvP DMG (raw)";
+
+        // Stat name label or button
+        Control statNameControl;
+        if (isButtonStat)
         {
-            Text = statName,
-            HorizontalExpand = false,
-            MinWidth = 120
-        };
-        row.AddChild(nameLabel);
+            var button = new Button
+            {
+                Text = statName,
+                HorizontalExpand = false,
+                MinWidth = 120,
+                StyleClasses = { "ButtonDefault" },
+                ToolTip = GetTooltipText(statName)
+            };
+            statNameControl = button;
+        }
+        else
+        {
+            var label = new Label
+            {
+                Text = statName,
+                HorizontalExpand = false,
+                MinWidth = 120
+            };
+            statNameControl = label;
+        }
+        row.AddChild(statNameControl);
 
         // Progress bar for coefficients, spacer for flat reductions
         if (!isFlatReduction)
