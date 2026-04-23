@@ -16,3 +16,15 @@ loadout-group-st-pocket-1 = Pocket 1
 loadout-group-st-pocket-2 = Pocket 2
 loadout-group-st-belt = Belt
 loadout-group-st-glasses = Glasses
+
+# Zombified
+loadout-group-st-zombified-main-weapon = Main Weapon
+loadout-group-st-zombified-sidearm = Sidearm
+loadout-group-st-zombified-ammo = Ammo
+loadout-group-st-zombified-magazine = Magazine
+loadout-group-st-zombified-item = Item
+loadout-group-st-zombified-armour = Armour
+loadout-group-st-zombified-helmet = Helmet
+loadout-group-st-zombified-medicine = Medicine
+loadout-group-st-zombified-storage = Storage
+loadout-group-st-zombified-face-cover = Face Cover

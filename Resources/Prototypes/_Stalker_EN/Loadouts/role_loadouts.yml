@@ -1,0 +1,17 @@
+# Zombified
+- type: roleLoadout
+  id: JobStalkerZombified
+  groups:
+  - STZombifiedMainWeapon
+  - STZombifiedSidearm
+  - STZombifiedAmmo
+  - STZombifiedMagazine
+  - STZombifiedItem
+  - STZombifiedArmour
+  - STZombifiedHelmet
+  - STZombifiedMedicine
+  - STZombifiedStorage
+  - STZombifiedFaceCover
+  - STlegsGroup
+  - STShoesGroup
+  - STTorsoGroup

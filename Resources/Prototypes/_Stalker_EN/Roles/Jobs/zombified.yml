@@ -16,6 +16,17 @@
   special:
     - !type:AddComponentSpecial
       components:
+        - type: PassiveDamage
+          allowedStates:
+            - Alive
+            - Critical
+          damageCap: 200
+          damage:
+            groups:
+              Burn: -100
+              Toxin: -100
+              Airloss: -100
+              Brute: -2
         - type: Destructible
           thresholds:
             - trigger:
@@ -56,10 +67,6 @@
   id: StalkerZombifiedGear
   equipment:
     id: OldPDA
-    torso: ClothingTorsoSweaterStalkerGreen
-    legs: ClothingLegsJeansBlue
-    shoes: ClothingShoesNovice
-    mask: ClothingMaskGasMarlyaRuined
 
 - type: stBand
   id: STZombiefiedBand

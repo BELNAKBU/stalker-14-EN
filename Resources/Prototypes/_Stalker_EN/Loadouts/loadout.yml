@@ -3,3 +3,487 @@
   storage:
     back:
     - CigPackBub
+
+# Zombified Loadouts
+
+# Main Weapons
+- type: loadout
+  id: STWeaponRifleAKS74U
+  equipment:
+    suitstorage: STWeaponRifleAKS74U
+
+- type: loadout
+  id: STWeaponRifleAKS74
+  equipment:
+    suitstorage: STWeaponRifleAKS74
+
+- type: loadout
+  id: STWeaponShotgunTOZ34
+  equipment:
+    suitstorage: STWeaponShotgunTOZ34
+
+- type: loadout
+  id: STBaseWeaponShotgunTOZ106
+  equipment:
+    suitstorage: STBaseWeaponShotgunTOZ106
+
+- type: loadout
+  id: STWeaponShotgunMP155T
+  equipment:
+    suitstorage: STWeaponShotgunMP155T
+
+- type: loadout
+  id: STWeaponShotgunSawedOf
+  equipment:
+    suitstorage: STWeaponShotgunSawedOf
+
+- type: loadout
+  id: STWeaponShotgunMossbergM88
+  equipment:
+    suitstorage: STWeaponShotgunMossbergM88
+
+- type: loadout
+  id: STWeaponSMGMP5
+  equipment:
+    suitstorage: STWeaponSMGMP5
+
+# Sidearms
+- type: loadout
+  id: WeaponPistolStalkerPMZombified
+  equipment:
+    pocket1: WeaponPistolStalkerPM
+
+- type: loadout
+  id: WeaponPistolStalkerAPS
+  equipment:
+    pocket1: WeaponPistolStalkerAPS
+
+- type: loadout
+  id: STWeaponPistolHiPower
+  equipment:
+    pocket1: STWeaponPistolHiPower
+
+- type: loadout
+  id: WeaponPistolStalkerGlockZombified
+  equipment:
+    pocket1: WeaponPistolStalkerGlock
+
+# Ammo
+- type: loadout
+  id: 545FMJBox
+  storage:
+    back:
+    - 545FMJBox
+
+- type: loadout
+  id: 545FMJBoxSecond
+  storage:
+    back:
+    - 545FMJBox
+
+- type: loadout
+  id: 545FMJBoxThird
+  storage:
+    back:
+    - 545FMJBox
+
+- type: loadout
+  id: 545FMJBoxFourth
+  storage:
+    back:
+    - 545FMJBox
+
+- type: loadout
+  id: 918PBMBox
+  storage:
+    back:
+    - 918PBMBox
+
+- type: loadout
+  id: 918PBMBoxSecond
+  storage:
+    back:
+    - 918PBMBox
+
+- type: loadout
+  id: 918PBMBoxThird
+  storage:
+    back:
+    - 918PBMBox
+
+- type: loadout
+  id: 918PBMBoxFourth
+  storage:
+    back:
+    - 918PBMBox
+
+- type: loadout
+  id: 919RIPBox
+  storage:
+    back:
+    - 919RIPBox
+
+- type: loadout
+  id: 919RIPBoxSecond
+  storage:
+    back:
+    - 919RIPBox
+
+- type: loadout
+  id: 919RIPBoxThird
+  storage:
+    back:
+    - 919RIPBox
+
+- type: loadout
+  id: 919RIPBoxFourth
+  storage:
+    back:
+    - 919RIPBox
+
+- type: loadout
+  id: 6mmBuckshotBox
+  storage:
+    back:
+    - 6mmBuckshotBox
+
+- type: loadout
+  id: 6mmBuckshotBoxSecond
+  storage:
+    back:
+    - 6mmBuckshotBox
+
+- type: loadout
+  id: 6mmBuckshotBoxThird
+  storage:
+    back:
+    - 6mmBuckshotBox
+
+- type: loadout
+  id: 6mmBuckshotBoxFourth
+  storage:
+    back:
+    - 6mmBuckshotBox
+
+- type: loadout
+  id: 62mmBuckshotBoxFirst
+  storage:
+    back:
+    - 62mmBuckshotBox
+
+- type: loadout
+  id: 62mmBuckshotBoxSecond
+  storage:
+    back:
+    - 62mmBuckshotBox
+
+# Magazines
+- type: loadout
+  id: 545Mag30
+  storage:
+    back:
+    - 545Mag30
+
+- type: loadout
+  id: 545Mag30Second
+  storage:
+    back:
+    - 545Mag30
+
+- type: loadout
+  id: 545Mag30Third
+  storage:
+    back:
+    - 545Mag30
+
+- type: loadout
+  id: 545Mag30Fourth
+  storage:
+    back:
+    - 545Mag30
+
+- type: loadout
+  id: GlockMag17
+  storage:
+    back:
+    - GlockMag17
+
+- type: loadout
+  id: GlockMag17Second
+  storage:
+    back:
+    - GlockMag17
+
+- type: loadout
+  id: HiPowerMag13
+  storage:
+    back:
+    - HiPowerMag13
+
+- type: loadout
+  id: HiPowerMag13Second
+  storage:
+    back:
+    - HiPowerMag13
+
+- type: loadout
+  id: BaseAPSMag
+  storage:
+    back:
+    - BaseAPSMag
+
+- type: loadout
+  id: BaseAPSMagSecond
+  storage:
+    back:
+    - BaseAPSMag
+
+- type: loadout
+  id: BaseMP5Mag
+  storage:
+    back:
+    - BaseMP5Mag
+
+- type: loadout
+  id: BaseMP5MagSecond
+  storage:
+    back:
+    - BaseMP5Mag
+
+- type: loadout
+  id: BaseMP5MagThird
+  storage:
+    back:
+    - BaseMP5Mag
+
+- type: loadout
+  id: BaseMP5MagFourth
+  storage:
+    back:
+    - BaseMP5Mag
+
+- type: loadout
+  id: TOZ106Mag5First
+  storage:
+    back:
+    - TOZ106Mag5
+
+- type: loadout
+  id: TOZ106Mag5Second
+  storage:
+    back:
+    - TOZ106Mag5
+
+- type: loadout
+  id: TOZ106Mag5Third
+  storage:
+    back:
+    - TOZ106Mag5
+
+# Items
+- type: loadout
+  id: FoodTinMRE
+  storage:
+    back:
+    - FoodTinMRE
+
+- type: loadout
+  id: DrinkMREFlask
+  storage:
+    back:
+    - DrinkMREFlask
+
+- type: loadout
+  id: Flare
+  storage:
+    back:
+    - Flare
+
+- type: loadout
+  id: STFlashlightSeclite
+  storage:
+    back:
+    - STFlashlightSeclite
+
+- type: loadout
+  id: PowerCellHyper
+  storage:
+    back:
+    - PowerCellHyper
+
+- type: loadout
+  id: GeigerCounter
+  storage:
+    back:
+    - GeigerCounter
+
+- type: loadout
+  id: DrinkCossackVodkaBottleFull
+  storage:
+    back:
+    - DrinkCossackVodkaBottleFull
+
+- type: loadout
+  id: ElectricGuitarInstrument
+  storage:
+    back:
+    - ElectricGuitarInstrument
+
+# Armour
+- type: loadout
+  id: ClothingOuterJacketStalker
+  equipment:
+    outerClothing: ClothingOuterJacketStalker
+
+- type: loadout
+  id: ClothingOuterArmorZaryaStalker
+  equipment:
+    outerClothing: ClothingOuterArmorZaryaStalker
+
+- type: loadout
+  id: STClothingOuterArmorRCBZ
+  equipment:
+    outerClothing: STClothingOuterArmorRCBZ
+
+- type: loadout
+  id: ClothingCloakStalker
+  equipment:
+    outerClothing: ClothingCloakStalker
+
+- type: loadout
+  id: ClothingCloakBrown
+  equipment:
+    outerClothing: ClothingCloakBrown
+
+- type: loadout
+  id: ClothingOuterCoatDoshdevik
+  equipment:
+    outerClothing: ClothingOuterCoatDoshdevik
+
+- type: loadout
+  id: ClothingOuterArmourJacketStalker
+  equipment:
+    outerClothing: ClothingOuterArmourJacketStalker
+
+- type: loadout
+  id: STClothingOuterArmorLightPlateVestBaseANAgreen
+  equipment:
+    outerClothing: STClothingOuterArmorLightPlateVestBaseANAgreen
+
+- type: loadout
+  id: STClothingOuterArmorLightPlateVestBaseANAgray
+  equipment:
+    outerClothing: STClothingOuterArmorLightPlateVestBaseANAgray
+
+# Helmets
+- type: loadout
+  id: ClothingHeadHelmetInfantry
+  equipment:
+    head: ClothingHeadHelmetInfantry
+
+- type: loadout
+  id: STClothingHeadHelmetMakeshiftTacticalT3
+  equipment:
+    head: STClothingHeadHelmetMakeshiftTacticalT3
+
+- type: loadout
+  id: ClothingHeadHelmetLight
+  equipment:
+    head: ClothingHeadHelmetLight
+
+# Medicine
+- type: loadout
+  id: MedkitMilitary
+  storage:
+    back:
+    - MedkitMilitary
+
+- type: loadout
+  id: MedkitMilitarySecond
+  storage:
+    back:
+    - MedkitMilitary
+
+- type: loadout
+  id: STGauze
+  storage:
+    back:
+    - STGauze
+
+- type: loadout
+  id: STBrutepack
+  storage:
+    back:
+    - STBrutepack
+
+# Storage
+- type: loadout
+  id: ClothingBeltWebbingHolsterStalkerZarya
+  equipment:
+    belt: ClothingBeltWebbingHolsterStalkerZarya
+
+- type: loadout
+  id: ClothingBeltTarzanBlack
+  equipment:
+    belt: ClothingBeltTarzanBlack
+
+- type: loadout
+  id: ClothingBackpackStalkerZaryaGreen
+  equipment:
+    back: ClothingBackpackStalkerZaryaGreen
+
+- type: loadout
+  id: ClothingBackpackStalkerZaryaBlack
+  equipment:
+    back: ClothingBackpackStalkerZaryaBlack
+
+- type: loadout
+  id: ClothingBackpackDuffelHikingCommon
+  equipment:
+    back: ClothingBackpackDuffelHikingCommon
+
+- type: loadout
+  id: ClothingBackpackTacticOliveStalker
+  equipment:
+    back: ClothingBackpackTacticOliveStalker
+
+- type: loadout
+  id: ClothingBackpackDuffelGreenStalker
+  equipment:
+    back: ClothingBackpackDuffelGreenStalker
+
+# Face Cover
+- type: loadout
+  id: ClothingMaskGasMarlya
+  equipment:
+    mask: ClothingMaskGasMarlya
+
+- type: loadout
+  id: STZombiefiedClothingMaskGasZarya
+  equipment:
+    mask: ClothingMaskGasZarya
+
+- type: loadout
+  id: ClothingMaskGP5
+  equipment:
+    mask: ClothingMaskGP5
+
+- type: loadout
+  id: ClothingMaskGasMarlyaRuined
+  equipment:
+    mask: ClothingMaskGasMarlyaRuined
+
+- type: loadout
+  id: ClothingEyesGlassesZombified
+  equipment:
+    eyes: ClothingEyesGlasses
+
+- type: loadout
+  id: ClothingEyesGlassesCheapSunglassesZombified
+  equipment:
+    eyes: ClothingEyesGlassesCheapSunglasses
+
+- type: loadout
+  id: ClothingEyesSalesmanZombified
+  equipment:
+    eyes: ClothingEyesSalesman

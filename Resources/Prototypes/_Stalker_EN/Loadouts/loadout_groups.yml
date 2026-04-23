@@ -1,0 +1,166 @@
+# Zombified Loadout Groups
+
+# Main weapon - max 2
+- type: loadoutGroup
+  id: STZombifiedMainWeapon
+  name: loadout-group-st-zombified-main-weapon
+  minLimit: 0
+  maxLimit: 2
+  loadouts:
+  - STWeaponRifleAKS74U
+  - STWeaponShotgunTOZ34
+  - STBaseWeaponShotgunTOZ106
+  - STWeaponShotgunSawedOf
+  - STWeaponShotgunMP155T
+  - STWeaponRifleAKS74
+  - STWeaponShotgunMossbergM88
+  - STWeaponSMGMP5
+
+# Sidearm - max 1
+- type: loadoutGroup
+  id: STZombifiedSidearm
+  name: loadout-group-st-zombified-sidearm
+  minLimit: 0
+  maxLimit: 1
+  loadouts:
+  - WeaponPistolStalkerPMZombified
+  - WeaponPistolStalkerAPS
+  - STWeaponPistolHiPower
+  - WeaponPistolStalkerGlockZombified
+
+# Ammo - max 4 (each can be selected multiple times)
+- type: loadoutGroup
+  id: STZombifiedAmmo
+  name: loadout-group-st-zombified-ammo
+  minLimit: 0
+  maxLimit: 4
+  loadouts:
+  - 545FMJBox
+  - 545FMJBoxSecond
+  - 545FMJBoxThird
+  - 545FMJBoxFourth
+  - 918PBMBox
+  - 918PBMBoxSecond
+  - 918PBMBoxThird
+  - 918PBMBoxFourth
+  - 919RIPBox
+  - 919RIPBoxSecond
+  - 919RIPBoxThird
+  - 919RIPBoxFourth
+  - 6mmBuckshotBox
+  - 6mmBuckshotBoxSecond
+  - 6mmBuckshotBoxThird
+  - 6mmBuckshotBoxFourth
+  - 62mmBuckshotBoxFirst
+  - 62mmBuckshotBoxSecond
+
+# Magazine - max 6 (each can be selected multiple times)
+- type: loadoutGroup
+  id: STZombifiedMagazine
+  name: loadout-group-st-zombified-magazine
+  minLimit: 0
+  maxLimit: 6
+  loadouts:
+  - 545Mag30
+  - 545Mag30Second
+  - 545Mag30Third
+  - 545Mag30Fourth
+  - GlockMag17
+  - GlockMag17Second
+  - HiPowerMag13
+  - HiPowerMag13Second
+  - BaseAPSMag
+  - BaseAPSMagSecond
+  - BaseMP5Mag
+  - BaseMP5MagSecond
+  - BaseMP5MagThird
+  - BaseMP5MagFourth
+  - TOZ106Mag5First
+  - TOZ106Mag5Second
+  - TOZ106Mag5Third
+
+# Item - max 6
+- type: loadoutGroup
+  id: STZombifiedItem
+  name: loadout-group-st-zombified-item
+  minLimit: 0
+  maxLimit: 6
+  loadouts:
+  - FoodTinMRE
+  - DrinkMREFlask
+  - Flare
+  - STFlashlightSeclite
+  - PowerCellHyper
+  - GeigerCounter
+  - DrinkCossackVodkaBottleFull
+  - ElectricGuitarInstrument
+
+# Armour - max 2
+- type: loadoutGroup
+  id: STZombifiedArmour
+  name: loadout-group-st-zombified-armour
+  minLimit: 0
+  maxLimit: 2
+  loadouts:
+  - ClothingOuterJacketStalker
+  - ClothingOuterArmorZaryaStalker
+  - STClothingOuterArmorRCBZ
+  - ClothingCloakStalker
+  - ClothingCloakBrown
+  - ClothingOuterCoatDoshdevik
+  - ClothingOuterArmourJacketStalker
+  - STClothingOuterArmorLightPlateVestBaseANAgreen
+  - STClothingOuterArmorLightPlateVestBaseANAgray
+
+# Helmet - max 1
+- type: loadoutGroup
+  id: STZombifiedHelmet
+  name: loadout-group-st-zombified-helmet
+  minLimit: 0
+  maxLimit: 1
+  loadouts:
+  - ClothingHeadHelmetInfantry
+  - STClothingHeadHelmetMakeshiftTacticalT3
+  - ClothingHeadHelmetLight
+
+# Medicine - max 2
+- type: loadoutGroup
+  id: STZombifiedMedicine
+  name: loadout-group-st-zombified-medicine
+  minLimit: 0
+  maxLimit: 4
+  loadouts:
+  - MedkitMilitary
+  - MedkitMilitarySecond
+  - STGauze
+  - STBrutepack
+
+# Storage - max 2
+- type: loadoutGroup
+  id: STZombifiedStorage
+  name: loadout-group-st-zombified-storage
+  minLimit: 0
+  maxLimit: 2
+  loadouts:
+  - ClothingBeltWebbingHolsterStalkerZarya
+  - ClothingBeltTarzanBlack
+  - ClothingBackpackStalkerZaryaGreen
+  - ClothingBackpackStalkerZaryaBlack
+  - ClothingBackpackTacticOliveStalker
+  - ClothingBackpackDuffelGreenStalker
+  - ClothingBackpackDuffelHikingCommon
+
+# Face cover - max 2
+- type: loadoutGroup
+  id: STZombifiedFaceCover
+  name: loadout-group-st-zombified-face-cover
+  minLimit: 0
+  maxLimit: 2
+  loadouts:
+  - ClothingMaskGasMarlya
+  - STZombiefiedClothingMaskGasZarya
+  - ClothingMaskGP5
+  - ClothingMaskGasMarlyaRuined
+  - ClothingEyesGlassesZombified
+  - ClothingEyesGlassesCheapSunglassesZombified
+  - ClothingEyesSalesmanZombified

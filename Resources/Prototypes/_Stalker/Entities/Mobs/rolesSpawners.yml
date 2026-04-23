@@ -545,6 +545,17 @@
   parent: MobHuman
   id: MobStalkerZombified
   components:
+  - type: PassiveDamage
+    allowedStates:
+      - Alive
+      - Critical
+    damageCap: 200
+    damage:
+      groups:
+        Burn: -100
+        Toxin: -100
+        Airloss: -100
+        Brute: -2
   - type: HumanoidAppearance
     species: Human
     eyeColor: "#EBEBEB"
